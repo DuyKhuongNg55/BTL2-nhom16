@@ -31,10 +31,11 @@ public class BombermanGame extends Application {
 
   private GraphicsContext gc;
   private Canvas canvas;
-  private List<Entity> entities = new ArrayList<>();
-  private List<Entity> stillObjects = new ArrayList<>();
+  private static List<Entity> entities = new ArrayList<>();
+  private static List<Entity> stillObjects = new ArrayList<>();
   private Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
   private static List<String> data = new ArrayList<>();
+  private KeyEvent preEvent = null;
 
   public static void main(String[] args) {
     Application.launch(BombermanGame.class);
@@ -57,15 +58,39 @@ public class BombermanGame extends Application {
       public void handle(KeyEvent event) {
         switch (event.getCode()) {
           case UP:
+            if (preEvent != null) {
+              if (preEvent.getCode() != event.getCode()) {
+                bomberman.setTimes(0);
+              }
+            }
+            preEvent = event;
             bomberman.moveUp();
             break;
           case DOWN:
+            if (preEvent != null) {
+              if (preEvent.getCode() != event.getCode()) {
+                bomberman.setTimes(0);
+              }
+            }
+            preEvent = event;
             bomberman.moveDown();
             break;
           case LEFT:
+            if (preEvent != null) {
+              if (preEvent.getCode() != event.getCode()) {
+                bomberman.setTimes(0);
+              }
+            }
+            preEvent = event;
             bomberman.moveLeft();
             break;
           case RIGHT:
+            if (preEvent != null) {
+              if (preEvent.getCode() != event.getCode()) {
+                bomberman.setTimes(0);
+              }
+            }
+            preEvent = event;
             bomberman.moveRight();
             break;
         }
@@ -103,14 +128,23 @@ public class BombermanGame extends Application {
       for (int j = 0; j < 13; j++) {
         Entity object;
         Entity objectGrass = new Grass(i, j, Sprite.grass.getFxImage());
+        Entity objectBrick = new Wall(i, j, Sprite.brick.getFxImage());
         if (data.get(j).charAt(i) == '#') {
           object = new Wall(i, j, Sprite.wall.getFxImage());
+          stillObjects.add(object);
         } else if (data.get(j).charAt(i) == '*') {
           object = new Wall(i, j, Sprite.brick.getFxImage());
+          stillObjects.add(objectGrass);
+          stillObjects.add(object);
         } else if (data.get(j).charAt(i) == 'x') {
-          object = new Wall(i, j, Sprite.portal.getFxImage());
+          object = new Grass(i, j, Sprite.portal.getFxImage());
+          stillObjects.add(objectGrass);
+          stillObjects.add(object);
+          stillObjects.add(objectBrick);
         } else if (data.get(j).charAt(i) == 'f') {
-          object = new Wall(i, j, Sprite.powerup_flames.getFxImage());
+          object = new Grass(i, j, Sprite.powerup_flames.getFxImage());
+          stillObjects.add(object);
+          stillObjects.add(objectBrick);
         } else if (data.get(j).charAt(i) == '1') {
           object = new Entity(i, j, Sprite.balloom_left1.getFxImage()) {
             @Override
@@ -118,6 +152,8 @@ public class BombermanGame extends Application {
 
             }
           };
+          stillObjects.add(objectGrass);
+          entities.add(object);
         } else if (data.get(j).charAt(i) == '2') {
           object = new Entity(i, j, Sprite.oneal_left1.getFxImage()) {
             @Override
@@ -125,11 +161,11 @@ public class BombermanGame extends Application {
 
             }
           };
+          stillObjects.add(objectGrass);
+          entities.add(object);
         } else {
-          object = new Grass(i, j, Sprite.grass.getFxImage());
+          stillObjects.add(objectGrass);
         }
-        stillObjects.add(objectGrass);
-        stillObjects.add(object);
       }
     }
   }
@@ -150,5 +186,21 @@ public class BombermanGame extends Application {
 
   public void setData(List<String> data) {
     BombermanGame.data = data;
+  }
+
+  public static List<Entity> getEntities() {
+    return entities;
+  }
+
+  public static void setEntities(List<Entity> entities) {
+    BombermanGame.entities = entities;
+  }
+
+  public static List<Entity> getStillObjects() {
+    return stillObjects;
+  }
+
+  public static void setStillObjects(List<Entity> stillObjects) {
+    BombermanGame.stillObjects = stillObjects;
   }
 }
