@@ -15,9 +15,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import uet.oop.bomberman.entities.Balloom;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
+import uet.oop.bomberman.entities.Oneal;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -110,9 +112,9 @@ public class BombermanGame extends Application {
     };
     timer.start();
 
-    createMap();
-
     entities.add(bomberman);
+
+    createMap();
   }
 
   public void createMap() throws IOException {
@@ -146,21 +148,11 @@ public class BombermanGame extends Application {
           stillObjects.add(object);
           stillObjects.add(objectBrick);
         } else if (data.get(j).charAt(i) == '1') {
-          object = new Entity(i, j, Sprite.balloom_left1.getFxImage()) {
-            @Override
-            public void update() {
-
-            }
-          };
+          object = new Balloom(i, j, Sprite.balloom_left1.getFxImage());
           stillObjects.add(objectGrass);
           entities.add(object);
         } else if (data.get(j).charAt(i) == '2') {
-          object = new Entity(i, j, Sprite.oneal_left1.getFxImage()) {
-            @Override
-            public void update() {
-
-            }
-          };
+          object = new Oneal(i, j, Sprite.oneal_left1.getFxImage());
           stillObjects.add(objectGrass);
           entities.add(object);
         } else {
