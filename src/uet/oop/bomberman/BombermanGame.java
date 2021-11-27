@@ -2,7 +2,6 @@ package uet.oop.bomberman;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
@@ -22,7 +21,6 @@ import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.Oneal;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +36,7 @@ public class BombermanGame extends Application {
   private Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
   private static List<String> data = new ArrayList<>();
   private KeyEvent preEvent = null;
+  private int stateTh = 1;
 
   public static void main(String[] args) {
     Application.launch(BombermanGame.class);
@@ -107,6 +106,28 @@ public class BombermanGame extends Application {
       @Override
       public void handle(long l) {
         render();
+        if (stateTh >= 23 && stateTh <= 43) {
+          bomberman.setImg(Sprite.player_dead2.getFxImage());
+          stateTh++;
+        } else if (stateTh >= 44 && stateTh <= 64) {
+          bomberman.setImg(Sprite.player_dead3.getFxImage());
+          stateTh++;
+        } else if (stateTh == 1) {
+          for (int i = 1; i < entities.size(); i++) {
+            if (entities.get(i).getX() > bomberman.getX() - Sprite.SCALED_SIZE
+                && entities.get(i).getX() < bomberman.getX() + 20
+                && entities.get(i).getY() > bomberman.getY() - Sprite.SCALED_SIZE
+                && entities.get(i).getY() < bomberman.getY() + Sprite.SCALED_SIZE) {
+              bomberman.setImg(Sprite.player_dead1.getFxImage());
+              stateTh++;
+            }
+          }
+        } else if (stateTh >= 2 && stateTh <= 22) {
+          bomberman.setImg(Sprite.player_dead1.getFxImage());
+          stateTh++;
+        } else {
+          entities.remove(bomberman);
+        }
         update();
       }
     };
