@@ -8,11 +8,14 @@ import java.util.Objects;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Balloom;
 import uet.oop.bomberman.entities.Bomber;
@@ -37,13 +40,15 @@ public class BombermanGame extends Application {
   private static List<String> data = new ArrayList<>();
   private KeyEvent preEvent = null;
   private int stateTh = 1;
+  private boolean printStage = false;
+  private int level = 1;
 
   public static void main(String[] args) {
     Application.launch(BombermanGame.class);
   }
 
   @Override
-  public void start(Stage stage) throws IOException {
+  public void start(Stage stage) {
     // Tao Canvas
     canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
     gc = canvas.getGraphicsContext2D();
@@ -59,40 +64,48 @@ public class BombermanGame extends Application {
       public void handle(KeyEvent event) {
         switch (event.getCode()) {
           case UP:
-            if (preEvent != null) {
-              if (preEvent.getCode() != event.getCode()) {
-                bomberman.setTimes(0);
+            if (stateTh == 1) {
+              if (preEvent != null) {
+                if (preEvent.getCode() != event.getCode()) {
+                  bomberman.setTimes(0);
+                }
               }
+              preEvent = event;
+              bomberman.moveUp();
             }
-            preEvent = event;
-            bomberman.moveUp();
             break;
           case DOWN:
-            if (preEvent != null) {
-              if (preEvent.getCode() != event.getCode()) {
-                bomberman.setTimes(0);
+            if (stateTh == 1) {
+              if (preEvent != null) {
+                if (preEvent.getCode() != event.getCode()) {
+                  bomberman.setTimes(0);
+                }
               }
+              preEvent = event;
+              bomberman.moveDown();
             }
-            preEvent = event;
-            bomberman.moveDown();
             break;
           case LEFT:
-            if (preEvent != null) {
-              if (preEvent.getCode() != event.getCode()) {
-                bomberman.setTimes(0);
+            if (stateTh == 1) {
+              if (preEvent != null) {
+                if (preEvent.getCode() != event.getCode()) {
+                  bomberman.setTimes(0);
+                }
               }
+              preEvent = event;
+              bomberman.moveLeft();
             }
-            preEvent = event;
-            bomberman.moveLeft();
             break;
           case RIGHT:
-            if (preEvent != null) {
-              if (preEvent.getCode() != event.getCode()) {
-                bomberman.setTimes(0);
+            if (stateTh == 1) {
+              if (preEvent != null) {
+                if (preEvent.getCode() != event.getCode()) {
+                  bomberman.setTimes(0);
+                }
               }
+              preEvent = event;
+              bomberman.moveRight();
             }
-            preEvent = event;
-            bomberman.moveRight();
             break;
         }
       }
@@ -105,7 +118,18 @@ public class BombermanGame extends Application {
     AnimationTimer timer = new AnimationTimer() {
       @Override
       public void handle(long l) {
-        render();
+        if (entities.isEmpty()) {
+          try {
+            printStage(stage);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          stateTh++;
+          return;
+        }
+        if (!printStage) {
+          render();
+        }
         if (stateTh >= 23 && stateTh <= 43) {
           bomberman.setImg(Sprite.player_dead2.getFxImage());
           stateTh++;
@@ -127,20 +151,63 @@ public class BombermanGame extends Application {
           stateTh++;
         } else {
           entities.remove(bomberman);
+          printStage = true;
+          try {
+            playAgain();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          stateTh++;
         }
-        update();
+        if (!printStage) {
+          update();
+        }
       }
     };
     timer.start();
+  }
 
-    entities.add(bomberman);
+  public void playAgain() throws IOException {
+    // dang lam
+    if (stateTh < 300) {
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      Font font = new Font("Arial", 30);
+      gc.setFont(font);
+      gc.setFill(Color.WHITE);
+      gc.fillText("Stage " + level, canvas.getWidth() / 2 - 64, canvas.getHeight() / 2);
+    } else {
+      printStage = false;
+      stateTh = 0;
+      entities.clear();
+      stillObjects.clear();
+      bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+      data.clear();
+      preEvent = null;
+      entities.add(bomberman);
+      createMap();
+    }
+  }
 
-    createMap();
+  public void printStage(Stage stage) throws IOException {
+    // dang lam
+    if (stateTh < 300) {
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      Font font = new Font("Arial", 30);
+      gc.setFont(font);
+      gc.setFill(Color.WHITE);
+      gc.fillText("Stage " + level, canvas.getWidth() / 2 - 64, canvas.getHeight() / 2);
+    } else {
+      stateTh = 0;
+      entities.add(bomberman);
+      createMap();
+    }
   }
 
   public void createMap() throws IOException {
     BufferedReader bufferedReader = new BufferedReader(
-        new InputStreamReader(new FileInputStream("res/levels/Level1.txt")));
+        new InputStreamReader(new FileInputStream("res/levels/Level" + level + ".txt")));
     bufferedReader.readLine();
     String line = bufferedReader.readLine();
     while (!Objects.equals(line, "")) {
