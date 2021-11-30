@@ -21,6 +21,11 @@ public class Oneal extends Entity {
   private static Vert onealCur;
   private static Vert bomber;
   private static PathFinder shortestPath = new PathFinder();
+  private boolean again = true;
+  private boolean notLeft = false;
+  private boolean notRight = false;
+  private boolean notUp = false;
+  private boolean notDown = false;
 
   public Oneal(int x, int y, Image img) {
     super(x, y, img);
@@ -38,74 +43,24 @@ public class Oneal extends Entity {
       System.out.println("oneal đến p: " + getShortestPath().getShortestP(onealCur));
       String curString = preString;
       if (onealCur.getDist() > 10) {
-        if (!(x == xTarget && y == yTarget)) {
-          switch (curString) {
-            case "Up":
-              moveUp();
-              break;
-            case "Left":
-              moveLeft();
-              break;
-            case "Right":
-              moveRight();
-              break;
-            case "Down":
-              moveDown();
-              break;
-          }
-        }
-        if (xTarget == 0 || (x == xTarget && y == yTarget)) {
-          if (x == xTarget && y == yTarget) {
-            timeSpeed++;
-          }
-          if (timeSpeed == 10) {
-            speed *= 2;
-          } else if (timeSpeed == 20) {
-            speed /= 2;
-            timeSpeed = 0;
-          }
-          //Di ngau nhien
-          Vert vertCur = new Vert(null, 0, 0);
-          for (int i = 0; i < vertList.size(); i++) {
-            if (vertList.get(i).getX() == x / Sprite.SCALED_SIZE
-                && vertList.get(i).getY() == y / Sprite.SCALED_SIZE) {
-              vertCur = vertList.get(i);
-              break;
-            }
-          }
-          int ranNum = ThreadLocalRandom.current().nextInt(0, vertCur.getList().size());
-          xTarget = vertCur.getList().get(ranNum).getTargetVert().getX() * Sprite.SCALED_SIZE;
-          yTarget = vertCur.getList().get(ranNum).getTargetVert().getY() * Sprite.SCALED_SIZE;
-          if (y / Sprite.SCALED_SIZE > vertCur.getList().get(ranNum).getTargetVert().getY()) {
-            curString = "Up";
-          } else if (x / Sprite.SCALED_SIZE > vertCur.getList().get(ranNum).getTargetVert()
-              .getX()) {
-            curString = "Left";
-          } else if (x / Sprite.SCALED_SIZE < vertCur.getList().get(ranNum).getTargetVert()
-              .getX()) {
-            curString = "Right";
-          } else if (y / Sprite.SCALED_SIZE < vertCur.getList().get(ranNum).getTargetVert()
-              .getY()) {
-            curString = "Down";
-          }
-          switch (curString) {
-            case "Up":
-              moveUp();
-              break;
-            case "Left":
-              moveLeft();
-              break;
-            case "Right":
-              moveRight();
-              break;
-            case "Down":
-              moveDown();
-              break;
-          }
-          preString = curString;
-        }
-      } else {
-        if ((x == xTarget && y == yTarget) || xTarget == 0) {
+//        if (!(x == xTarget && y == yTarget)) {
+//          switch (curString) {
+//            case "Up":
+//              moveUp();
+//              break;
+//            case "Left":
+//              moveLeft();
+//              break;
+//            case "Right":
+//              moveRight();
+//              break;
+//            case "Down":
+//              moveDown();
+//              break;
+//          }
+//        }
+//        if (xTarget == 0 || (x == xTarget && y == yTarget)) {
+        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
           timeSpeed++;
           if (timeSpeed == 10) {
             speed *= 2;
@@ -113,23 +68,123 @@ public class Oneal extends Entity {
             speed /= 2;
             timeSpeed = 0;
           }
-          xTarget = getShortestPath()
-              .getShortestP(onealCur).get(1).getX() * Sprite.SCALED_SIZE;
-          yTarget = getShortestPath()
-              .getShortestP(onealCur).get(1).getY() * Sprite.SCALED_SIZE;
-          if (y / Sprite.SCALED_SIZE > getShortestPath()
-              .getShortestP(onealCur).get(1).getY()) {
+        }
+        //Di ngau nhien
+        for (int i = 0; i < vertList.size(); i++) {
+          if (vertList.get(i).getX() * Sprite.SCALED_SIZE == x
+              && vertList.get(i).getY() * Sprite.SCALED_SIZE == y
+              && vertList.get(i).getName().charAt(0) != 'S') {
+            again = true;
+            break;
+          }
+        }
+        if (!again) {
+          switch (curString) {
+            case "Up":
+              again = !moveUp();
+              break;
+            case "Left":
+              again = !moveLeft();
+              break;
+            case "Right":
+              again = !moveRight();
+              break;
+            case "Down":
+              again = !moveDown();
+              break;
+          }
+        }
+        while (again) {
+          int ranNum = ThreadLocalRandom.current().nextInt(0, 4);
+//          xTarget = vertCur.getList().get(ranNum).getTargetVert().getX() * Sprite.SCALED_SIZE;
+//          yTarget = vertCur.getList().get(ranNum).getTargetVert().getY() * Sprite.SCALED_SIZE;
+          if (ranNum == 0) {
             curString = "Up";
-          } else if (x / Sprite.SCALED_SIZE > getShortestPath()
-              .getShortestP(onealCur).get(1).getX()) {
+          } else if (ranNum == 1) {
             curString = "Left";
-          } else if (x / Sprite.SCALED_SIZE < getShortestPath()
-              .getShortestP(onealCur).get(1).getX()) {
+          } else if (ranNum == 2) {
             curString = "Right";
-          } else if (y / Sprite.SCALED_SIZE < getShortestPath()
-              .getShortestP(onealCur).get(1).getY()) {
+          } else if (ranNum == 3) {
             curString = "Down";
           }
+          if (preString != null) {
+            if (!preString.equals(curString)) {
+              times = 0;
+            }
+          }
+          preString = curString;
+          switch (curString) {
+            case "Up":
+              again = !moveUp();
+              if (again) {
+                notUp = true;
+              } else {
+                notUp = false;
+                notLeft = false;
+                notRight = false;
+                notDown = false;
+              }
+              break;
+            case "Left":
+              again = !moveLeft();
+              if (again) {
+                notLeft = true;
+              } else {
+                notUp = false;
+                notLeft = false;
+                notRight = false;
+                notDown = false;
+              }
+              break;
+            case "Right":
+              again = !moveRight();
+              if (again) {
+                notRight = true;
+              } else {
+                notUp = false;
+                notLeft = false;
+                notRight = false;
+                notDown = false;
+              }
+              break;
+            case "Down":
+              again = !moveDown();
+              if (again) {
+                notDown = true;
+              } else {
+                notUp = false;
+                notLeft = false;
+                notRight = false;
+                notDown = false;
+              }
+              break;
+          }
+          if (notDown && notLeft && notUp && notRight) {
+            again = false;
+          }
+        }
+      } else {
+        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+          timeSpeed++;
+          if (timeSpeed == 10) {
+            speed *= 2;
+          } else if (timeSpeed == 20) {
+            speed /= 2;
+            timeSpeed = 0;
+          }
+        }
+        if (y / Sprite.SCALED_SIZE > getShortestPath()
+            .getShortestP(onealCur).get(1).getY()) {
+          curString = "Up";
+        } else if (x / Sprite.SCALED_SIZE > getShortestPath()
+            .getShortestP(onealCur).get(1).getX()) {
+          curString = "Left";
+        } else if (x / Sprite.SCALED_SIZE < getShortestPath()
+            .getShortestP(onealCur).get(1).getX()) {
+          curString = "Right";
+        } else if (y / Sprite.SCALED_SIZE < getShortestPath()
+            .getShortestP(onealCur).get(1).getY()) {
+          curString = "Down";
         }
         if (preString != null) {
           if (!preString.equals(curString)) {
@@ -155,7 +210,7 @@ public class Oneal extends Entity {
     }
   }
 
-  public void moveRight() {
+  public boolean moveRight() {
     times++;
     if (times % 12 >= 0 && times % 12 <= 3) {
       img = Sprite.oneal_right1.getFxImage();
@@ -165,12 +220,13 @@ public class Oneal extends Entity {
       img = Sprite.oneal_right3.getFxImage();
     }
     if (!matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE + 1]) {
-      return;
+      return false;
     }
     x += speed;
+    return true;
   }
 
-  public void moveLeft() {
+  public boolean moveLeft() {
     times++;
     if (times % 12 >= 0 && times % 12 <= 3) {
       img = Sprite.oneal_left1.getFxImage();
@@ -179,24 +235,35 @@ public class Oneal extends Entity {
     } else {
       img = Sprite.oneal_left3.getFxImage();
     }
-    if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE - 1]) {
-      return;
+    if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE
+        - 1]) {
+      return false;
+    } else if (x % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
+        / Sprite.SCALED_SIZE]) {
+      return false;
     }
     x -= speed;
+    return true;
   }
 
-  public void moveUp() {
-    if (y % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE - 1][x / Sprite.SCALED_SIZE]) {
-      return;
+  public boolean moveUp() {
+    if (y % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE - 1][x
+        / Sprite.SCALED_SIZE]) {
+      return false;
+    } else if (y % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
+        / Sprite.SCALED_SIZE]) {
+      return false;
     }
     y -= speed;
+    return true;
   }
 
-  public void moveDown() {
+  public boolean moveDown() {
     if (!matrix[y / Sprite.SCALED_SIZE + 1][x / Sprite.SCALED_SIZE]) {
-      return;
+      return false;
     }
     y += speed;
+    return true;
   }
 
   public void createMatrix() {
@@ -212,8 +279,8 @@ public class Oneal extends Entity {
     for (int i = 0; i < BombermanGame.getEntities().size(); i++) {
       if (BombermanGame.getEntities().get(i) instanceof Balloom || (
           BombermanGame.getEntities().get(i) instanceof Oneal
-              && BombermanGame.getEntities().get(i).getX() != x
-              && BombermanGame.getEntities().get(i).getY() != y)) {
+              && (BombermanGame.getEntities().get(i).getX() != x
+              || BombermanGame.getEntities().get(i).getY() != y))) {
         matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE][
             BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
         if (BombermanGame.getEntities().get(i).getX() % Sprite.SCALED_SIZE != 0) {
@@ -260,7 +327,12 @@ public class Oneal extends Entity {
           if (isBomber || isOneal || timesTemp == 1 || timesTemp == 0 || (
               timesTemp == 2 && !(matrix[j][i - 1] && matrix[j][i + 1]) && !(matrix[j - 1][i]
                   && matrix[j + 1][i]))) {
-            vertList.add(new Vert(i + " " + j, i, j));
+            String nameVert = i + " " + j;
+            if (!(timesTemp == 1 || timesTemp == 0 || (timesTemp == 2 && !(matrix[j][i - 1]
+                && matrix[j][i + 1]) && !(matrix[j - 1][i] && matrix[j + 1][i])))) {
+              nameVert = "S" + nameVert;
+            }
+            vertList.add(new Vert(nameVert, i, j));
             if (isBomber) {
               bomber = vertList.get(vertList.size() - 1);
             } else if (isOneal) {
