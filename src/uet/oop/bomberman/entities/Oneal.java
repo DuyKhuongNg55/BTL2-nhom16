@@ -37,7 +37,7 @@ public class Oneal extends Entity {
       System.out.println("Đường đi ngắn nhất từ:");
       System.out.println("oneal đến p: " + getShortestPath().getShortestP(onealCur));
       String curString = preString;
-      if (onealCur.getDist() == Double.MAX_VALUE) {
+      if (onealCur.getDist() > 10) {
         if (!(x == xTarget && y == yTarget)) {
           switch (curString) {
             case "Up":
