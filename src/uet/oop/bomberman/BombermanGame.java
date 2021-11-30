@@ -36,12 +36,24 @@ public class BombermanGame extends Application {
   private Canvas canvas;
   private static List<Entity> entities = new ArrayList<>();
   private static List<Entity> stillObjects = new ArrayList<>();
+  private static List<Entity> portalObjects = new ArrayList<>();
   private Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
   private static List<String> data = new ArrayList<>();
   private KeyEvent preEvent = null;
-  private int stateTh = 1;
+  private static int stateTh = 1;
   private boolean printStage = false;
   private int level = 1;
+  private int FPS = 30;
+  private double averageFPS;
+  private long startTime;
+  private long URDTimeMillis;
+  private long waitTime;
+  private long totalTime = 0;
+
+  private int frameCount = 0;
+  private int maxFrameCount = 30;
+
+  private long targetTime = 1000 / FPS;
 
   public static void main(String[] args) {
     Application.launch(BombermanGame.class);
@@ -118,6 +130,9 @@ public class BombermanGame extends Application {
     AnimationTimer timer = new AnimationTimer() {
       @Override
       public void handle(long l) {
+
+        startTime = l;
+
         if (entities.isEmpty()) {
           try {
             printStage(stage);
@@ -146,12 +161,28 @@ public class BombermanGame extends Application {
               stateTh++;
             }
           }
+          if (entities.size() == 1) {
+            for (int i = 0; i < portalObjects.size(); i++) {
+              if (portalObjects.get(i).getX() == bomberman.getX()
+                  && portalObjects.get(i).getX() == bomberman.getY()) {
+                level = 2;
+                stateTh = 66;
+                break;
+              }
+            }
+          }
         } else if (stateTh >= 2 && stateTh <= 22) {
           bomberman.setImg(Sprite.player_dead1.getFxImage());
           stateTh++;
+        } else if (stateTh >= 65 && stateTh <= 155) {
+          if (stateTh == 66) {
+            printStage = true;
+          }
+          if (stateTh == 65) {
+            entities.remove(bomberman);
+          }
+          stateTh++;
         } else {
-          entities.remove(bomberman);
-          printStage = true;
           try {
             playAgain();
           } catch (IOException e) {
@@ -161,6 +192,27 @@ public class BombermanGame extends Application {
         }
         if (!printStage) {
           update();
+        }
+
+        URDTimeMillis = (System.nanoTime() - startTime) / 1000000;
+
+        waitTime = targetTime - URDTimeMillis;
+
+        try {
+          if (waitTime > 0) {
+            Thread.sleep(waitTime);
+          }
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+
+        totalTime += System.nanoTime() - startTime;
+        frameCount++;
+        if (frameCount == maxFrameCount) {
+          averageFPS = 1000.0 / ((totalTime / frameCount) / 1000000);
+          frameCount = 0;
+          totalTime = 0;
+          System.out.println(averageFPS);
         }
       }
     };
@@ -228,6 +280,7 @@ public class BombermanGame extends Application {
           stillObjects.add(object);
         } else if (data.get(j).charAt(i) == 'x') {
           object = new Grass(i, j, Sprite.portal.getFxImage());
+          portalObjects.add(object);
           stillObjects.add(objectGrass);
           stillObjects.add(object);
           stillObjects.add(objectBrick);
@@ -282,5 +335,9 @@ public class BombermanGame extends Application {
 
   public static void setStillObjects(List<Entity> stillObjects) {
     BombermanGame.stillObjects = stillObjects;
+  }
+
+  public static int getStateTh() {
+    return stateTh;
   }
 }

@@ -11,7 +11,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Oneal extends Entity {
 
-  private int speed = 1;
+  private int speed = 2;
   private String preString = "";
   private int xTarget = 0;
   private int yTarget = 0;
@@ -42,29 +42,12 @@ public class Oneal extends Entity {
       System.out.println("Đường đi ngắn nhất từ:");
       System.out.println("oneal đến p: " + getShortestPath().getShortestP(onealCur));
       String curString = preString;
-      if (onealCur.getDist() > 10) {
-//        if (!(x == xTarget && y == yTarget)) {
-//          switch (curString) {
-//            case "Up":
-//              moveUp();
-//              break;
-//            case "Left":
-//              moveLeft();
-//              break;
-//            case "Right":
-//              moveRight();
-//              break;
-//            case "Down":
-//              moveDown();
-//              break;
-//          }
-//        }
-//        if (xTarget == 0 || (x == xTarget && y == yTarget)) {
+      if (onealCur.getDist() > 10 || BombermanGame.getStateTh() > 1) {
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
           timeSpeed++;
-          if (timeSpeed == 10) {
+          if (timeSpeed == 20) {
             speed *= 2;
-          } else if (timeSpeed == 20) {
+          } else if (timeSpeed == 25) {
             speed /= 2;
             timeSpeed = 0;
           }
@@ -77,6 +60,9 @@ public class Oneal extends Entity {
             again = true;
             break;
           }
+        }
+        if (again) {
+          again = true;
         }
         if (!again) {
           switch (curString) {
@@ -96,8 +82,6 @@ public class Oneal extends Entity {
         }
         while (again) {
           int ranNum = ThreadLocalRandom.current().nextInt(0, 4);
-//          xTarget = vertCur.getList().get(ranNum).getTargetVert().getX() * Sprite.SCALED_SIZE;
-//          yTarget = vertCur.getList().get(ranNum).getTargetVert().getY() * Sprite.SCALED_SIZE;
           if (ranNum == 0) {
             curString = "Up";
           } else if (ranNum == 1) {
@@ -166,25 +150,21 @@ public class Oneal extends Entity {
       } else {
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
           timeSpeed++;
-          if (timeSpeed == 10) {
+          if (timeSpeed == 20) {
             speed *= 2;
-          } else if (timeSpeed == 20) {
+          } else if (timeSpeed == 25) {
             speed /= 2;
             timeSpeed = 0;
           }
-        }
-        if (y / Sprite.SCALED_SIZE > getShortestPath()
-            .getShortestP(onealCur).get(1).getY()) {
-          curString = "Up";
-        } else if (x / Sprite.SCALED_SIZE > getShortestPath()
-            .getShortestP(onealCur).get(1).getX()) {
-          curString = "Left";
-        } else if (x / Sprite.SCALED_SIZE < getShortestPath()
-            .getShortestP(onealCur).get(1).getX()) {
-          curString = "Right";
-        } else if (y / Sprite.SCALED_SIZE < getShortestPath()
-            .getShortestP(onealCur).get(1).getY()) {
-          curString = "Down";
+          if (y > getShortestPath().getShortestP(onealCur).get(1).getY() * Sprite.SCALED_SIZE) {
+            curString = "Up";
+          } else if (x > getShortestPath().getShortestP(onealCur).get(1).getX() * Sprite.SCALED_SIZE) {
+            curString = "Left";
+          } else if (x < getShortestPath().getShortestP(onealCur).get(1).getX() * Sprite.SCALED_SIZE) {
+            curString = "Right";
+          } else if (y < getShortestPath().getShortestP(onealCur).get(1).getY() * Sprite.SCALED_SIZE) {
+            curString = "Down";
+          }
         }
         if (preString != null) {
           if (!preString.equals(curString)) {
@@ -219,6 +199,9 @@ public class Oneal extends Entity {
     } else {
       img = Sprite.oneal_right3.getFxImage();
     }
+    if (y % Sprite.SCALED_SIZE != 0) {
+      return false;
+    }
     if (!matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE + 1]) {
       return false;
     }
@@ -235,6 +218,9 @@ public class Oneal extends Entity {
     } else {
       img = Sprite.oneal_left3.getFxImage();
     }
+    if (y % Sprite.SCALED_SIZE != 0) {
+      return false;
+    }
     if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE
         - 1]) {
       return false;
@@ -247,6 +233,9 @@ public class Oneal extends Entity {
   }
 
   public boolean moveUp() {
+    if (x % Sprite.SCALED_SIZE != 0) {
+      return false;
+    }
     if (y % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE - 1][x
         / Sprite.SCALED_SIZE]) {
       return false;
@@ -259,6 +248,9 @@ public class Oneal extends Entity {
   }
 
   public boolean moveDown() {
+    if (x % Sprite.SCALED_SIZE != 0) {
+      return false;
+    }
     if (!matrix[y / Sprite.SCALED_SIZE + 1][x / Sprite.SCALED_SIZE]) {
       return false;
     }

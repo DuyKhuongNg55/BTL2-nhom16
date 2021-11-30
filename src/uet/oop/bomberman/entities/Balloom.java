@@ -12,7 +12,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloom extends Entity {
 
-  private int speed = 1;
+  private int speed = 2;
   private String preString = "";
   private int xTarget = 0;
   private int yTarget = 0;
