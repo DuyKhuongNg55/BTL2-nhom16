@@ -1,9 +1,6 @@
-package uet.oop.bomberman.graphics;
+package uet.oop.bomberman.OldCode.graphics;
 
 import javafx.scene.image.*;
-
-import java.awt.image.BufferedImage;
-import java.nio.IntBuffer;
 
 /**
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
