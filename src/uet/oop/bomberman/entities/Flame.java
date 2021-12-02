@@ -12,6 +12,7 @@ public class Flame extends Entity{
     protected int _direction;
     private int _radius;
     protected int xOrigin, yOrigin;
+
     protected FlameSegment[] _flameSegments = new FlameSegment[0];
     //private static List<Entity> BrickEntity = new ArrayList<>();
     public int get_direction() {
@@ -152,8 +153,28 @@ public class Flame extends Entity{
         return null;
     }
 
+//    @Override
+//    public boolean isREMOVEFIXPROTECTTED() {
+//        return false;
+//    }
+//
+//    @Override
+//    public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
+//
+//    }
+
     @Override
-    public void update() {}
+    public void kill() {
+
+    }
+
+    @Override
+    public void update() {
+        for(int i = 0 ; i< _flameSegments.length;i++)
+        {
+            _flameSegments[i].update();
+        }
+    }
 //
 //    @Override
 //    public void render(Screen screen) {

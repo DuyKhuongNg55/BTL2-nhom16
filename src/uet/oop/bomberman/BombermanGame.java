@@ -51,6 +51,7 @@ public class BombermanGame extends Application {
   private static List<Entity> FlamePowers = new ArrayList<>();
   private static List<Entity> SpeedPower = new ArrayList<>();
   private static List<Entity> BombPower = new ArrayList<>();
+  private static List<Entity> EntitiesRemove = new ArrayList<>();
   private static List<String> data = new ArrayList<>();
 
 
@@ -73,10 +74,16 @@ public class BombermanGame extends Application {
 
   private static final int BombSet =1;
   public static int BombCount = BombSet;
-  public static int BombRadius = 2;
+  public static int BombRadius = 1;
 
 
+  public static List<Entity> getEntitiesRemove() {
+    return EntitiesRemove;
+  }
 
+  public static void setEntitiesRemove(List<Entity> entitiesRemove) {
+    EntitiesRemove = entitiesRemove;
+  }
 
   public GraphicsContext getGc() {
     return gc;
@@ -132,15 +139,18 @@ public class BombermanGame extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    // Tao Canvas
+    //TODO: Tao Canvas
+
     canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
     gc = canvas.getGraphicsContext2D();
 
-    // Tao root container
+    //TODO: Tao root container
+
     Group root = new Group();
     root.getChildren().add(canvas);
 
-    // Tao scene
+    //  TODO: Tao scene
+
     Scene scene = new Scene(root);
     scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
@@ -203,19 +213,8 @@ public class BombermanGame extends Application {
       }
     });
 
+    //TODO: Them scene vao stage
 
-//    case SPACE:
-//    if (preEvent != null) {
-//      if (preEvent.getCode() != event.getCode()) {
-//        bomberman.setTimes(0);
-//      }
-//    }
-//    preEvent = event;
-//    bomberman.PlaceBomb();
-//    break;
-
-
-    // Them scene vao stage
     stage.setScene(scene);
     stage.show();
 
@@ -414,6 +413,7 @@ public void playAgain() throws IOException {
       createMap();
     }
   }
+
   public void createMap() throws IOException {
     BufferedReader bufferedReader = new BufferedReader(
         new InputStreamReader(new FileInputStream("res/levels/Level1.txt")));
@@ -542,12 +542,27 @@ public void playAgain() throws IOException {
         BombermanGame.getStillObjects().remove(BombPower.get(i));
         BombPower.remove(BombPower.get(i));
       }
+
     }
-
-
-
+   //TODO: CHUA XONG
+//    for (int h = 0 ; h < entities.size();h++) {
+//      if (entities.get(h).isREMOVEFIXPROTECTTED()) {
+//        if (entities.get(h).get_timeToDisapear() == 0) {
+//          entities.remove(entities.get(h));
+//        }
+//      }
+//    }
+    for (int i = 0 ; i < BombList.size();i++) {
+      if (BombList.get(i).is_exploded()) {
+        Flame[] fl = BombList.get(i).get_flames();
+        for (int z = 0; z < fl.length; z++) {
+          fl[z].update();
+        }
+      }
+    }
     entities.forEach(Entity::update);
     BombList.forEach(Entity::update);
+
     for(int i = 0 ; i < BrickListExplode.size();i++)
     {
       BrickListExplode.get(i).update();
@@ -563,62 +578,66 @@ public void playAgain() throws IOException {
            System.out.println("Chay den day");
          }
     }
-
+   for (Entity g: EntitiesRemove){
+     entities.remove(g);
+   }
   }
 
   public void render() {
+
     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     stillObjects.forEach(g -> g.render(gc));
     entities.forEach(g -> g.render(gc));
     BombList.forEach(g -> g.render(gc));
+
     for (int i = 0 ; i < BombList.size();i++){
       if(BombList.get(i).is_exploded())
       {
         Flame[] fl = BombList.get(i).get_flames();
-        for(int j = 0 ; j< fl.length; j++){
-          FlameSegment [] fls = fl[j].get_flameSegments();
+          for (int j = 0; j < fl.length; j++) {
+            FlameSegment[] fls = fl[j].get_flameSegments();
+            for (int k = 0; k < fls.length; k++) {
+              fls[k].set_animate(BombList.get(i).get_animate());
+              fls[k].render(gc);
+              for (int l = 0; l < BombermanGame.getEntities().size(); l++) {
+                if (fls[k].getX() / Sprite.SCALED_SIZE == this.getEntities().get(l).getX() / Sprite.SCALED_SIZE
+                        && fls[k].getY() / Sprite.SCALED_SIZE == this.getEntities().get(l).getY() / Sprite.SCALED_SIZE) {
 
-          for(int k = 0 ; k < fls.length; k++){
-            fls[k].render(gc);
-            for (int l = 0 ; l < BombermanGame.getEntities().size();l++){
-              if(fls[k].getX() / Sprite.SCALED_SIZE == this.getEntities().get(l).getX() / Sprite.SCALED_SIZE
-              && fls[k].getY() / Sprite.SCALED_SIZE == this.getEntities().get(l).getY() / Sprite.SCALED_SIZE){
-
-                // TODO: Xét enemy 2 mạng
-                if(this.getEntities().get(l) instanceof Balloom)
-                {
-                  Balloom bl = (Balloom) this.getEntities().get(l);
-                  //this.getEntities().remove(bl);
-                  if(bl.isTwolife()) {
-                    this.getEntities().remove(bl);
-                    bl.setTwolife(false);
-                    entities.add(bl);
+                  //TODO: Xét enemy 2 mạng,CHUA XONG DAU
+                  if (this.getEntities().get(l) instanceof Balloom) {
+                    Balloom bl = (Balloom) this.getEntities().get(l);
+                    //this.getEntities().remove(bl);
+                    if (bl.isTwolife()) {
+                      this.getEntities().remove(bl);
+                      bl.setTwolife(false);
+                      entities.add(bl);
+                    }
+                    if (!bl.isTwolife()) {
+                      entities.get(l).remove();
+                    }
+                  } else if (this.getEntities().get(l) instanceof Bomber) {
+                    bomberman.setExposedToBomb(true);
+                    if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                   }
-                  if(!bl.isTwolife()){
-                    entities.remove(bl);
-                  }
+                   // entities.get(l).setREMOVEFIXPROTECTTED(true);
+                  if(!entities.isEmpty())
+                  entities.get(l).kill();
                 }
-                else if(this.getEntities().get(l) instanceof Bomber){
-                     bomberman.setExposedToBomb(true);
-                     if(bomberman.isRemoved()) this.getEntities().remove(bomberman);
-                }
-                else this.getEntities().remove(this.getEntities().get(l));
               }
-            }
-
-            for (int n = 0 ; n < this.getStillObjects().size();n++){
-              if(fls[k].getX() / Sprite.SCALED_SIZE == this.getStillObjects().get(n).getX() / Sprite.SCALED_SIZE
-                      && fls[k].getY() / Sprite.SCALED_SIZE == this.getStillObjects().get(n).getY() / Sprite.SCALED_SIZE){
-                if(this.getStillObjects().get(n) instanceof Brick){
-                  Brick br = (Brick) this.getStillObjects().get(n);
-                  br.set_destroyed(false);
-                  BrickListExplode.add(br);
-                  this.stillObjects.remove(this.stillObjects.get(n));
+              for (int n = 0; n < this.getStillObjects().size(); n++) {
+                if (fls[k].getX() / Sprite.SCALED_SIZE == this.getStillObjects().get(n).getX() / Sprite.SCALED_SIZE
+                        && fls[k].getY() / Sprite.SCALED_SIZE == this.getStillObjects().get(n).getY() / Sprite.SCALED_SIZE) {
+                  if (this.getStillObjects().get(n) instanceof Brick) {
+                    Brick br = (Brick) this.getStillObjects().get(n);
+                    br.set_destroyed(false);
+                    BrickListExplode.add(br);
+                    this.stillObjects.remove(this.stillObjects.get(n));
+                  }
                 }
               }
             }
           }
-        }
+
         BombCount++;
         if(BombList.get(i).get_timeToRenderFlameSegment() == 0){
         BombList.remove(BombList.get(i));

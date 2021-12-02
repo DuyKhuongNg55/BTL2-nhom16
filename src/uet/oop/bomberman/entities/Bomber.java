@@ -45,6 +45,21 @@ public class Bomber extends Entity {
     super(x, y, img);
     this.bbg = bbg;
   }
+//
+//  @Override
+//  public boolean isREMOVEFIXPROTECTTED() {
+//    return false;
+//  }
+//
+//  @Override
+//  public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
+//
+//  }
+
+  @Override
+  public void kill() {
+
+  }
 
   @Override
   public void update() {

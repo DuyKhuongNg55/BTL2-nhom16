@@ -6,8 +6,8 @@ import uet.oop.bomberman.OldCode.graphics.Sprite;
 
 public class Bomb extends Entity {
 
-  protected double _timeToExplode = 50; //2 seconds
-  protected double _timeToRenderFlameSegment = 10; //2 seconds
+  protected double _timeToExplode = 70; //2 seconds
+  protected double _timeToRenderFlameSegment = 30; //2 seconds
   public int _timeAfter = 5;
   protected Flame[] _flames;
   public  boolean _exploded = false;
@@ -94,6 +94,21 @@ public class Bomb extends Entity {
     this._timeToRenderFlameSegment = _timeToRenderFlameSegment;
   }
 
+//  @Override
+//  public boolean isREMOVEFIXPROTECTTED() {
+//    return false;
+//  }
+//
+//  @Override
+//  public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
+//
+//  }
+
+  @Override
+  public void kill() {
+
+  }
+
   @Override
   public void update() {
     if(_timeToExplode > 0)
@@ -112,7 +127,7 @@ public class Bomb extends Entity {
     }
     animate();
     if(_exploded) {
-      _sprite =  Sprite.bomb_exploded2;
+      _sprite =  Sprite.movingSprite(Sprite.bomb_exploded2, Sprite.bomb_exploded1, Sprite.bomb_exploded, _animate, 60);
       img = _sprite.getFxImage();
     } else
       _sprite = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, _animate, 60);

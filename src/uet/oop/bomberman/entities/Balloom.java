@@ -36,15 +36,22 @@ import uet.oop.bomberman.entities.Oneal.VerticalComparator;
 
 public class Balloom extends Entity {
   private boolean Twolife = false;
-    public Balloom(int x, int y, Image img) {
-    super(x, y, img);
-    if((x+y) % 2 == 0 ) Twolife = true;
+  protected final int MAX_ANIMATE = 7500;
+  protected int _animate = 0;
+  protected boolean _destroyed = false;
+  private int _timeToDisapear = 20;
+  public boolean is_destroyed() {
+    return _destroyed;
+  }
+  private boolean ExposeToBom = false;
+  public void set_destroyed(boolean _destroyed) {
+    this._destroyed = _destroyed;
   }
 
-//  @Override
-//  public void update() {
-//
-//  }
+  public int get_timeToDisapear() {
+    return _timeToDisapear;
+  }
+
 
   public boolean isTwolife() {
     return Twolife;
@@ -53,7 +60,7 @@ public class Balloom extends Entity {
   public void setTwolife(boolean twolife) {
     Twolife = twolife;
   }
-  private int speed = 2;
+  private int speed = 0;
   private String preString = "";
   private int xTarget = 0;
   private int yTarget = 0;
@@ -68,6 +75,30 @@ public class Balloom extends Entity {
 //  public Balloom(int x, int y, Image img) {
 //    super(x, y, img);
 //  }
+ public Balloom(int x, int y, Image img) {
+  super(x, y, img);
+  if((x+y) % 2 == 0 ) Twolife = true;
+}
+
+  @Override
+  public void kill() {
+    if(!_alive) return;
+    _alive = false;
+  }
+//
+//  @Override
+//  public boolean isREMOVEFIXPROTECTTED() {
+//    //return super.isREMOVEFIXPROTECTTED();
+//  }
+//
+//  @Override
+//  public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
+//    //super.setREMOVEFIXPROTECTTED(REMOVEFIXPROTECTTED);
+//  }
+
+  protected void animate() {
+    if(_animate < MAX_ANIMATE) _animate++; else _animate = 0;
+  }
 
   @Override
   public void update() {
@@ -164,6 +195,42 @@ public class Balloom extends Entity {
         again = false;
       }
     }
+//    if(isREMOVEFIXPROTECTTED()){
+//      if(_timeToDisapear > 0)
+//      {
+//        _timeToDisapear--;
+//        //_sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 60);
+//        this.img = Sprite.balloom_dead.getFxImage();
+//        System.out.println(_timeToDisapear);
+//      }
+//    }
+     if(!_alive){
+       for (int i = 0 ; i < BombermanGame.getBombList().size();i++){
+         if(BombermanGame.getBombList().get(i).is_exploded())
+         {
+           Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+           for (int j = 0; j < fl.length; j++) {
+             FlameSegment[] fls = fl[j].get_flameSegments();
+             for (int k = 0; k < fls.length; k++) {
+               //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+               if(fls[k].getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
+               this.getY() / Sprite.SCALED_SIZE){
+                 ExposeToBom = true;
+               }
+             }
+           }
+         }
+       }
+     }
+     if(ExposeToBom){
+       if(_timeToDisapear != 0) {
+         animate();
+         _timeToDisapear--;
+         this.img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
+       }
+       //else BombermanGame.getEntities().remove(this);
+       else BombermanGame.getEntitiesRemove().add(this);
+     }
   }
 
   public boolean moveRight() {

@@ -16,7 +16,7 @@ public abstract class Entity {
     protected int times;
     protected int _direction = -1;
     protected boolean _alive = true;
-
+//    private boolean REMOVEFIXPROTECTTED = false ;
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity(int xUnit, int yUnit, Image img) {
         this.x = xUnit * Sprite.SCALED_SIZE;
@@ -24,10 +24,15 @@ public abstract class Entity {
         this.img = img;
         times = 0;
     }
-    public void kill() {
-        if (!_alive) return;
-        _alive = false;
-    }
+
+//    public abstract boolean isREMOVEFIXPROTECTTED();
+//
+//
+//
+//    public abstract void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED);
+
+    public abstract void kill();
+
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
@@ -59,4 +64,5 @@ public abstract class Entity {
     public boolean isRemoved() {
         return _removed;
     }
+
 }

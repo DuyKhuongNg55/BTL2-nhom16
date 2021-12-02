@@ -4,24 +4,34 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.OldCode.graphics.Sprite;
 
 public class DestroyableEntity extends Entity {
-    public DestroyableEntity(int xUnit, int yUnit, Image img) {
-        super(xUnit, yUnit, img);
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    //    @Override
-//    public void update() {
-//
-//    }
     protected final int MAX_ANIMATE = 7500;
     protected int _animate = 0;
     protected boolean _destroyed = false;
     protected int _timeToDisapear = 20;
     protected Sprite _belowSprite = Sprite.grass;
+    public DestroyableEntity(int xUnit, int yUnit, Image img) {
+        super(xUnit, yUnit, img);
+    }
+
+    @Override
+    public void kill() {
+
+    }
+//
+//    @Override
+//    public boolean isREMOVEFIXPROTECTTED() {
+//        return false;
+//    }
+//
+//    @Override
+//    public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
+//
+//    }
+
+    @Override
+    public void update() {
+
+    }
 
 //    public DestroyableTile(int x, int y, Sprite sprite) {
 //        super(x, y, sprite);
@@ -55,10 +65,6 @@ public class DestroyableEntity extends Entity {
         if (e instanceof Flame)
             destroy();
         return false;
-    }
-
-    public void addBelowSprite(Sprite sprite) {
-        _belowSprite = sprite;
     }
 
     protected Sprite movingSprite(Sprite normal, Sprite x1, Sprite x2) {
