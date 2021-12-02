@@ -1,18 +1,66 @@
 package uet.oop.bomberman.entities;
 
+import javafx.scene.image.Image;
+
+//public class Balloom extends Entity {
+//  private boolean Twolife = false;
+//  public Balloom(int x, int y, Image img) {
+//    super(x, y, img);
+//    if((x+y) % 2 == 0 ) Twolife = true;
+//  }
+//
+//  @Override
+//  public void update() {
+//
+//  }
+//
+//  public boolean isTwolife() {
+//    return Twolife;
+//  }
+//
+//  public void setTwolife(boolean twolife) {
+//    Twolife = twolife;
+//  }
+//}
+
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.OldCode.graphics.Sprite;
 import uet.oop.bomberman.entities.Oneal.HorizontalComparator;
 import uet.oop.bomberman.entities.Oneal.VerticalComparator;
-import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloom extends Entity {
+  private boolean Twolife = false;
+  protected final int MAX_ANIMATE = 7500;
+  protected int _animate = 0;
+  protected boolean _destroyed = false;
+  private int _timeToDisapear = 20;
+  public boolean is_destroyed() {
+    return _destroyed;
+  }
+  private boolean ExposeToBom = false;
+  public void set_destroyed(boolean _destroyed) {
+    this._destroyed = _destroyed;
+  }
 
-  private int speed = 2;
+  public int get_timeToDisapear() {
+    return _timeToDisapear;
+  }
+
+
+  public boolean isTwolife() {
+    return Twolife;
+  }
+
+  public void setTwolife(boolean twolife) {
+    Twolife = twolife;
+  }
+  private int speed = 0;
   private String preString = "";
   private int xTarget = 0;
   private int yTarget = 0;
@@ -24,8 +72,32 @@ public class Balloom extends Entity {
   private boolean notUp = false;
   private boolean notDown = false;
 
-  public Balloom(int x, int y, Image img) {
-    super(x, y, img);
+//  public Balloom(int x, int y, Image img) {
+//    super(x, y, img);
+//  }
+ public Balloom(int x, int y, Image img) {
+  super(x, y, img);
+  if((x+y) % 2 == 0 ) Twolife = true;
+}
+
+  @Override
+  public void kill() {
+    if(!_alive) return;
+    _alive = false;
+  }
+//
+//  @Override
+//  public boolean isREMOVEFIXPROTECTTED() {
+//    //return super.isREMOVEFIXPROTECTTED();
+//  }
+//
+//  @Override
+//  public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
+//    //super.setREMOVEFIXPROTECTTED(REMOVEFIXPROTECTTED);
+//  }
+
+  protected void animate() {
+    if(_animate < MAX_ANIMATE) _animate++; else _animate = 0;
   }
 
   @Override
@@ -34,8 +106,8 @@ public class Balloom extends Entity {
     String curString = preString;
     for (int i = 0; i < vertList.size(); i++) {
       if (vertList.get(i).getX() * Sprite.SCALED_SIZE == x
-          && vertList.get(i).getY() * Sprite.SCALED_SIZE == y
-          && vertList.get(i).getName().charAt(0) != 'S') {
+              && vertList.get(i).getY() * Sprite.SCALED_SIZE == y
+              && vertList.get(i).getName().charAt(0) != 'S') {
         again = true;
         break;
       }
@@ -123,6 +195,42 @@ public class Balloom extends Entity {
         again = false;
       }
     }
+//    if(isREMOVEFIXPROTECTTED()){
+//      if(_timeToDisapear > 0)
+//      {
+//        _timeToDisapear--;
+//        //_sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 60);
+//        this.img = Sprite.balloom_dead.getFxImage();
+//        System.out.println(_timeToDisapear);
+//      }
+//    }
+     if(!_alive){
+       for (int i = 0 ; i < BombermanGame.getBombList().size();i++){
+         if(BombermanGame.getBombList().get(i).is_exploded())
+         {
+           Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+           for (int j = 0; j < fl.length; j++) {
+             FlameSegment[] fls = fl[j].get_flameSegments();
+             for (int k = 0; k < fls.length; k++) {
+               //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+               if(fls[k].getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
+               this.getY() / Sprite.SCALED_SIZE){
+                 ExposeToBom = true;
+               }
+             }
+           }
+         }
+       }
+     }
+     if(ExposeToBom){
+       if(_timeToDisapear != 0) {
+         animate();
+         _timeToDisapear--;
+         this.img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
+       }
+       //else BombermanGame.getEntities().remove(this);
+       else BombermanGame.getEntitiesRemove().add(this);
+     }
   }
 
   public boolean moveRight() {
@@ -151,10 +259,10 @@ public class Balloom extends Entity {
       img = Sprite.balloom_left3.getFxImage();
     }
     if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE
-        - 1]) {
+            - 1]) {
       return false;
     } else if (x % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
-        / Sprite.SCALED_SIZE]) {
+            / Sprite.SCALED_SIZE]) {
       return false;
     }
     x -= speed;
@@ -163,10 +271,10 @@ public class Balloom extends Entity {
 
   public boolean moveUp() {
     if (y % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE - 1][x
-        / Sprite.SCALED_SIZE]) {
+            / Sprite.SCALED_SIZE]) {
       return false;
     } else if (y % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
-        / Sprite.SCALED_SIZE]) {
+            / Sprite.SCALED_SIZE]) {
       return false;
     }
     y -= speed;
@@ -183,28 +291,34 @@ public class Balloom extends Entity {
 
   public void createMatrix() {
     for (int i = 0; i < BombermanGame.getStillObjects().size(); i++) {
-      if (BombermanGame.getStillObjects().get(i) instanceof Wall) {
+      if (BombermanGame.getStillObjects().get(i) instanceof Wall || BombermanGame.getStillObjects().get(i) instanceof Brick) {
         matrix[BombermanGame.getStillObjects().get(i).getY() / Sprite.SCALED_SIZE][
-            BombermanGame.getStillObjects().get(i).getX() / Sprite.SCALED_SIZE] = false;
-      } else {
-        matrix[BombermanGame.getStillObjects().get(i).getY() / Sprite.SCALED_SIZE][
-            BombermanGame.getStillObjects().get(i).getX() / Sprite.SCALED_SIZE] = true;
+                BombermanGame.getStillObjects().get(i).getX() / Sprite.SCALED_SIZE] = false;
       }
+      else {
+        matrix[BombermanGame.getStillObjects().get(i).getY() / Sprite.SCALED_SIZE][
+                BombermanGame.getStillObjects().get(i).getX() / Sprite.SCALED_SIZE] = true;
+      }
+    }
+    for(int h = 0 ; h < BombermanGame.getBombList().size();h++)
+    {
+      matrix[BombermanGame.getBombList().get(h).getY() / Sprite.SCALED_SIZE][
+              BombermanGame.getBombList().get(h).getX() / Sprite.SCALED_SIZE] = false;
     }
     for (int i = 0; i < BombermanGame.getEntities().size(); i++) {
       if (BombermanGame.getEntities().get(i) instanceof Oneal || (
-          BombermanGame.getEntities().get(i) instanceof Balloom
-              && (BombermanGame.getEntities().get(i).getX() != x
-              || BombermanGame.getEntities().get(i).getY() != y))) {
+              BombermanGame.getEntities().get(i) instanceof Balloom
+                      && (BombermanGame.getEntities().get(i).getX() != x
+                      || BombermanGame.getEntities().get(i).getY() != y))) {
         matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE][
-            BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
+                BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
         if (BombermanGame.getEntities().get(i).getX() % Sprite.SCALED_SIZE != 0) {
           matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE][
-              BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE + 1] = false;
+                  BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE + 1] = false;
         }
         if (BombermanGame.getEntities().get(i).getY() % Sprite.SCALED_SIZE != 0) {
           matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE + 1][
-              BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
+                  BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
         }
       }
     }
@@ -234,11 +348,11 @@ public class Balloom extends Entity {
             isBalloom = true;
           }
           if (isBalloom || timesTemp == 1 || timesTemp == 0 || (
-              timesTemp == 2 && !(matrix[j][i - 1] && matrix[j][i + 1]) && !(matrix[j - 1][i]
-                  && matrix[j + 1][i]))) {
+                  timesTemp == 2 && !(matrix[j][i - 1] && matrix[j][i + 1]) && !(matrix[j - 1][i]
+                          && matrix[j + 1][i]))) {
             String nameVert = i + " " + j;
             if (!(timesTemp == 1 || timesTemp == 0 || (timesTemp == 2 && !(matrix[j][i - 1]
-                && matrix[j][i + 1]) && !(matrix[j - 1][i] && matrix[j + 1][i])))) {
+                    && matrix[j][i + 1]) && !(matrix[j - 1][i] && matrix[j + 1][i])))) {
               nameVert = "S" + nameVert;
             }
             vertList.add(new Vert(nameVert, i, j));
