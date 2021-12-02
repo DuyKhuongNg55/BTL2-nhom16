@@ -471,7 +471,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.OldCode.graphics.Sprite;
+import uet.oop.bomberman.graphics.Sprite;
 
 
 public class Oneal extends Entity {

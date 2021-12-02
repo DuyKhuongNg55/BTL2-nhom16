@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Oneal.HorizontalComparator;
 import uet.oop.bomberman.entities.Oneal.VerticalComparator;
-import uet.oop.bomberman.OldCode.graphics.Sprite;
+import uet.oop.bomberman.graphics.Sprite;
 
 //public class Balloom extends Entity {
 //  private boolean Twolife = false;
@@ -40,7 +40,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.OldCode.graphics.Sprite;
+import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.Oneal.HorizontalComparator;
 import uet.oop.bomberman.entities.Oneal.VerticalComparator;
 
