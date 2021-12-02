@@ -9,6 +9,21 @@ public class Wall extends Entity {
     }
 
     @Override
+    public void kill() {
+
+    }
+
+//    @Override
+//    public boolean isREMOVEFIXPROTECTTED() {
+//        return false;
+//    }
+//
+//    @Override
+//    public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
+//
+//    }
+
+    @Override
     public void update() {
 
     }
