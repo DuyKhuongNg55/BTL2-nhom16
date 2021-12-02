@@ -1,6 +1,6 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.codeOld;
 
-import uet.oop.bomberman.entities.AbstractCharacter.Move;
+import uet.oop.bomberman.codeOld.AbstractCharacter.Move;
 
 import java.util.ArrayList;
 import java.util.Collection;
