@@ -1,7 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.OldCode.graphics.Sprite;
+import uet.oop.bomberman.graphics.Sprite;
 
 public class DestroyableEntity extends Entity {
     protected final int MAX_ANIMATE = 7500;

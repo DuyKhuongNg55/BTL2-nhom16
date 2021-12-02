@@ -471,12 +471,14 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.OldCode.graphics.Sprite;
+import uet.oop.bomberman.graphics.Sprite;
 
 
 public class Oneal extends Entity {
 
-  private int speed = 0;
+
+  private int speed = 2;
+
   private String preString = "";
   private int xTarget = 0;
   private int yTarget = 0;
@@ -537,10 +539,13 @@ public class Oneal extends Entity {
     createEdge();
     getShortestPath().ShortestP(bomber);
     if (onealCur != null) {
+//
 //      System.out.println("Khoảng cách tối thiểu từ:");
 //      System.out.println("oneal đến p: " + onealCur.getDist());
 //      System.out.println("Đường đi ngắn nhất từ:");
 //      System.out.println("oneal đến p: " + getShortestPath().getShortestP(onealCur));
+//
+
       String curString = preString;
       if (onealCur.getDist() > 10 || BombermanGame.getStateTh() > 1) {
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
@@ -555,8 +560,9 @@ public class Oneal extends Entity {
         //Di ngau nhien
         for (int i = 0; i < vertList.size(); i++) {
           if (vertList.get(i).getX() * Sprite.SCALED_SIZE == x
-                  && vertList.get(i).getY() * Sprite.SCALED_SIZE == y
-                  && vertList.get(i).getName().charAt(0) != 'S') {
+              && vertList.get(i).getY() * Sprite.SCALED_SIZE == y
+              && vertList.get(i).getName().charAt(0) != 'S') {
+
             again = true;
             break;
           }
@@ -707,6 +713,7 @@ public class Oneal extends Entity {
       }
       if(ExposeToBom){
         if(_timeToDisapear != 0) {
+          speed = 0;
           animate();
           _timeToDisapear--;
           this.img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
@@ -759,10 +766,10 @@ public class Oneal extends Entity {
       return false;
     }
     if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE
-            - 1]) {
+        - 1]) {
       return false;
     } else if (x % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
-            / Sprite.SCALED_SIZE]) {
+        / Sprite.SCALED_SIZE]) {
       return false;
     }
     x -= speed;
@@ -774,10 +781,10 @@ public class Oneal extends Entity {
       return false;
     }
     if (y % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE - 1][x
-            / Sprite.SCALED_SIZE]) {
+        / Sprite.SCALED_SIZE]) {
       return false;
     } else if (y % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
-            / Sprite.SCALED_SIZE]) {
+        / Sprite.SCALED_SIZE]) {
       return false;
     }
     y -= speed;
@@ -812,18 +819,18 @@ public class Oneal extends Entity {
     }
     for (int i = 0; i < BombermanGame.getEntities().size(); i++) {
       if (BombermanGame.getEntities().get(i) instanceof Balloom || (
-              BombermanGame.getEntities().get(i) instanceof Oneal
-                      && (BombermanGame.getEntities().get(i).getX() != x
-                      || BombermanGame.getEntities().get(i).getY() != y))) {
+          BombermanGame.getEntities().get(i) instanceof Oneal
+              && (BombermanGame.getEntities().get(i).getX() != x
+              || BombermanGame.getEntities().get(i).getY() != y))) {
         matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE][
-                BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
+            BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
         if (BombermanGame.getEntities().get(i).getX() % Sprite.SCALED_SIZE != 0) {
           matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE][
-                  BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE + 1] = false;
+              BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE + 1] = false;
         }
         if (BombermanGame.getEntities().get(i).getY() % Sprite.SCALED_SIZE != 0) {
           matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE + 1][
-                  BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
+              BombermanGame.getEntities().get(i).getX() / Sprite.SCALED_SIZE] = false;
         }
       }
     }
@@ -851,7 +858,7 @@ public class Oneal extends Entity {
           boolean isBomber = false;
           boolean isOneal = false;
           if (BombermanGame.getEntities().get(0).getX() / Sprite.SCALED_SIZE == i
-                  && BombermanGame.getEntities().get(0).getY() / Sprite.SCALED_SIZE == j) {
+              && BombermanGame.getEntities().get(0).getY() / Sprite.SCALED_SIZE == j) {
             isBomber = true;
           } else {
             if (x / Sprite.SCALED_SIZE == i && y / Sprite.SCALED_SIZE == j) {
@@ -859,11 +866,11 @@ public class Oneal extends Entity {
             }
           }
           if (isBomber || isOneal || timesTemp == 1 || timesTemp == 0 || (
-                  timesTemp == 2 && !(matrix[j][i - 1] && matrix[j][i + 1]) && !(matrix[j - 1][i]
-                          && matrix[j + 1][i]))) {
+              timesTemp == 2 && !(matrix[j][i - 1] && matrix[j][i + 1]) && !(matrix[j - 1][i]
+                  && matrix[j + 1][i]))) {
             String nameVert = i + " " + j;
             if (!(timesTemp == 1 || timesTemp == 0 || (timesTemp == 2 && !(matrix[j][i - 1]
-                    && matrix[j][i + 1]) && !(matrix[j - 1][i] && matrix[j + 1][i])))) {
+                && matrix[j][i + 1]) && !(matrix[j - 1][i] && matrix[j + 1][i])))) {
               nameVert = "S" + nameVert;
             }
             vertList.add(new Vert(nameVert, i, j));
