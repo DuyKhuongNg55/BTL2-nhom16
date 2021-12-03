@@ -551,7 +551,7 @@ public class BombermanGame extends Application {
 
         for (int i = 0; i < BrickListExplode.size(); i++) {
             BrickListExplode.get(i).update();
-            System.out.println(BrickListExplode.get(i).get_timeToDisapear() + " Thoi gian nay");
+//            System.out.println(BrickListExplode.get(i).get_timeToDisapear() + " Thoi gian nay");
 
             if (BrickListExplode.get(i).get_timeToDisapear() == 0) {
                 BrickListExplode.remove(BrickListExplode.get(i));
@@ -560,7 +560,7 @@ public class BombermanGame extends Application {
         for (int i = 0; i < BrickListExplode.size(); i++) {
             if (BrickListExplode.get(i).isRemoved() == true) {
                 BrickListExplode.remove(BrickListExplode.get(i));
-                System.out.println("Chay den day");
+//                System.out.println("Chay den day");
             }
         }
         for (Entity g : EntitiesRemove) {

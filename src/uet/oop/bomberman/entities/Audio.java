@@ -15,7 +15,7 @@ public class Audio {
 
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("soundtrack.wav");
+            InputStream sound = new FileInputStream("res/amThanh/soundtrack.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -36,7 +36,7 @@ public class Audio {
     public AudioStream winningSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("win.wav");
+            InputStream sound = new FileInputStream("res/amThanh/win.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -55,7 +55,7 @@ public class Audio {
     public AudioStream loseSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("lose.wav");
+            InputStream sound = new FileInputStream("res/amThanh/lose.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -75,7 +75,7 @@ public class Audio {
     public AudioStream pickItemSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("pickitem.wav");
+            InputStream sound = new FileInputStream("res/amThanh/pickitem.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -94,7 +94,7 @@ public class Audio {
     public AudioStream plantBombSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("plantbomb.wav");
+            InputStream sound = new FileInputStream("res/amThanh/plantbomb.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -113,7 +113,7 @@ public class Audio {
     public AudioStream footStepSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("footstep.wav");
+            InputStream sound = new FileInputStream("res/amThanh/footstep.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -132,7 +132,7 @@ public class Audio {
     public AudioStream explosionSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("res/BTL/explosion.wav");
+            InputStream sound = new FileInputStream("res/amThanh/explosion.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -151,7 +151,7 @@ public class Audio {
     public AudioStream enemiesDeadSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("enemiesdead.wav");
+            InputStream sound = new FileInputStream("res/amThanh/enemiesdead.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());

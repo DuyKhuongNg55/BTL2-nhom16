@@ -116,7 +116,7 @@ public class Bomb extends Entity {
       if(BombermanGame.getEntities().get(i).getX()/ Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE &&
               BombermanGame.getEntities().get(i).getY()/ Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
         a = BombermanGame.getEntities().get(i);
-        System.out.println("Chay den day");
+//        System.out.println("Chay den day");
       }
     }
     if(a == null || !(a instanceof Bomber)) _allowedToPassThru = false;
