@@ -2,6 +2,8 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -114,6 +116,7 @@ public class Bomber extends Entity {
           new Bomb(this.x / Sprite.SCALED_SIZE, this.y / Sprite.SCALED_SIZE,
               Sprite.bomb.getFxImage(), BombermanGame.getBombRadius()));
       BombermanGame.BombCount--;
+
     }
   }
 
@@ -139,6 +142,16 @@ public class Bomber extends Entity {
           indexY++;
         }
       }
+
+      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
+        if((this.getX() + speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+                this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+        }
+      }
+
+
+
       for (int i = (indexX + 1) * 13 + indexY; i < BombermanGame.getStillObjects().size(); i++) {
         if (BombermanGame.getStillObjects().get(i).getX()
             == indexX * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE
@@ -183,6 +196,15 @@ public class Bomber extends Entity {
           indexY++;
         }
       }
+
+      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
+        if((this.getX() - speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+                this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+        }
+      }
+
+
       for (int i = (indexX - 1) * 13 + indexY; i < BombermanGame.getStillObjects().size(); i++) {
         if (BombermanGame.getStillObjects().get(i).getX() == (indexX - 1) * Sprite.SCALED_SIZE
             && BombermanGame.getStillObjects().get(i).getY() == indexY * Sprite.SCALED_SIZE
@@ -225,6 +247,15 @@ public class Bomber extends Entity {
         x = (indexX + 1) * Sprite.SCALED_SIZE;
         indexX++;
       }
+
+      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
+        if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+                (this.getY() - speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+        }
+      }
+
+
       for (int i = indexX * 13 + indexY - 1; i < BombermanGame.getStillObjects().size(); i++) {
         if (BombermanGame.getStillObjects().get(i).getX() == indexX * Sprite.SCALED_SIZE
             && BombermanGame.getStillObjects().get(i).getY() == (indexY - 1) * Sprite.SCALED_SIZE
@@ -267,6 +298,21 @@ public class Bomber extends Entity {
         x = (indexX + 1) * Sprite.SCALED_SIZE;
         indexX++;
       }
+
+      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
+        if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+                (this.getY() + speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+        }
+      }
+
+      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
+        if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+                this.getY() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+        }
+      }
+
       for (int i = indexX * 13 + indexY + 1; i < BombermanGame.getStillObjects().size(); i++) {
         if (BombermanGame.getStillObjects().get(i).getX() == indexX * Sprite.SCALED_SIZE
             && BombermanGame.getStillObjects().get(i).getY() == (indexY + 1) * Sprite.SCALED_SIZE
