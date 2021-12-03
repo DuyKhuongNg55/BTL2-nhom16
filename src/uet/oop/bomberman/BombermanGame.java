@@ -1,6 +1,5 @@
 package uet.oop.bomberman;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -9,6 +8,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import uet.oop.bomberman.entities.Balloom;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
@@ -25,16 +26,8 @@ import java.util.Objects;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.Audio;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -51,8 +44,6 @@ public class BombermanGame extends Application {
 
     private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> stillObjects = new ArrayList<>();
-
-    //private Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
 
     private static List<Bomb> BombList = new ArrayList<>();
     private static List<Brick> BrickListExplode = new ArrayList<>();
@@ -80,7 +71,6 @@ public class BombermanGame extends Application {
     private int frameCount = 0;
     private int maxFrameCount = 30;
     private long targetTime = 1000 / FPS;
-    //private int stateTh = 1;
 
 
     private static final int BombSet = 1;
@@ -161,8 +151,17 @@ public class BombermanGame extends Application {
         root.getChildren().add(canvas);
 
         //  TODO: Tao scene
-
         Scene scene = new Scene(root);
+
+//        Audio m = new Audio();
+//        final AudioStream[] as = {null};
+//        AudioPlayer ap = AudioPlayer.player;
+//        as[0] = m.footStepSound();
+//
+//
+//        Scene scene = new Scene(root);
+//        AudioStream finalAs = as[0];
+//        AudioStream finalAs1 = as[0];
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -176,6 +175,9 @@ public class BombermanGame extends Application {
                             }
                             preEvent = event;
                             bomberman.moveUp();
+//                            ap.start(finalAs);
+
+
                         }
                         break;
                     case DOWN:
@@ -187,6 +189,8 @@ public class BombermanGame extends Application {
                             }
                             preEvent = event;
                             bomberman.moveDown();
+
+//                            ap.start(finalAs);
                         }
                         break;
                     case LEFT:
@@ -198,6 +202,8 @@ public class BombermanGame extends Application {
                             }
                             preEvent = event;
                             bomberman.moveLeft();
+
+//                            ap.start(finalAs);
                         }
                         break;
                     case RIGHT:
@@ -209,6 +215,8 @@ public class BombermanGame extends Application {
                             }
                             preEvent = event;
                             bomberman.moveRight();
+
+//                            ap.start(finalAs1);
                         }
                         break;
                     case SPACE:
@@ -221,6 +229,8 @@ public class BombermanGame extends Application {
                         }
                         preEvent = event;
                         bomberman.PlaceBomb();
+//                        as[0] = m.plantBombSound();
+//                        ap.start(as[0]);
                         break;
                 }
             }
@@ -339,7 +349,7 @@ public class BombermanGame extends Application {
                     averageFPS = 1000.0 / ((totalTime / frameCount) / 1000000);
                     frameCount = 0;
                     totalTime = 0;
-                    System.out.println(averageFPS);
+//                    System.out.println(averageFPS);
                 }
             }
         };
@@ -361,9 +371,16 @@ public class BombermanGame extends Application {
             stateTh = 0;
             entities.clear();
             stillObjects.clear();
-            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage(), this);
             data.clear();
+            portalObjects.clear();
+            BombList.clear();
+            BrickListExplode.clear();
+            EntitiesRemove.clear();
+            FlamePowers.clear();
+            SpeedPower.clear();
+            BombPower.clear();
             preEvent = null;
+            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage(), this);
             entities.add(bomberman);
             createMap();
         }
@@ -560,6 +577,12 @@ public class BombermanGame extends Application {
 
         for (int i = 0; i < BombList.size(); i++) {
             if (BombList.get(i).is_exploded()) {
+                Audio m = new Audio();
+                AudioStream as = null;
+                AudioPlayer ap = AudioPlayer.player;
+                as = m.explosionSound();
+                ap.start(as);
+
                 Flame[] fl = BombList.get(i).get_flames();
                 for (int j = 0; j < fl.length; j++) {
                     FlameSegment[] fls = fl[j].get_flameSegments();
@@ -590,6 +613,7 @@ public class BombermanGame extends Application {
                                 if (!entities.isEmpty())
                                     entities.get(l).kill();
                             }
+                            entities.get(l).render(gc);
                         }
                         for (int n = 0; n < this.getStillObjects().size(); n++) {
                             if (fls[k].getX() / Sprite.SCALED_SIZE == this.getStillObjects().get(n).getX() / Sprite.SCALED_SIZE
