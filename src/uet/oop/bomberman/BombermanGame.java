@@ -1,6 +1,5 @@
 package uet.oop.bomberman;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -25,15 +24,6 @@ import java.util.Objects;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -51,8 +41,6 @@ public class BombermanGame extends Application {
 
     private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> stillObjects = new ArrayList<>();
-
-    //private Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
 
     private static List<Bomb> BombList = new ArrayList<>();
     private static List<Brick> BrickListExplode = new ArrayList<>();
@@ -80,7 +68,6 @@ public class BombermanGame extends Application {
     private int frameCount = 0;
     private int maxFrameCount = 30;
     private long targetTime = 1000 / FPS;
-    //private int stateTh = 1;
 
 
     private static final int BombSet = 1;
@@ -339,7 +326,7 @@ public class BombermanGame extends Application {
                     averageFPS = 1000.0 / ((totalTime / frameCount) / 1000000);
                     frameCount = 0;
                     totalTime = 0;
-                    System.out.println(averageFPS);
+//                    System.out.println(averageFPS);
                 }
             }
         };
@@ -361,9 +348,16 @@ public class BombermanGame extends Application {
             stateTh = 0;
             entities.clear();
             stillObjects.clear();
-            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage(), this);
             data.clear();
+            portalObjects.clear();
+            BombList.clear();
+            BrickListExplode.clear();
+            EntitiesRemove.clear();
+            FlamePowers.clear();
+            SpeedPower.clear();
+            BombPower.clear();
             preEvent = null;
+            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage(), this);
             entities.add(bomberman);
             createMap();
         }
