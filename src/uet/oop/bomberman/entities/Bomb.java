@@ -7,7 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomb extends Entity {
 
   protected double _timeToExplode = 70; //2 seconds
-  protected double _timeToRenderFlameSegment = 30; //2 seconds
+  protected double _timeToRenderFlameSegment = 20; //2 seconds
   public int _timeAfter = 5;
   protected Flame[] _flames;
   public  boolean _exploded = false;
@@ -111,6 +111,17 @@ public class Bomb extends Entity {
 
   @Override
   public void update() {
+    Entity a = null;
+    for (int i = 0 ; i < BombermanGame.getEntities().size();i++){
+      if(BombermanGame.getEntities().get(i).getX()/ Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE &&
+              BombermanGame.getEntities().get(i).getY()/ Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
+        a = BombermanGame.getEntities().get(i);
+        System.out.println("Chay den day");
+      }
+    }
+    if(a == null || !(a instanceof Bomber)) _allowedToPassThru = false;
+
+
     if(_timeToExplode > 0)
       _timeToExplode--;
     else {
@@ -163,15 +174,23 @@ public class Bomb extends Entity {
   protected void explode() {
 
     // TODO: xử lý khi Character đứng tại vị trí Bomb
-    _allowedToPassThru = true;
+    //_allowedToPassThru = true;
     _exploded = true;
     Entity a = null;
     for (int i = 0 ; i < BombermanGame.getEntities().size();i++){
-       if(BombermanGame.getEntities().get(i).getX()/ Sprite.SCALED_SIZE == this.x / Sprite.SCALED_SIZE &&
-               BombermanGame.getEntities().get(i).getY()/ Sprite.SCALED_SIZE == this.y / Sprite.SCALED_SIZE){
+       if(BombermanGame.getEntities().get(i).getX()/ Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE &&
+               BombermanGame.getEntities().get(i).getY()/ Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE){
+         //System.out.println("Chay den day");
          a = BombermanGame.getEntities().get(i);
+
+//         if(!(a instanceof Bomber) || a == null){
+//           _allowedToPassThru = false;
+//         }
        }
     }
+
+
+
     for (int i = 0 ; i < BombermanGame.getBombList().size();i++){
 
     }
@@ -182,6 +201,7 @@ public class Bomb extends Entity {
     {
       a.kill();
     }
+
     // TODO: tạo các Flame
     _flames = new Flame[4];
     for (int i = 0; i < _flames.length; i++)
