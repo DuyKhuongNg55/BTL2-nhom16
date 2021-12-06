@@ -12,7 +12,7 @@ public class Oneal extends Entity {
 
 
   private int speed = 0;
-
+  private int TimeToRenderDeath = 20;
   private String preString = "";
   private int xTarget = 0;
   private int yTarget = 0;
@@ -59,6 +59,13 @@ public class Oneal extends Entity {
 
   @Override
   public void update() {
+    if(!_alive){
+      this.img = Sprite.oneal_dead.getFxImage();
+      if(TimeToRenderDeath > 0 ){
+        TimeToRenderDeath--;
+      }
+      System.out.println("chay den con onel");
+    }
     createVert();
     createEdge();
     getShortestPath().ShortestP(bomber);
@@ -84,8 +91,8 @@ public class Oneal extends Entity {
         //Di ngau nhien
         for (int i = 0; i < vertList.size(); i++) {
           if (vertList.get(i).getX() * Sprite.SCALED_SIZE == x
-              && vertList.get(i).getY() * Sprite.SCALED_SIZE == y
-              && vertList.get(i).getName().charAt(0) != 'S') {
+                  && vertList.get(i).getY() * Sprite.SCALED_SIZE == y
+                  && vertList.get(i).getName().charAt(0) != 'S') {
 
             again = true;
             break;
@@ -217,17 +224,16 @@ public class Oneal extends Entity {
             break;
         }
       }
-      if(!_alive){
-        for (int i = 0 ; i < BombermanGame.getBombList().size();i++){
-          if(BombermanGame.getBombList().get(i).is_exploded())
-          {
+      if (!_alive) {
+        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+          if (BombermanGame.getBombList().get(i).is_exploded()) {
             Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
             for (int j = 0; j < fl.length; j++) {
               FlameSegment[] fls = fl[j].get_flameSegments();
               for (int k = 0; k < fls.length; k++) {
                 //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
-                if(fls[k].getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
-                        this.getY() / Sprite.SCALED_SIZE){
+                if (fls[k].getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
+                        this.getY() / Sprite.SCALED_SIZE) {
                   ExposeToBom = true;
                 }
               }
@@ -235,16 +241,17 @@ public class Oneal extends Entity {
           }
         }
       }
-      if(ExposeToBom){
-        if(_timeToDisapear != 0) {
+      if (ExposeToBom) {
+        if (_timeToDisapear != 0) {
           speed = 0;
           animate();
           _timeToDisapear--;
-          this.img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
+          this.img = Sprite.movingSprite(Sprite.oneal_dead, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
         }
         //else BombermanGame.getEntities().remove(this);
         else BombermanGame.getEntitiesRemove().add(this);
       }
+
     }
 
 //    if(isREMOVEFIXPROTECTTED()){

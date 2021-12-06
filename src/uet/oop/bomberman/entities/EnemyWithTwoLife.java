@@ -19,6 +19,7 @@ public class EnemyWithTwoLife extends Entity {
     protected int _animate = 0;
     protected boolean _destroyed = false;
     private int _timeToDisapear = 20;
+    private int TimeToRenderDeath = 10;
 
     public boolean is_destroyed() {
         return _destroyed;
@@ -94,6 +95,12 @@ public class EnemyWithTwoLife extends Entity {
     }
     @Override
     public void update() {
+        if(!_alive){
+            this.img = Sprite.doll_dead.getFxImage();
+            if(TimeToRenderDeath > 0 ){
+                TimeToRenderDeath--;
+            }
+        }
         createVert();
         String curString = preString;
         for (int i = 0; i < vertList.size(); i++) {
@@ -206,14 +213,17 @@ public class EnemyWithTwoLife extends Entity {
                 }
             }
         }
-        if (ExposeToBom) {
-            if (_timeToDisapear != 0) {
-                speed = 0;
-                animate();
-                _timeToDisapear--;
-                this.img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
-            }
-            else BombermanGame.getEntitiesRemove().add(this);
+
+            if (ExposeToBom) {
+                if (_timeToDisapear != 0) {
+                    speed = 0;
+                    animate();
+                    _timeToDisapear--;
+                    this.img = Sprite.movingSprite(Sprite.doll_dead, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
+                }
+                //else BombermanGame.getEntities().remove(this);
+                else BombermanGame.getEntitiesRemove().add(this);
+
         }
     }
 
