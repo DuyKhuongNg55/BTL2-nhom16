@@ -32,7 +32,7 @@ public class Balloom extends Entity {
     }
 
 
-    private int speed = 0;
+    private int speed = 1;
 
     public int get_timeToDisapear() {
         return _timeToDisapear;

@@ -75,7 +75,7 @@ public class BombermanGame extends Application {
     private long targetTime = 1000 / FPS;
 
 
-    private static final int BombSet = 2;
+    private static final int BombSet = 1;
     public static int BombCount = BombSet;
     public static int BombCountOfEnemy = BombSet;
     public static int BombRadius = 1;
@@ -566,37 +566,133 @@ public class BombermanGame extends Application {
 
     public void update() {
         for (int i = 0; i < FlamePowers.size(); i++) {
-            if (bomberman.getX() / Sprite.SCALED_SIZE == FlamePowers.get(i).getX() / Sprite.SCALED_SIZE
-                    && bomberman.getY() / Sprite.SCALED_SIZE == FlamePowers.get(i).getY() / Sprite.SCALED_SIZE) {
-                BombRadius++;
-                for(int j = 0 ; j < BombList.size();j++){
-                    //
-                    Flame[] fl = BombList.get(i).get_flames();
-                    for(int k = 0 ; k < fl.length;k++){
-                        fl[k].set_radius(fl[k].get_radius() + 1);
+                if(((bomberman.getX()) / Sprite.SCALED_SIZE == FlamePowers.get(i).getX() / Sprite.SCALED_SIZE) && (FlamePowers.get(i).getY() - bomberman.getY()
+                        < 32 && FlamePowers.get(i).getY()- bomberman.getY()
+                        > 0)){
+                    BombRadius++;
+                    for(int j = 0 ; j < BombList.size();j++){
+                        //
+                        Flame[] fl = BombList.get(i).get_flames();
+                        for(int k = 0 ; k < fl.length;k++){
+                            fl[k].set_radius(fl[k].get_radius() + 1);
+                        }
                     }
+                    BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+                    FlamePowers.remove(FlamePowers.get(i));
                 }
-                BombermanGame.getStillObjects().remove(FlamePowers.get(i));
-                FlamePowers.remove(FlamePowers.get(i));
+              else  if((bomberman.getX()  -FlamePowers.get(i).getX() < 32 && bomberman.getX() - FlamePowers.get(i).getX() > 0) && ((bomberman.getY() )
+                        / Sprite.SCALED_SIZE) == FlamePowers.get(i).getY() / Sprite.SCALED_SIZE){
+
+                    for(int j = 0 ; j < BombList.size();j++){
+                        //
+                        Flame[] fl = BombList.get(i).get_flames();
+                        for(int k = 0 ; k < fl.length;k++){
+                            fl[k].set_radius(fl[k].get_radius() + 1);
+                        }
+                    }
+                    BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+                    FlamePowers.remove(FlamePowers.get(i));
+                }
+
+               else if(((bomberman.getX()) / Sprite.SCALED_SIZE == FlamePowers.get(i).getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
+                        -  FlamePowers.get(i).getY() < 32 && bomberman.getY()
+                        -  FlamePowers.get(i).getY() > 0)){
+                    BombRadius++;
+                    for(int j = 0 ; j < BombList.size();j++){
+                        //
+                        Flame[] fl = BombList.get(i).get_flames();
+                        for(int k = 0 ; k < fl.length;k++){
+                            fl[k].set_radius(fl[k].get_radius() + 1);
+                        }
+                    }
+                    BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+                    FlamePowers.remove(FlamePowers.get(i));
+                }
+
+                else if((FlamePowers.get(i).getX()- bomberman.getX()  < 20 && FlamePowers.get(i).getX()- bomberman.getX()  > 0) && ((bomberman.getY())
+                ) == FlamePowers.get(i).getY() ){
+                    BombRadius++;
+                    for(int j = 0 ; j < BombList.size();j++){
+                        Flame[] fl = BombList.get(i).get_flames();
+                        for(int k = 0 ; k < fl.length;k++){
+                            fl[k].set_radius(fl[k].get_radius() + 1);
+                        }
+                    }
+                    BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+                    FlamePowers.remove(FlamePowers.get(i));
             }
         }
 
         for (int i = 0; i < SpeedPower.size(); i++) {
-            if (bomberman.getX() / Sprite.SCALED_SIZE == SpeedPower.get(i).getX() / Sprite.SCALED_SIZE
-                    && bomberman.getY() / Sprite.SCALED_SIZE == SpeedPower.get(i).getY() / Sprite.SCALED_SIZE) {
+
+            if(((bomberman.getX()) / Sprite.SCALED_SIZE == SpeedPower.get(i).getX() / Sprite.SCALED_SIZE) && (SpeedPower.get(i).getY() - bomberman.getY()
+                    < 32 && SpeedPower.get(i).getY()- bomberman.getY()
+                    > 0)){
                 bomberman.setSpeed(bomberman.getSpeed() + 4);
                 BombermanGame.getStillObjects().remove(SpeedPower.get(i));
                 SpeedPower.remove(SpeedPower.get(i));
             }
+
+            else  if((bomberman.getX()  -SpeedPower.get(i).getX() < 32 && bomberman.getX() - SpeedPower.get(i).getX() > 0) && ((bomberman.getY() )
+                    / Sprite.SCALED_SIZE) == SpeedPower.get(i).getY() / Sprite.SCALED_SIZE){
+                bomberman.setSpeed(bomberman.getSpeed() + 4);
+                BombermanGame.getStillObjects().remove(SpeedPower.get(i));
+                SpeedPower.remove(SpeedPower.get(i));
+            }
+
+            else if(((bomberman.getX()) / Sprite.SCALED_SIZE == SpeedPower.get(i).getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
+                    - SpeedPower.get(i).getY() < 32 && bomberman.getY()
+                    -  SpeedPower.get(i).getY() > 0)){
+                bomberman.setSpeed(bomberman.getSpeed() + 4);
+                BombermanGame.getStillObjects().remove(SpeedPower.get(i));
+                SpeedPower.remove(SpeedPower.get(i));
+            }
+
+            else if((SpeedPower.get(i).getX()- bomberman.getX()  < 20 && SpeedPower.get(i).getX()- bomberman.getX()  > 0) && ((bomberman.getY())
+            ) == SpeedPower.get(i).getY() ){
+                bomberman.setSpeed(bomberman.getSpeed() + 4);
+                BombermanGame.getStillObjects().remove(SpeedPower.get(i));
+                SpeedPower.remove(SpeedPower.get(i));
+
+            }
         }
 
         for (int i = 0; i < BombPower.size(); i++) {
-            if (bomberman.getX() / Sprite.SCALED_SIZE == BombPower.get(i).getX() / Sprite.SCALED_SIZE
-                    && bomberman.getY() / Sprite.SCALED_SIZE == BombPower.get(i).getY() / Sprite.SCALED_SIZE) {
+
+
+            if(((bomberman.getX()) / Sprite.SCALED_SIZE == BombPower.get(i).getX() / Sprite.SCALED_SIZE) && (BombPower.get(i).getY() - bomberman.getY()
+                    < 32 && BombPower.get(i).getY()- bomberman.getY()
+                    > 0)){
                 BombCount = BombCount + 1;
                 BombermanGame.getStillObjects().remove(BombPower.get(i));
                 BombPower.remove(BombPower.get(i));
             }
+
+            else  if((bomberman.getX()  -BombPower.get(i).getX() < 32 && bomberman.getX() - BombPower.get(i).getX() > 0) && ((bomberman.getY() )
+                    / Sprite.SCALED_SIZE) == BombPower.get(i).getY() / Sprite.SCALED_SIZE){
+                BombCount = BombCount + 1;
+                BombermanGame.getStillObjects().remove(BombPower.get(i));
+                BombPower.remove(BombPower.get(i));
+            }
+
+            else if(((bomberman.getX()) / Sprite.SCALED_SIZE == BombPower.get(i).getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
+                    - BombPower.get(i).getY() < 32 && bomberman.getY()
+                    -  BombPower.get(i).getY() > 0)){
+                BombCount = BombCount + 1;
+                BombermanGame.getStillObjects().remove(BombPower.get(i));
+                BombPower.remove(BombPower.get(i));
+            }
+
+            else if((BombPower.get(i).getX()- bomberman.getX()  < 20 && BombPower.get(i).getX()- bomberman.getX()  > 0) && ((bomberman.getY())
+            ) == BombPower.get(i).getY() ){
+                BombCount = BombCount + 1;
+                BombermanGame.getStillObjects().remove(BombPower.get(i));
+                BombPower.remove(BombPower.get(i));
+
+            }
+
+
+
         }
 
         for (int i = 0; i < BombList.size(); i++) {
