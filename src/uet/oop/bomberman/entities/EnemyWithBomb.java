@@ -319,6 +319,10 @@ public class EnemyWithBomb extends Entity {
                         BombermanGame.getStillObjects().get(i).getX() / Sprite.SCALED_SIZE] = true;
             }
         }
+        for (int h = 0; h < BombermanGame.getBrickListExplode().size(); h++) {
+            matrix[BombermanGame.getBrickListExplode().get(h).getY() / Sprite.SCALED_SIZE][
+                    BombermanGame.getBrickListExplode().get(h).getX() / Sprite.SCALED_SIZE] = false;
+        }
         for (int h = 0; h < BombermanGame.getBombList().size(); h++) {
             matrix[BombermanGame.getBombList().get(h).getY() / Sprite.SCALED_SIZE][
                     BombermanGame.getBombList().get(h).getX() / Sprite.SCALED_SIZE] = false;

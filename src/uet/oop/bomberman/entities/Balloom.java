@@ -31,7 +31,7 @@ public class Balloom extends Entity {
     }
 
 
-    private int speed = 0;
+    private int speed = 1;
 
     public int get_timeToDisapear() {
         return _timeToDisapear;
@@ -284,6 +284,10 @@ public class Balloom extends Entity {
         for (int h = 0; h < BombermanGame.getBombList().size(); h++) {
             matrix[BombermanGame.getBombList().get(h).getY() / Sprite.SCALED_SIZE][
                     BombermanGame.getBombList().get(h).getX() / Sprite.SCALED_SIZE] = false;
+        }
+        for (int h = 0; h < BombermanGame.getBrickListExplode().size(); h++) {
+            matrix[BombermanGame.getBrickListExplode().get(h).getY() / Sprite.SCALED_SIZE][
+                    BombermanGame.getBrickListExplode().get(h).getX() / Sprite.SCALED_SIZE] = false;
         }
         for (int h = 0; h < BombermanGame.getBombListOfEnemy().size(); h++) {
             matrix[BombermanGame.getBombListOfEnemy().get(h).getY() / Sprite.SCALED_SIZE][

@@ -7,7 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomb extends Entity {
 
   protected double _timeToExplode = 70; //2 seconds
-  protected double _timeToRenderFlameSegment = 10; //2 seconds
+  protected double _timeToRenderFlameSegment = 2; //2 seconds
   public int _timeAfter = 5;
   protected Flame[] _flames;
   public  boolean _exploded = false;
