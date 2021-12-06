@@ -212,7 +212,7 @@ public class Balloom extends Entity {
                     speed = 0;
                     animate();
                     _timeToDisapear--;
-                    this.img = Sprite.movingSprite(Sprite.balloom_dead, Sprite.mob_dead1, Sprite.mob_dead2, _animate, 60).getFxImage();
+                    this.img = Sprite.MovingSprite(Sprite.balloom_dead, Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3,_animate, 60).getFxImage();
                 }
                 //else BombermanGame.getEntities().remove(this);
                 else BombermanGame.getEntitiesRemove().add(this);
