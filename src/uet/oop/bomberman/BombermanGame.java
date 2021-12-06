@@ -72,6 +72,9 @@ public class BombermanGame extends Application {
     private int maxFrameCount = 30;
     private long targetTime = 1000 / FPS;
 
+    private int time = 200;
+    private int scores = 0;
+    private int left = 2;
 
     private static final int BombSet = 1;
     public static int BombCount = BombSet;
@@ -142,7 +145,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //TODO: Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + Sprite.SCALED_SIZE * 2);
         gc = canvas.getGraphicsContext2D();
 
         //TODO: Tao root container
@@ -247,9 +250,9 @@ public class BombermanGame extends Application {
 
                 startTime = l;
 
-                if (entities.isEmpty()) {
+                if (stillObjects.isEmpty()) {
                     try {
-                        printStage(stage);
+                        printStage();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -302,7 +305,7 @@ public class BombermanGame extends Application {
                         for (int i = 0; i < portalObjects.size(); i++) {
                             if (portalObjects.get(i).getX() == bomberman.getX()
                                     && portalObjects.get(i).getX() == bomberman.getY()) {
-                                level = 2;
+                                level++;
                                 stateTh = 66;
                                 break;
                             }
@@ -314,6 +317,7 @@ public class BombermanGame extends Application {
                 } else if (stateTh >= 65 && stateTh <= 155) {
                     if (stateTh == 66) {
                         printStage = true;
+                        left--;
                     }
                     if (stateTh == 65) {
                         entities.remove(bomberman);
@@ -321,7 +325,11 @@ public class BombermanGame extends Application {
                     stateTh++;
                 } else {
                     try {
-                        playAgain();
+                        if (left >= 0) {
+                            playAgain();
+                        } else {
+                            printLose();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -346,6 +354,7 @@ public class BombermanGame extends Application {
                 totalTime += System.nanoTime() - startTime;
                 frameCount++;
                 if (frameCount == maxFrameCount) {
+                    time--;
                     averageFPS = 1000.0 / ((totalTime / frameCount) / 1000000);
                     frameCount = 0;
                     totalTime = 0;
@@ -367,6 +376,7 @@ public class BombermanGame extends Application {
             gc.setFill(Color.WHITE);
             gc.fillText("Stage " + level, canvas.getWidth() / 2 - 64, canvas.getHeight() / 2);
         } else {
+            time = 200;
             printStage = false;
             stateTh = 0;
             entities.clear();
@@ -386,7 +396,7 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void printStage(Stage stage) throws IOException {
+    public void printStage() throws IOException {
         // dang lam
         if (stateTh < 300) {
             gc.setFill(Color.BLACK);
@@ -399,6 +409,18 @@ public class BombermanGame extends Application {
             stateTh = 0;
             entities.add(bomberman);
             createMap();
+        }
+    }
+
+    public void printLose() throws IOException {
+        // dang lam
+        if (stateTh < 300) {
+            gc.setFill(Color.BLACK);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            Font font = new Font("Arial", 30);
+            gc.setFont(font);
+            gc.setFill(Color.WHITE);
+            gc.fillText("GAME OVER ", canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 3, canvas.getHeight() / 2);
         }
     }
 
@@ -564,13 +586,24 @@ public class BombermanGame extends Application {
             }
         }
         for (Entity g : EntitiesRemove) {
-            entities.remove(g);
+            if (entities.remove(g)) {
+                scores += 100;
+            }
         }
     }
 
     public void render() {
-
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        gc.setFill(Color.PALEGREEN);
+        gc.fillRect(0, 0, canvas.getWidth(), Sprite.SCALED_SIZE * 2);
+        Font font = new Font("Arial", 40);
+        gc.setFont(font);
+        gc.setFill(Color.BLACK);
+        gc.fillText("TIME: " + time, 16, 48);
+        gc.fillText("SCORES: " + scores, canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 3, 48);
+        gc.fillText("LEFT: " + left, canvas.getWidth() - Sprite.SCALED_SIZE * 5, 48);
+
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
         BombList.forEach(g -> g.render(gc));

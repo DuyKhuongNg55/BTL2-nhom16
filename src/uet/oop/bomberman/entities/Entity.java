@@ -34,7 +34,7 @@ public abstract class Entity {
     public abstract void kill();
 
     public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+        gc.drawImage(img, x, y + Sprite.SCALED_SIZE * 2);
     }
     public abstract void update();
 
