@@ -127,22 +127,22 @@ public class FlameSegment extends Entity {
                 break;
             case 2:
                 if(!_last) {
-                    _sprite = Sprite.explosion_vertical2;
+                    //_sprite = Sprite.explosion_vertical2;
                     _sprite = Sprite.movingSprite(Sprite.explosion_vertical2,Sprite.explosion_vertical1,Sprite.explosion_vertical,_animate,60);
                     this.img = _sprite.getFxImage();
                 } else {
-                    _sprite = Sprite.explosion_vertical_down_last2;
+                    //_sprite = Sprite.explosion_vertical_down_last2;
                     _sprite = Sprite.movingSprite(Sprite.explosion_vertical_down_last2,Sprite.explosion_vertical_down_last1,Sprite.explosion_vertical_down_last,_animate,60);
                     this.img = _sprite.getFxImage();
                 }
                 break;
             case 3:
                 if(!_last) {
-                    _sprite = Sprite.explosion_horizontal2;
+                   // _sprite = Sprite.explosion_horizontal2;
                     _sprite = Sprite.movingSprite(Sprite.explosion_horizontal2,Sprite.explosion_horizontal1,Sprite.explosion_horizontal,_animate,60);
                     this.img = _sprite.getFxImage();
                 } else {
-                    _sprite = Sprite.explosion_horizontal_left_last2;
+                    //_sprite = Sprite.explosion_horizontal_left_last2;
                     _sprite = Sprite.movingSprite(Sprite.explosion_horizontal_left_last2,Sprite.explosion_horizontal_left_last1,Sprite.explosion_horizontal_left_last,_animate,60);
                     this.img = _sprite.getFxImage();
                 }

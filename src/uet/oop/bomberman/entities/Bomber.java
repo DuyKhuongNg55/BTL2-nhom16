@@ -113,7 +113,7 @@ public class Bomber extends Entity {
   public void PlaceBomb() {
     if (BombermanGame.BombCount > 0) {
       BombermanGame.getBombList().add(
-          new Bomb(this.x / Sprite.SCALED_SIZE, this.y / Sprite.SCALED_SIZE,
+          new Bomb(this.getX() / Sprite.SCALED_SIZE, this.getY() / Sprite.SCALED_SIZE,
               Sprite.bomb.getFxImage(), BombermanGame.getBombRadius()));
       BombermanGame.BombCount--;
 
@@ -144,7 +144,7 @@ public class Bomber extends Entity {
       }
 
       for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
-        if((this.getX() + speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+        if((this.getX() + speed + 20) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
                 this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
           if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
         }
@@ -198,7 +198,7 @@ public class Bomber extends Entity {
       }
 
       for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
-        if((this.getX() - speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+        if((this.getX() - speed - 20) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
                 this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
           if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
         }
@@ -250,7 +250,7 @@ public class Bomber extends Entity {
 
       for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
         if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
-                (this.getY() - speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+                (this.getY() - speed-32) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
           if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
         }
       }
@@ -301,17 +301,17 @@ public class Bomber extends Entity {
 
       for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
         if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
-                (this.getY() + speed) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+                (this.getY() + speed+ 32) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
           if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
         }
       }
 
-      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
-        if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
-                this.getY() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
-          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
-        }
-      }
+//      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
+//        if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+//                this.getY() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+//          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+//        }
+//      }
 
       for (int i = indexX * 13 + indexY + 1; i < BombermanGame.getStillObjects().size(); i++) {
         if (BombermanGame.getStillObjects().get(i).getX() == indexX * Sprite.SCALED_SIZE

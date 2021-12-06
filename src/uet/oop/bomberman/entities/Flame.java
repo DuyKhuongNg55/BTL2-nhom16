@@ -98,7 +98,9 @@ public class Flame extends Entity{
                 case 2: y++; break;
                 case 3: x--; break;
             }
-
+            if(_direction == 0 || _direction == 2){
+                _flameSegments[i]= new FlameSegment(x,y, Sprite.explosion_vertical.getFxImage(), _direction,last);
+            }else
             _flameSegments[i]= new FlameSegment(x,y, Sprite.explosion_horizontal.getFxImage(), _direction,last);
         }
     }

@@ -11,10 +11,10 @@ import uet.oop.bomberman.entities.Oneal.HorizontalComparator;
 import uet.oop.bomberman.entities.Oneal.VerticalComparator;
 import uet.oop.bomberman.graphics.Sprite;
 
+//TODO: CON doll các bạn nhé.
 
-
-public class Balloom extends Entity {
-    //private boolean Twolife = false;
+public class EnemyWithTwoLife extends Entity {
+    private boolean Twolife = true;
     protected final int MAX_ANIMATE = 7500;
     protected int _animate = 0;
     protected boolean _destroyed = false;
@@ -37,14 +37,13 @@ public class Balloom extends Entity {
         return _timeToDisapear;
     }
 
-//
-//    public boolean isTwolife() {
-//        return Twolife;
-//    }
-//
-//    public void setTwolife(boolean twolife) {
-//        Twolife = twolife;
-//    }
+    public boolean isTwolife() {
+        return Twolife;
+    }
+
+    public void setTwolife(boolean twolife) {
+        Twolife = twolife;
+    }
     //private int speed = 0;
 
     private String preString = "";
@@ -57,8 +56,18 @@ public class Balloom extends Entity {
     private boolean notRight = false;
     private boolean notUp = false;
     private boolean notDown = false;
+    private  boolean IsExposeToflame = false;
 
-    public Balloom(int x, int y, Image img) {
+
+    public  boolean isIsExposeToflame() {
+        return IsExposeToflame;
+    }
+
+    public  void setIsExposeToflame(boolean isExposeToflame) {
+        IsExposeToflame = isExposeToflame;
+    }
+
+    public EnemyWithTwoLife(int x, int y, Image img) {
         super(x, y, img);
         //if ((x + y) % 2 == 0) Twolife = true;
     }
@@ -78,13 +87,11 @@ public class Balloom extends Entity {
 //  public void setREMOVEFIXPROTECTTED(boolean REMOVEFIXPROTECTTED) {
 //    //super.setREMOVEFIXPROTECTTED(REMOVEFIXPROTECTTED);
 //  }
-
     protected void animate() {
         if (_animate < MAX_ANIMATE) _animate++;
         else _animate = 0;
 
     }
-
     @Override
     public void update() {
         createVert();
@@ -190,7 +197,6 @@ public class Balloom extends Entity {
                     for (int j = 0; j < fl.length; j++) {
                         FlameSegment[] fls = fl[j].get_flameSegments();
                         for (int k = 0; k < fls.length; k++) {
-                            //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
                             if (fls[k].getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     this.getY() / Sprite.SCALED_SIZE) {
                                 ExposeToBom = true;
@@ -207,7 +213,6 @@ public class Balloom extends Entity {
                 _timeToDisapear--;
                 this.img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
             }
-            //else BombermanGame.getEntities().remove(this);
             else BombermanGame.getEntitiesRemove().add(this);
         }
     }
@@ -215,15 +220,16 @@ public class Balloom extends Entity {
     public boolean moveRight() {
         times++;
         if (times % 12 >= 0 && times % 12 <= 3) {
-            img = Sprite.balloom_right1.getFxImage();
+            img = Sprite.doll_right1.getFxImage();
         } else if (times % 12 >= 4 && times % 12 <= 7) {
-            img = Sprite.balloom_right2.getFxImage();
+            img = Sprite.doll_right2.getFxImage();
         } else {
-            img = Sprite.balloom_right3.getFxImage();
+            img = Sprite.doll_right3.getFxImage();
         }
         if (!matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE + 1]) {
             return false;
         }
+
         x += speed;
         return true;
     }
@@ -231,11 +237,11 @@ public class Balloom extends Entity {
     public boolean moveLeft() {
         times++;
         if (times % 12 >= 0 && times % 12 <= 3) {
-            img = Sprite.balloom_left1.getFxImage();
+            img = Sprite.doll_left1.getFxImage();
         } else if (times % 12 >= 4 && times % 12 <= 7) {
-            img = Sprite.balloom_left2.getFxImage();
+            img = Sprite.doll_left2.getFxImage();
         } else {
-            img = Sprite.balloom_left3.getFxImage();
+            img = Sprite.doll_left3.getFxImage();
         }
         if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE - 1]) {
             return false;
@@ -290,9 +296,9 @@ public class Balloom extends Entity {
                     BombermanGame.getBombListOfEnemy().get(h).getX() / Sprite.SCALED_SIZE] = false;
         }
         for (int i = 0; i < BombermanGame.getEntities().size(); i++) {
-            if (BombermanGame.getEntities().get(i) instanceof Oneal || BombermanGame.getEntities().get(i) instanceof EnemyWithTwoLife ||
-                    BombermanGame.getEntities().get(i) instanceof EnemyWithBomb ||
-                    (BombermanGame.getEntities().get(i) instanceof Balloom
+            if (BombermanGame.getEntities().get(i) instanceof Oneal ||BombermanGame.getEntities().get(i) instanceof Balloom||
+                    BombermanGame.getEntities().get(i) instanceof EnemyWithBomb||(
+                    BombermanGame.getEntities().get(i) instanceof EnemyWithTwoLife
                             && (BombermanGame.getEntities().get(i).getX() != x
                             || BombermanGame.getEntities().get(i).getY() != y))) {
                 matrix[BombermanGame.getEntities().get(i).getY() / Sprite.SCALED_SIZE][
@@ -334,6 +340,7 @@ public class Balloom extends Entity {
                         isBalloom = true;
                     }
                     if (isBalloom || timesTemp == 1 || timesTemp == 0 || (
+
                             timesTemp == 2 && !(matrix[j][i - 1] && matrix[j][i + 1]) && !(matrix[j - 1][i]
                                     && matrix[j + 1][i]))) {
                         String nameVert = i + " " + j;
