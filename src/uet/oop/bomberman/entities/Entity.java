@@ -33,6 +33,14 @@ public abstract class Entity {
 
     public abstract void kill();
 
+    public int get_direction() {
+        return _direction;
+    }
+
+    public void set_direction(int _direction) {
+        this._direction = _direction;
+    }
+
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }

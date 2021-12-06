@@ -119,7 +119,7 @@ public class Bomb extends Entity {
 //        System.out.println("Chay den day");
       }
     }
-    if(a == null || !(a instanceof Bomber)) _allowedToPassThru = false;
+    if(a == null || !(a instanceof Bomber) || !(a instanceof EnemyWithBomb)) _allowedToPassThru = false;
 
 
     if(_timeToExplode > 0)
