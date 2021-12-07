@@ -130,26 +130,26 @@ public class Bomb extends Entity {
                 && (this.getY() - bomberman.getY()
                 < 32 && this.getY() - bomberman.getY()
                 > 0)) {
-          _allowedToPassThru = false;
+          _allowedToPassThru = true;
         }
 
-        else if ((bomberman.getX() - this.getX() < 32 && bomberman.getX() - this.getX() > 0)
+        else if ((bomberman.getX() - this.getX() < 20  && bomberman.getX() - this.getX() > 0)
                 && ((bomberman.getY())
                 / Sprite.SCALED_SIZE) == this.getY() / Sprite.SCALED_SIZE) {
-          _allowedToPassThru = false;
+          _allowedToPassThru = true;
         }
 
         else if (((bomberman.getX()) / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE)
                 && (bomberman.getY()
                 - this.getY() < 32 && bomberman.getY()
                 - this.getY() > 0)) {
-          _allowedToPassThru = false;
+          _allowedToPassThru = true;
         }
 
        else if ((this.getX() - bomberman.getX() < 20 && this.getX() - bomberman.getX() > 0)
                 && ((bomberman.getY())
         ) == this.getY()) {
-          _allowedToPassThru = false;
+          _allowedToPassThru = true;
         }
     }
 
