@@ -60,7 +60,7 @@ public class BombermanGame extends Application {
 
   private Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage(), this);
   private KeyEvent preEvent = null;
-  private static int stateTh = 1;
+  private static int stateTh = 0;
   private boolean printStage = false;
   private boolean win = false;
   private int level = 1;
@@ -190,7 +190,13 @@ public class BombermanGame extends Application {
       @Override
       public void handle(KeyEvent event) {
         switch (event.getCode()) {
+          case ENTER:
+            if (stateTh == 0)
+              stateTh++;
           case UP:
+            if (stateTh == 0) {
+              return;
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -204,6 +210,9 @@ public class BombermanGame extends Application {
             }
             break;
           case DOWN:
+            if (stateTh == 0) {
+              return;
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -217,6 +226,9 @@ public class BombermanGame extends Application {
             }
             break;
           case LEFT:
+            if (stateTh == 0) {
+              return;
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -230,6 +242,9 @@ public class BombermanGame extends Application {
             }
             break;
           case RIGHT:
+            if (stateTh == 0) {
+              return;
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -243,6 +258,9 @@ public class BombermanGame extends Application {
             }
             break;
           case SPACE:
+            if (stateTh == 0) {
+              return;
+            }
             bomberman.PlaceBomb();
 //                        as[0] = m.plantBombSound();
 //                        ap.start(as[0]);
@@ -261,6 +279,14 @@ public class BombermanGame extends Application {
       public void handle(long l) {
 
         startTime = l;
+        if (stillObjects.isEmpty() && stateTh == 0 ) {
+          try {
+            menuGame();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          return;
+        }
 
         if (stillObjects.isEmpty()) {
           try {
@@ -626,6 +652,19 @@ public class BombermanGame extends Application {
       }
     }
   }
+  public  void menuGame() throws  IOException {
+    gc.setFill(Color.BLACK);
+    gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    Font font = new Font("Arial", 80);
+    gc.setFont(font);
+    gc.setFill(Color.YELLOW);
+    gc.fillText("BOMBER MAN", 220, 100);
+    Font font1 = new Font("Arial", 25);
+    gc.setFont(font1);
+    gc.fillText("Press Enter to start", canvas.getWidth() /2 - 110, canvas.getHeight() / 2);
+    gc.setFill(Color.WHITE);
+    gc.fillText("Made by team16", canvas.getWidth() / 2 - 100, canvas.getHeight() - 50);
+  }
 
   public void playAgain() throws IOException {
     if (stateTh < 300) {
@@ -670,6 +709,17 @@ public class BombermanGame extends Application {
       gc.setFont(font);
       gc.setFill(Color.WHITE);
       gc.fillText("Stage " + level, canvas.getWidth() / 2 - 64, canvas.getHeight() / 2);
+     /* gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      Font font = new Font("Arial", 80);
+      gc.setFont(font);
+      gc.setFill(Color.YELLOW);
+      gc.fillText("BOMBER MAN", 200, 100);
+      Font font1 = new Font("Arial", 25);
+      gc.setFont(font1);
+      gc.fillText("Press Enter to start", canvas.getWidth() / 2 - 130, canvas.getHeight() / 2);
+      gc.setFill(Color.WHITE);
+      gc.fillText("Made by team16", 0, canvas.getHeight()); */
     } else {
       stateTh = 0;
       entities.add(bomberman);
