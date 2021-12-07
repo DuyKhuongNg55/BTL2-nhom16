@@ -70,6 +70,7 @@ public class BombermanGame extends Application {
   private long URDTimeMillis;
   private long waitTime;
   private long totalTime = 0;
+  private long preNanoTime = 0;
 
   private int frameCount = 0;
   private int maxFrameCount = 30;
@@ -84,6 +85,8 @@ public class BombermanGame extends Application {
   public static int BombCountOfEnemy = BombSet;
   public static int BombRadius = 1;
 
+  private AudioStream asSoundTrack;
+  private AudioPlayer apSoundTrack;
 
   public static int getBombCountOfEnemy() {
     return BombCountOfEnemy;
@@ -189,8 +192,20 @@ public class BombermanGame extends Application {
     scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
+        Audio m = new Audio();
+        AudioStream as = null;
+        AudioPlayer ap = AudioPlayer.player;
+        as = m.footStepSound();
+        long miliTime = 0;
         switch (event.getCode()) {
           case UP:
+            if (preNanoTime != 0) {
+              miliTime = (System.nanoTime() - preNanoTime) / 1000000;
+            }
+            if (preNanoTime == 0 || miliTime > 300) {
+              preNanoTime = System.nanoTime();
+              ap.start(as);
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -204,6 +219,13 @@ public class BombermanGame extends Application {
             }
             break;
           case DOWN:
+            if (preNanoTime != 0) {
+              miliTime = (System.nanoTime() - preNanoTime) / 1000000;
+            }
+            if (preNanoTime == 0 || miliTime > 300) {
+              preNanoTime = System.nanoTime();
+              ap.start(as);
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -217,6 +239,13 @@ public class BombermanGame extends Application {
             }
             break;
           case LEFT:
+            if (preNanoTime != 0) {
+              miliTime = (System.nanoTime() - preNanoTime) / 1000000;
+            }
+            if (preNanoTime == 0 || miliTime > 300) {
+              preNanoTime = System.nanoTime();
+              ap.start(as);
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -230,6 +259,13 @@ public class BombermanGame extends Application {
             }
             break;
           case RIGHT:
+            if (preNanoTime != 0) {
+              miliTime = (System.nanoTime() - preNanoTime) / 1000000;
+            }
+            if (preNanoTime == 0 || miliTime > 300) {
+              preNanoTime = System.nanoTime();
+              ap.start(as);
+            }
             if (stateTh == 1) {
               if (preEvent != null) {
                 if (preEvent.getCode() != event.getCode()) {
@@ -389,6 +425,7 @@ public class BombermanGame extends Application {
             }
           }
         } else if (stateTh >= 2 && stateTh <= 22) {
+          apSoundTrack.stop(asSoundTrack);
           // Chuẩn hóa x của bomberman khi bomberman chết ở sát bên trái tường để không bị đè ảnh của bomberman lên tường
           if (bomberman.getY() % Sprite.SCALED_SIZE == 0
               && bomberman.getX() - bomberman.getX() / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE
@@ -410,6 +447,7 @@ public class BombermanGame extends Application {
           if (stateTh == 66) {
             printStage = true;
             if (win) {
+              apSoundTrack.stop(asSoundTrack);
               left++;
               win = false;
             } else {
@@ -749,6 +787,9 @@ public class BombermanGame extends Application {
           stillObjects.add(objectBrick);
         } else if (data.get(j).charAt(i) == '1') {
           object = new Balloom(i, j, Sprite.balloom_left1.getFxImage());
+//          if (i == 7 && j == 4) {
+//            object.setY(object.getY() + 4);
+//          }
           stillObjects.add(objectGrass);
           entities.add(object);
         } else if (data.get(j).charAt(i) == '2') {
@@ -768,6 +809,11 @@ public class BombermanGame extends Application {
         }
       }
     }
+    Audio m = new Audio();
+    asSoundTrack = null;
+    apSoundTrack = AudioPlayer.player;
+    asSoundTrack = m.soundTrack();
+    apSoundTrack.start(asSoundTrack);
   }
 
   public static List<Brick> getBrickListExplode() {
@@ -813,11 +859,19 @@ public class BombermanGame extends Application {
         }
         EnemyWithTwoLife bl = null;
         //TODO: AM THANH BOMB
-        Audio m = new Audio();
-        AudioStream as = null;
-        AudioPlayer ap = AudioPlayer.player;
-        as = m.explosionSound();
-        ap.start(as);
+        if (BombList.get(i).isStartAudioFirst()) {
+          Audio m = new Audio();
+          AudioStream as = null;
+          AudioPlayer ap = AudioPlayer.player;
+          as = m.explosionSound();
+          ap.start(as);
+          BombList.get(i).setStartAudioFirst(false);
+        }
+//        try {
+//          Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//          e.printStackTrace();
+//        }
         Flame[] fl = BombList.get(i).get_flames();
         for (int j = 0; j < fl.length; j++) {
           FlameSegment[] fls = fl[j].get_flameSegments();
