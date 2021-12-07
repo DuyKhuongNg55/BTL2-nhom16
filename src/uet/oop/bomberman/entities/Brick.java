@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends DestroyableEntity{
     protected boolean _destroyed = false;
-    protected int _timeToDisapear = 20;
+    protected int _timeToDisapear = 10;
     protected Sprite _belowSprite = Sprite.grass;
     public Brick(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);

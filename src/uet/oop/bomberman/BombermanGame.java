@@ -62,6 +62,7 @@ public class BombermanGame extends Application {
   private KeyEvent preEvent = null;
   private static int stateTh = 1;
   private boolean printStage = false;
+  private boolean win = false;
   private int level = 1;
   private int FPS = 30;
   private double averageFPS;
@@ -321,66 +322,60 @@ public class BombermanGame extends Application {
               Flame[] fl = BombListOfEnemy.get(i).get_flames();
               for (int j = 0; j < fl.length; j++) {
                 FlameSegment[] fls = fl[j].get_flameSegments();
-
                 for (int k = 0; k < fls.length; k++) {
+                  if (fls[k].getX() / Sprite.SCALED_SIZE
+                      == bomberman.getX() / Sprite.SCALED_SIZE
+                      && fls[k].getY() / Sprite.SCALED_SIZE
+                      == bomberman.getY() / Sprite.SCALED_SIZE) {
 
-                  for (int m = 0; m < BombermanGame.getEntities().size(); m++) {
-                    if (fls[k].getX() / Sprite.SCALED_SIZE == bomberman.getX() / Sprite.SCALED_SIZE
-                        && fls[k].getY() / Sprite.SCALED_SIZE
-                        == bomberman.getY() / Sprite.SCALED_SIZE) {
-
+                    bomberman.setImg(Sprite.player_dead1.getFxImage());
+                    stateTh++;
+                  }
+                  /**
+                   *
+                   * @param x
+                   * @param y
+                   * @param direction
+                   * @param last cho biết segment này là cuối cùng của Flame hay không,
+                   *                segment cuối có sprite khác so với các segment còn lại
+                   *             * @return hướng đi   lên/phải/xuống/trái    tương ứng với các giá trị 0/1/2/3
+                   */
+                  // dang xet
+                  if (fls[k].get_direction() == 0) {
+                    if (((bomberman.getX()) / Sprite.SCALED_SIZE
+                        == fls[k].getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
+                        - fls[k].getY() < Sprite.SCALED_SIZE && bomberman.getY()
+                        - fls[k].getY() > 0)) {
                       bomberman.setImg(Sprite.player_dead1.getFxImage());
                       stateTh++;
                     }
-                    /**
-                     *
-                     * @param x
-                     * @param y
-                     * @param direction
-                     * @param last cho biết segment này là cuối cùng của Flame hay không,
-                     *                segment cuối có sprite khác so với các segment còn lại
-                     *             * @return hướng đi   lên/phải/xuống/trái    tương ứng với các giá trị 0/1/2/3
-                     */
-
-                    if (fls[k].get_direction() == 0) {
-                      if (((bomberman.getX()) / Sprite.SCALED_SIZE
-                          == fls[k].getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
-                          - fls[k].getY() < Sprite.SCALED_SIZE && bomberman.getY()
-                          - fls[k].getY() > 0)) {
-                        bomberman.setImg(Sprite.player_dead1.getFxImage());
-                        stateTh++;
-                      }
-                    } else if (fls[k].get_direction() == 1) {
-                      if ((bomberman.getX() - fls[k].getX() < Sprite.SCALED_SIZE
-                          && bomberman.getX() - fls[k].getX() > 0) && ((bomberman.getY())
-                          / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
-                        bomberman.setImg(Sprite.player_dead1.getFxImage());
-                        stateTh++;
-                      }
-                    } else if (fls[k].get_direction() == 2) {
-                      if (((bomberman.getX()) / Sprite.SCALED_SIZE
-                          == fls[k].getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
-                          - fls[k].getY() < Sprite.SCALED_SIZE && bomberman.getY()
-                          - fls[k].getY() > 0)) {
-                        bomberman.setImg(Sprite.player_dead1.getFxImage());
-                        stateTh++;
-                      }
-                    } else if (fls[k].get_direction() == 3) {
-                      if ((bomberman.getX() - fls[k].getX() < Sprite.SCALED_SIZE
-                          && bomberman.getX() - fls[k].getX() > 0) && ((bomberman.getY())
-                          / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
-                        bomberman.setImg(Sprite.player_dead1.getFxImage());
-                        stateTh++;
-                      }
+                  } else if (fls[k].get_direction() == 1) {
+                    if ((bomberman.getX() - fls[k].getX() < Sprite.SCALED_SIZE
+                        && bomberman.getX() - fls[k].getX() > 0) && ((bomberman.getY())
+                        / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
+                      bomberman.setImg(Sprite.player_dead1.getFxImage());
+                      stateTh++;
                     }
-
-
+                  } else if (fls[k].get_direction() == 2) {
+                    if (((bomberman.getX()) / Sprite.SCALED_SIZE
+                        == fls[k].getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
+                        - fls[k].getY() < Sprite.SCALED_SIZE && bomberman.getY()
+                        - fls[k].getY() > 0)) {
+                      bomberman.setImg(Sprite.player_dead1.getFxImage());
+                      stateTh++;
+                    }
+                  } else if (fls[k].get_direction() == 3) {
+                    if ((bomberman.getX() - fls[k].getX() < Sprite.SCALED_SIZE &&
+                        bomberman.getX() - fls[k].getX() > 0) && ((bomberman.getY())
+                        / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
+                      bomberman.setImg(Sprite.player_dead1.getFxImage());
+                      stateTh++;
+                    }
                   }
                 }
               }
             }
           }
-
           if (entities.size() == 1) {
             for (int i = 0; i < portalObjects.size(); i++) {
               if (bomberman.getX() - portalObjects.get(i).getX() >= 0
@@ -388,6 +383,7 @@ public class BombermanGame extends Application {
                   && portalObjects.get(i).getY() == bomberman.getY()) {
                 level++;
                 left++;
+                win = true;
                 stateTh = 66;
                 break;
               }
@@ -406,7 +402,11 @@ public class BombermanGame extends Application {
         } else if (stateTh >= 65 && stateTh <= 155) {
           if (stateTh == 66) {
             printStage = true;
-            left--;
+            if (win) {
+              win = false;
+            } else {
+              left--;
+            }
           }
           if (stateTh == 65) {
             entities.remove(bomberman);
@@ -436,7 +436,8 @@ public class BombermanGame extends Application {
           if (waitTime > 0) {
             Thread.sleep(waitTime);
           }
-        } catch (InterruptedException e) {
+        } catch (
+            InterruptedException e) {
           e.printStackTrace();
         }
 
@@ -460,6 +461,171 @@ public class BombermanGame extends Application {
     timer.start();
   }
 
+  public void update() {
+    for (int i = 0; i < FlamePowers.size(); i++) {
+      if (((bomberman.getX()) / Sprite.SCALED_SIZE
+          == FlamePowers.get(i).getX() / Sprite.SCALED_SIZE) && (
+          FlamePowers.get(i).getY() - bomberman.getY()
+              < 32 && FlamePowers.get(i).getY() - bomberman.getY()
+              > 0)) {
+        BombRadius++;
+        for (int j = 0; j < BombList.size(); j++) {
+          BombList.get(j).setBombRadius(BombRadius);
+        }
+        BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+        FlamePowers.remove(FlamePowers.get(i));
+        scores += 1000;
+      } else if ((bomberman.getX() - FlamePowers.get(i).getX() < 32
+          && bomberman.getX() - FlamePowers.get(i).getX() > 0) && ((bomberman.getY())
+          / Sprite.SCALED_SIZE) == FlamePowers.get(i).getY() / Sprite.SCALED_SIZE) {
+
+        for (int j = 0; j < BombList.size(); j++) {
+          BombList.get(j).setBombRadius(BombRadius);
+        }
+        BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+        FlamePowers.remove(FlamePowers.get(i));
+        scores += 1000;
+      } else if (((bomberman.getX()) / Sprite.SCALED_SIZE
+          == FlamePowers.get(i).getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
+          - FlamePowers.get(i).getY() < 32 && bomberman.getY()
+          - FlamePowers.get(i).getY() > 0)) {
+        BombRadius++;
+        for (int j = 0; j < BombList.size(); j++) {
+          BombList.get(j).setBombRadius(BombRadius);
+        }
+        BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+        FlamePowers.remove(FlamePowers.get(i));
+        scores += 1000;
+      } else if ((FlamePowers.get(i).getX() - bomberman.getX() < 20
+          && FlamePowers.get(i).getX() - bomberman.getX() > 0) && ((bomberman.getY())
+      ) == FlamePowers.get(i).getY()) {
+        BombRadius++;
+        for (int j = 0; j < BombList.size(); j++) {
+          BombList.get(j).setBombRadius(BombRadius);
+        }
+        BombermanGame.getStillObjects().remove(FlamePowers.get(i));
+        FlamePowers.remove(FlamePowers.get(i));
+        scores += 1000;
+      }
+    }
+
+    for (int i = 0; i < SpeedPower.size(); i++) {
+
+      if (((bomberman.getX()) / Sprite.SCALED_SIZE == SpeedPower.get(i).getX() / Sprite.SCALED_SIZE)
+          && (SpeedPower.get(i).getY() - bomberman.getY()
+          < 32 && SpeedPower.get(i).getY() - bomberman.getY()
+          > 0)) {
+        bomberman.setSpeed(bomberman.getSpeed() + 4);
+        BombermanGame.getStillObjects().remove(SpeedPower.get(i));
+        SpeedPower.remove(SpeedPower.get(i));
+        scores += 1000;
+      } else if ((bomberman.getX() - SpeedPower.get(i).getX() < 32
+          && bomberman.getX() - SpeedPower.get(i).getX() > 0) && ((bomberman.getY())
+          / Sprite.SCALED_SIZE) == SpeedPower.get(i).getY() / Sprite.SCALED_SIZE) {
+        bomberman.setSpeed(bomberman.getSpeed() + 4);
+        BombermanGame.getStillObjects().remove(SpeedPower.get(i));
+        SpeedPower.remove(SpeedPower.get(i));
+        scores += 1000;
+      } else if (
+          ((bomberman.getX()) / Sprite.SCALED_SIZE == SpeedPower.get(i).getX() / Sprite.SCALED_SIZE)
+              && (bomberman.getY()
+              - SpeedPower.get(i).getY() < 32 && bomberman.getY()
+              - SpeedPower.get(i).getY() > 0)) {
+        bomberman.setSpeed(bomberman.getSpeed() + 4);
+        BombermanGame.getStillObjects().remove(SpeedPower.get(i));
+        SpeedPower.remove(SpeedPower.get(i));
+        scores += 1000;
+      } else if ((SpeedPower.get(i).getX() - bomberman.getX() < 20
+          && SpeedPower.get(i).getX() - bomberman.getX() > 0) && ((bomberman.getY())
+      ) == SpeedPower.get(i).getY()) {
+        bomberman.setSpeed(bomberman.getSpeed() + 4);
+        BombermanGame.getStillObjects().remove(SpeedPower.get(i));
+        SpeedPower.remove(SpeedPower.get(i));
+        scores += 1000;
+      }
+    }
+
+    for (int i = 0; i < BombPower.size(); i++) {
+      if (((bomberman.getX()) / Sprite.SCALED_SIZE == BombPower.get(i).getX() / Sprite.SCALED_SIZE)
+          && (BombPower.get(i).getY() - bomberman.getY()
+          < 32 && BombPower.get(i).getY() - bomberman.getY()
+          > 0)) {
+        BombCount = BombCount + 1;
+        BombermanGame.getStillObjects().remove(BombPower.get(i));
+        BombPower.remove(BombPower.get(i));
+        scores += 1000;
+      } else if ((bomberman.getX() - BombPower.get(i).getX() < 32
+          && bomberman.getX() - BombPower.get(i).getX() > 0) && ((bomberman.getY())
+          / Sprite.SCALED_SIZE) == BombPower.get(i).getY() / Sprite.SCALED_SIZE) {
+        BombCount = BombCount + 1;
+        BombermanGame.getStillObjects().remove(BombPower.get(i));
+        BombPower.remove(BombPower.get(i));
+        scores += 1000;
+      } else if (
+          ((bomberman.getX()) / Sprite.SCALED_SIZE == BombPower.get(i).getX() / Sprite.SCALED_SIZE)
+              && (bomberman.getY()
+              - BombPower.get(i).getY() < 32 && bomberman.getY()
+              - BombPower.get(i).getY() > 0)) {
+        BombCount = BombCount + 1;
+        BombermanGame.getStillObjects().remove(BombPower.get(i));
+        BombPower.remove(BombPower.get(i));
+        scores += 1000;
+      } else if ((BombPower.get(i).getX() - bomberman.getX() < 20
+          && BombPower.get(i).getX() - bomberman.getX() > 0) && ((bomberman.getY())
+      ) == BombPower.get(i).getY()) {
+        BombCount = BombCount + 1;
+        BombermanGame.getStillObjects().remove(BombPower.get(i));
+        BombPower.remove(BombPower.get(i));
+        scores += 1000;
+      }
+    }
+
+    for (int i = 0; i < BombList.size(); i++) {
+      if (BombList.get(i).is_exploded()) {
+        Flame[] fl = BombList.get(i).get_flames();
+        for (int z = 0; z < fl.length; z++) {
+          fl[z].update();
+        }
+      }
+    }
+
+    for (int i = 0; i < BombListOfEnemy.size(); i++) {
+      if (BombListOfEnemy.get(i).is_exploded()) {
+        Flame[] fl = BombListOfEnemy.get(i).get_flames();
+        for (int z = 0; z < fl.length; z++) {
+          fl[z].update();
+        }
+      }
+    }
+
+    entities.forEach(Entity::update);
+    BombList.forEach(Entity::update);
+    BombListOfEnemy.forEach(Entity::update);
+    for (int i = 0; i < BrickListExplode.size(); i++) {
+      BrickListExplode.get(i).update();
+      if (BrickListExplode.get(i).get_timeToDisapear() == 0) {
+        BrickListExplode.remove(BrickListExplode.get(i));
+      }
+    }
+    for (int i = 0; i < BrickListExplode.size(); i++) {
+      if (BrickListExplode.get(i).isRemoved() == true) {
+        BrickListExplode.remove(BrickListExplode.get(i));
+      }
+    }
+    for (Entity g : EntitiesRemove) {
+      if (entities.remove(g)) {
+        if (g instanceof Balloom) {
+          scores += 100;
+        } else if (g instanceof EnemyWithTwoLife) {
+          scores += 200;
+        } else if (g instanceof EnemyWithBomb) {
+          scores += 300;
+        } else if (g instanceof Oneal) {
+          scores += 400;
+        }
+      }
+    }
+  }
 
   public void playAgain() throws IOException {
     if (stateTh < 300) {
@@ -596,92 +762,12 @@ public class BombermanGame extends Application {
     }
   }
 
-  public void update() {
-    for (int i = 0; i < FlamePowers.size(); i++) {
-      if (bomberman.getX() / Sprite.SCALED_SIZE == FlamePowers.get(i).getX() / Sprite.SCALED_SIZE
-          && bomberman.getY() / Sprite.SCALED_SIZE
-          == FlamePowers.get(i).getY() / Sprite.SCALED_SIZE) {
-        BombRadius++;
-        for (int j = 0; j < BombList.size(); j++) {
-          //
-//          Flame[] fl = BombList.get(i).get_flames();
-//          for(int k = 0 ; k < fl.length;k++) {
-//            fl[k].set_radius(fl[k].get_radius() + 1);
-//          }
-          BombList.get(j).setBombRadius(BombRadius);
-        }
-        BombermanGame.getStillObjects().remove(FlamePowers.get(i));
-        FlamePowers.remove(FlamePowers.get(i));
-        scores += 1000;
-      }
-    }
+  public static List<Brick> getBrickListExplode() {
+    return BrickListExplode;
+  }
 
-    for (int i = 0; i < SpeedPower.size(); i++) {
-      if (bomberman.getX() / Sprite.SCALED_SIZE == SpeedPower.get(i).getX() / Sprite.SCALED_SIZE
-          && bomberman.getY() / Sprite.SCALED_SIZE
-          == SpeedPower.get(i).getY() / Sprite.SCALED_SIZE) {
-        bomberman.setSpeed(bomberman.getSpeed() + 4);
-        BombermanGame.getStillObjects().remove(SpeedPower.get(i));
-        SpeedPower.remove(SpeedPower.get(i));
-      }
-    }
-
-    for (int i = 0; i < BombPower.size(); i++) {
-      if (bomberman.getX() / Sprite.SCALED_SIZE == BombPower.get(i).getX() / Sprite.SCALED_SIZE
-          && bomberman.getY() / Sprite.SCALED_SIZE
-          == BombPower.get(i).getY() / Sprite.SCALED_SIZE) {
-        BombCount = BombCount + 1;
-        BombermanGame.getStillObjects().remove(BombPower.get(i));
-        BombPower.remove(BombPower.get(i));
-      }
-    }
-
-    for (int i = 0; i < BombList.size(); i++) {
-      if (BombList.get(i).is_exploded()) {
-        Flame[] fl = BombList.get(i).get_flames();
-        for (int z = 0; z < fl.length; z++) {
-          fl[z].update();
-        }
-      }
-    }
-
-    for (int i = 0; i < BombListOfEnemy.size(); i++) {
-      if (BombListOfEnemy.get(i).is_exploded()) {
-        Flame[] fl = BombListOfEnemy.get(i).get_flames();
-        for (int z = 0; z < fl.length; z++) {
-          fl[z].update();
-        }
-      }
-    }
-
-    entities.forEach(Entity::update);
-    BombList.forEach(Entity::update);
-    BombListOfEnemy.forEach(Entity::update);
-    for (int i = 0; i < BrickListExplode.size(); i++) {
-      BrickListExplode.get(i).update();
-      if (BrickListExplode.get(i).get_timeToDisapear() == 0) {
-        BrickListExplode.remove(BrickListExplode.get(i));
-      }
-    }
-    for (int i = 0; i < BrickListExplode.size(); i++) {
-      if (BrickListExplode.get(i).isRemoved() == true) {
-        BrickListExplode.remove(BrickListExplode.get(i));
-      }
-    }
-    for (Entity g : EntitiesRemove) {
-      if (entities.remove(g)) {
-        if (g instanceof Balloom) {
-          scores += 100;
-        } else if (g instanceof EnemyWithTwoLife) {
-          scores += 200;
-        } else if (g instanceof EnemyWithBomb) {
-          scores += 300;
-        } else if (g instanceof Oneal) {
-          scores += 400;
-        }
-      }
-    }
-
+  public static void setBrickListExplode(List<Brick> brickListExplode) {
+    BrickListExplode = brickListExplode;
   }
 
   public void render() {
@@ -719,11 +805,11 @@ public class BombermanGame extends Application {
         }
         EnemyWithTwoLife bl = null;
         //TODO: AM THANH BOMB
-                Audio m = new Audio();
-                AudioStream as = null;
-                AudioPlayer ap = AudioPlayer.player;
-                as = m.explosionSound();
-                ap.start(as);
+//                Audio m = new Audio();
+//                AudioStream as = null;
+//                AudioPlayer ap = AudioPlayer.player;
+//                as = m.explosionSound();
+//                ap.start(as);
         Flame[] fl = BombList.get(i).get_flames();
         for (int j = 0; j < fl.length; j++) {
           FlameSegment[] fls = fl[j].get_flameSegments();
@@ -731,65 +817,20 @@ public class BombermanGame extends Application {
             fls[k].set_animate(BombList.get(i).get_animate());
             fls[k].render(gc);
 
-//
-//                        if(fls[k].get_direction() == 0 ){
-//                            if(((bomberman.getX()) / Sprite.SCALED_SIZE == fls[k].getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
-//                                   -fls[k].getY() < Sprite.SCALED_SIZE)){
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
-//                            }
-//                        }
-//
-//                        if(fls[k].get_direction() == 1 ){
-//                            if((bomberman.getX()  - fls[k].getX() < Sprite.SCALED_SIZE) && ((bomberman.getY() )
-//                                    / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE){
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
-//                            }
-//                        }
-//
-//
-//                        if(fls[k].get_direction() == 2 ){
-//                            if(((bomberman.getX()) / Sprite.SCALED_SIZE == fls[k].getX() / Sprite.SCALED_SIZE) && (bomberman.getY()
-//                                   -  fls[k].getY() < Sprite.SCALED_SIZE)){
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
-//                            }
-//                        }
-//
-//
-//                        if(fls[k].get_direction() == 3 ){
-//                            if((bomberman.getX() - fls[k].getX() < Sprite.SCALED_SIZE) && ((bomberman.getY())
-//                                    / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE){
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
-//                            }
-//                        }
             /**
-             *
-             * @param x
-             * @param y
-             * @param direction
-             * @param last cho biết segment này là cuối cùng của Flame hay không,
-             *                segment cuối có sprite khác so với các segment còn lại
              *             * @return hướng đi   lên/phải/xuống/trái    tương ứng với các giá trị 0/1/2/3
              */
-
             if (fls[k].get_direction() == 0) {
               if (((bomberman.getX()) / Sprite.SCALED_SIZE == fls[k].getX() / Sprite.SCALED_SIZE)
                   && (fls[k].getY() - bomberman.getY()
                   < 32 && fls[k].getY() - bomberman.getY()
                   > 0)) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                 stateTh++;
               }
             } else if (fls[k].get_direction() == 1) {
               if ((bomberman.getX() - fls[k].getX() < 32 && bomberman.getX() - fls[k].getX() > 0)
                   && ((bomberman.getY())
                   / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                 stateTh++;
               }
             } else if (fls[k].get_direction() == 2) {
@@ -797,16 +838,12 @@ public class BombermanGame extends Application {
                   && (bomberman.getY()
                   - fls[k].getY() < 32 && bomberman.getY()
                   - fls[k].getY() > 0)) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                 stateTh++;
               }
             } else if (fls[k].get_direction() == 3) {
               if ((fls[k].getX() - bomberman.getX() < 20 && fls[k].getX() - bomberman.getX() > 0)
                   && ((bomberman.getY())
               ) == fls[k].getY()) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                 stateTh++;
               }
             }
@@ -817,6 +854,16 @@ public class BombermanGame extends Application {
                   BombListOfEnemy.get(t).getY() / Sprite.SCALED_SIZE
                       == fls[k].getY() / Sprite.SCALED_SIZE) {
                 BombListOfEnemy.get(t).set_timeToExplode(0);
+              }
+            }
+            for (int e = i; e < BombList.size(); e++) {
+              if (e < BombList.size()) {
+                if (BombList.get(e).getX() / Sprite.SCALED_SIZE
+                    == fls[k].getX() / Sprite.SCALED_SIZE &&
+                    BombList.get(e).getY() / Sprite.SCALED_SIZE
+                        == fls[k].getY() / Sprite.SCALED_SIZE) {
+                  BombList.get(e).set_timeToExplode(0);
+                }
               }
             }
             for (int l = 0; l < BombermanGame.getEntities().size(); l++) {
@@ -831,13 +878,6 @@ public class BombermanGame extends Application {
 
                 if (this.getEntities().get(l) instanceof EnemyWithTwoLife) {
                   bl = (EnemyWithTwoLife) this.getEntities().get(l);
-//                                    if (bl.isTwolife()) {
-//                                        if (BombList.get(i).get_timeToRenderFlameSegment() == 0) {
-//                                            System.out.println("chay den day");
-//                                            this.getEntities().remove(bl);
-//                                            bl.setTwolife(false);
-//                                            entities.add(bl);
-//                                        }
                   bl.setIsExposeToflame(true);
                   if (!bl.isTwolife()) {
                     bl.kill();
@@ -907,7 +947,7 @@ public class BombermanGame extends Application {
         for (int j = 0; j < fl.length; j++) {
 
           FlameSegment[] fls = fl[j].get_flameSegments();
-
+          fl[j].set_radius(1);
           for (int k = 0; k < fls.length; k++) {
 
             fls[k].set_animate(BombListOfEnemy.get(i).get_animate());
@@ -921,32 +961,17 @@ public class BombermanGame extends Application {
               }
             }
             for (int l = 0; l < BombermanGame.getEntities().size(); l++) {
-
-//                            if (fls[k].getX() / Sprite.SCALED_SIZE == this.getEntities().get(l).getX() / Sprite.SCALED_SIZE
-//                                    && fls[k].getY() / Sprite.SCALED_SIZE == this.getEntities().get(l).getY() / Sprite.SCALED_SIZE) {
-//
-//                                //TODO: Xét enemy 2 mạng, xong tạm thời nhớ để ý khi muốn giết con nào thì phải dùng hàm  kill
-//
-//                                if (this.getEntities().get(l) instanceof Bomber) {
-//                                    bomberman.setExposedToBomb(true);
-//                                    if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
-//                                }
-//                            }
               if (fls[k].get_direction() == 0) {
                 if (((bomberman.getX()) / Sprite.SCALED_SIZE == fls[k].getX() / Sprite.SCALED_SIZE)
                     && (fls[k].getY() - bomberman.getY()
                     < 32 && fls[k].getY() - bomberman.getY()
                     > 0)) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                   stateTh++;
                 }
               } else if (fls[k].get_direction() == 1) {
                 if ((bomberman.getX() - fls[k].getX() < 32 && bomberman.getX() - fls[k].getX() > 0)
                     && ((bomberman.getY())
                     / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                   stateTh++;
                 }
               } else if (fls[k].get_direction() == 2) {
@@ -954,16 +979,12 @@ public class BombermanGame extends Application {
                     && (bomberman.getY()
                     - fls[k].getY() < 32 && bomberman.getY()
                     - fls[k].getY() > 0)) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                   stateTh++;
                 }
               } else if (fls[k].get_direction() == 3) {
                 if ((fls[k].getX() - bomberman.getX() < 20 && fls[k].getX() - bomberman.getX() > 0)
                     && ((bomberman.getY())
                 ) == fls[k].getY()) {
-//                                bomberman.setExposedToBomb(true);
-//                                if (bomberman.isRemoved()) this.getEntities().remove(bomberman);
                   stateTh++;
                 }
               }
@@ -985,11 +1006,7 @@ public class BombermanGame extends Application {
             }
           }
         }
-//                if(BombCountOfEnemy < 1) {
-//                    BombCountOfEnemy++;
-//                }
         if (BombListOfEnemy.get(i).get_timeToRenderFlameSegment() == 0) {
-          // ENB.getMatrix()[BombListOfEnemy.get(i).getY() / Sprite.SCALED_SIZE][BombListOfEnemy.get(i).getX() / Sprite.SCALED_SIZE] = true;
           BombListOfEnemy.remove(BombListOfEnemy.get(i));
         }
       }

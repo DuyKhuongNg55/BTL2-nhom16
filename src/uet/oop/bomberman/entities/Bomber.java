@@ -267,7 +267,7 @@ public class Bomber extends Entity {
         indexX++;
       }
 
-      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
+      for(int i = 0 ; i < BombermanGame.getBombList().size();i++) {
         if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
             (this.getY() - speed-20) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
           if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;

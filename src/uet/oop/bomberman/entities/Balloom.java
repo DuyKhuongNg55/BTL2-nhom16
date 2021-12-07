@@ -19,6 +19,7 @@ public class Balloom extends Entity {
     protected int _animate = 0;
     protected boolean _destroyed = false;
     private int _timeToDisapear = 20;
+    private int TimeToRenderDeath = 10;
 
     public boolean is_destroyed() {
         return _destroyed;
@@ -87,6 +88,12 @@ public class Balloom extends Entity {
 
     @Override
     public void update() {
+        if(!_alive){
+            this.img = Sprite.balloom_dead.getFxImage();
+            if(TimeToRenderDeath > 0 ){
+                TimeToRenderDeath--;
+            }
+        }
         createVert();
         String curString = preString;
         for (int i = 0; i < vertList.size(); i++) {
@@ -200,15 +207,16 @@ public class Balloom extends Entity {
                 }
             }
         }
-        if (ExposeToBom) {
-            if (_timeToDisapear != 0) {
-                speed = 0;
-                animate();
-                _timeToDisapear--;
-                this.img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, _animate, 60).getFxImage();
-            }
-            //else BombermanGame.getEntities().remove(this);
-            else BombermanGame.getEntitiesRemove().add(this);
+            if (ExposeToBom) {
+                if (_timeToDisapear != 0) {
+                    speed = 0;
+                    animate();
+                    _timeToDisapear--;
+                    this.img = Sprite.MovingSprite(Sprite.balloom_dead, Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3,_animate, 60).getFxImage();
+                }
+                //else BombermanGame.getEntities().remove(this);
+                else BombermanGame.getEntitiesRemove().add(this);
+
         }
     }
 
@@ -284,6 +292,10 @@ public class Balloom extends Entity {
         for (int h = 0; h < BombermanGame.getBombList().size(); h++) {
             matrix[BombermanGame.getBombList().get(h).getY() / Sprite.SCALED_SIZE][
                     BombermanGame.getBombList().get(h).getX() / Sprite.SCALED_SIZE] = false;
+        }
+        for (int h = 0; h < BombermanGame.getBrickListExplode().size(); h++) {
+            matrix[BombermanGame.getBrickListExplode().get(h).getY() / Sprite.SCALED_SIZE][
+                    BombermanGame.getBrickListExplode().get(h).getX() / Sprite.SCALED_SIZE] = false;
         }
         for (int h = 0; h < BombermanGame.getBombListOfEnemy().size(); h++) {
             matrix[BombermanGame.getBombListOfEnemy().get(h).getY() / Sprite.SCALED_SIZE][
