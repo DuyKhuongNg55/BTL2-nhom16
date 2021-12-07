@@ -234,25 +234,18 @@ public class EnemyWithBomb extends Entity {
         }
     }
 
-    public boolean moveRight() {
+public boolean moveRight() {
         times++;
         if (times % 12 >= 0 && times % 12 <= 3) {
-            img = Sprite.minvo_right1.getFxImage();
+            img = Sprite.doll_right1.getFxImage();
         } else if (times % 12 >= 4 && times % 12 <= 7) {
-            img = Sprite.minvo_right2.getFxImage();
+            img = Sprite.doll_right2.getFxImage();
         } else {
-            img = Sprite.minvo_right3.getFxImage();
+            img = Sprite.doll_right3.getFxImage();
         }
         if (!matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE + 1]) {
             return false;
         }
-
-//        for(int i = 0 ; i < BombermanGame.getBombListOfEnemy().size();i++){
-//            if((this.getX() + speed ) / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getX() / Sprite.SCALED_SIZE &&
-//                    this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getY() / Sprite.SCALED_SIZE){
-//                if(!BombermanGame.getBombListOfEnemy().get(i)._allowedToPassThru) return false;
-//            }
-//        }
 
         x += speed;
         for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
@@ -264,7 +257,7 @@ public class EnemyWithBomb extends Entity {
                     for (int k = 0; k < fls.length; k++) {
                         //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
                         if(fls[k].get_direction() == 1 ) {
-                            if ((this.getX() - fls[k].getX()) < 16 * 2 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if ((this.getX() - fls[k].getX()) < 14 * 2 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
                                 this.kill();
                                 this.ExposeToBom = true;
@@ -280,11 +273,11 @@ public class EnemyWithBomb extends Entity {
     public boolean moveLeft() {
         times++;
         if (times % 12 >= 0 && times % 12 <= 3) {
-            img = Sprite.minvo_left1.getFxImage();
+            img = Sprite.doll_left1.getFxImage();
         } else if (times % 12 >= 4 && times % 12 <= 7) {
-            img = Sprite.minvo_left2.getFxImage();
+            img = Sprite.doll_left2.getFxImage();
         } else {
-            img = Sprite.minvo_left3.getFxImage();
+            img = Sprite.doll_left3.getFxImage();
         }
         if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE - 1]) {
             return false;
@@ -293,12 +286,6 @@ public class EnemyWithBomb extends Entity {
 
             return false;
         }
-//        for(int i = 0 ; i < BombermanGame.getBombListOfEnemy().size();i++){
-//            if((this.getX() + speed ) / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getX() / Sprite.SCALED_SIZE &&
-//                    this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getY() / Sprite.SCALED_SIZE){
-//                if(!BombermanGame.getBombListOfEnemy().get(i)._allowedToPassThru) return false;
-//            }
-//        }
         x -= speed;
         for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
             if (BombermanGame.getBombList().get(i).is_exploded()) {
@@ -308,7 +295,7 @@ public class EnemyWithBomb extends Entity {
                     for (int k = 0; k < fls.length; k++) {
                         //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
                         if (fls[k].get_direction() == 3) {
-                            if ((fls[k].getX() - this.getX()) < 16 * 2 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if ((fls[k].getX() - this.getX()) < 14 * 2 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
                                 this.kill();
                                 this.ExposeToBom = true;
@@ -331,12 +318,6 @@ public class EnemyWithBomb extends Entity {
 
             return false;
         }
-//        for(int i = 0 ; i < BombermanGame.getBombListOfEnemy().size();i++){
-//            if((this.getX() + speed ) / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getX() / Sprite.SCALED_SIZE &&
-//                    this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getY() / Sprite.SCALED_SIZE){
-//                if(!BombermanGame.getBombListOfEnemy().get(i)._allowedToPassThru) return false;
-//            }
-//        }
         y -= speed;
         for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
             if (BombermanGame.getBombList().get(i).is_exploded()) {
@@ -364,12 +345,6 @@ public class EnemyWithBomb extends Entity {
             return false;
         }
         y += speed;
-//        for(int i = 0 ; i < BombermanGame.getBombListOfEnemy().size();i++){
-//            if((this.getX() + speed ) / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getX() / Sprite.SCALED_SIZE &&
-//                    this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombListOfEnemy().get(i).getY() / Sprite.SCALED_SIZE){
-//                if(!BombermanGame.getBombListOfEnemy().get(i)._allowedToPassThru) return false;
-//            }
-//        }
         for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
             if (BombermanGame.getBombList().get(i).is_exploded()) {
                 Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
