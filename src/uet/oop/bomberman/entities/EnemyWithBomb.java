@@ -74,7 +74,7 @@ public class EnemyWithBomb extends Entity {
     }
 
 
-    private int speed = 0;
+    private int speed = 2;
 
     public int get_timeToDisapear() {
         return _timeToDisapear;

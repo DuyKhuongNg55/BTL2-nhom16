@@ -112,11 +112,25 @@ public class Bomber extends Entity {
 
   public void PlaceBomb() {
     if (BombermanGame.BombCount > 0) {
+      int xBombUnit = 0;
+      int yBombUnit = 0;
+      if (y % Sprite.SCALED_SIZE == 0 && x - x / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE - 10 && x - x / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE >= 0) {
+        xBombUnit = x / Sprite.SCALED_SIZE;
+        yBombUnit = y / Sprite.SCALED_SIZE;
+      } else if (y % Sprite.SCALED_SIZE == 0 && x - x / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE > Sprite.SCALED_SIZE - 10 && x - x / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE < Sprite.SCALED_SIZE) {
+        xBombUnit = x / Sprite.SCALED_SIZE + 1;
+        yBombUnit = y / Sprite.SCALED_SIZE;
+      } else if (y - y / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 2 && y - y / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE >= 0) {
+        xBombUnit = x / Sprite.SCALED_SIZE;
+        yBombUnit = y / Sprite.SCALED_SIZE;
+      } else if (y - y / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE > Sprite.SCALED_SIZE / 2 && y - y / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE < Sprite.SCALED_SIZE) {
+        xBombUnit = x / Sprite.SCALED_SIZE;
+        yBombUnit = y / Sprite.SCALED_SIZE + 1;
+      }
       BombermanGame.getBombList().add(
-          new Bomb(this.getX() / Sprite.SCALED_SIZE, this.getY() / Sprite.SCALED_SIZE,
+          new Bomb(xBombUnit, yBombUnit,
               Sprite.bomb.getFxImage(), BombermanGame.getBombRadius()));
       BombermanGame.BombCount--;
-
     }
   }
 
@@ -143,14 +157,16 @@ public class Bomber extends Entity {
         }
       }
 
-      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
-        if((this.getX() + speed + 20) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
-                this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
-          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+      for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+        if ((this.getX() + speed + 20) / Sprite.SCALED_SIZE
+            == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+            this.getY() / Sprite.SCALED_SIZE
+                == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE) {
+          if (!BombermanGame.getBombList().get(i)._allowedToPassThru) {
+            return;
+          }
         }
       }
-
-
 
       for (int i = (indexX + 1) * 13 + indexY; i < BombermanGame.getStillObjects().size(); i++) {
         if (BombermanGame.getStillObjects().get(i).getX()
@@ -197,13 +213,16 @@ public class Bomber extends Entity {
         }
       }
 
-      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
-        if((this.getX() - speed - 20) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
-                this.getY()  / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
-          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+      for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+        if ((this.getX() - speed - 20) / Sprite.SCALED_SIZE
+            == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+            this.getY() / Sprite.SCALED_SIZE
+                == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE) {
+          if (!BombermanGame.getBombList().get(i)._allowedToPassThru) {
+            return;
+          }
         }
       }
-
 
       for (int i = (indexX - 1) * 13 + indexY; i < BombermanGame.getStillObjects().size(); i++) {
         if (BombermanGame.getStillObjects().get(i).getX() == (indexX - 1) * Sprite.SCALED_SIZE
@@ -250,7 +269,7 @@ public class Bomber extends Entity {
 
       for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
         if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
-                (this.getY() - speed-32) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
+            (this.getY() - speed-20) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
           if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
         }
       }
@@ -299,10 +318,14 @@ public class Bomber extends Entity {
         indexX++;
       }
 
-      for(int i = 0 ; i < BombermanGame.getBombList().size();i++){
-        if(this.getX() / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
-                (this.getY() + speed+ 32) / Sprite.SCALED_SIZE == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE){
-          if(!BombermanGame.getBombList().get(i)._allowedToPassThru) return;
+      for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+        if (this.getX() / Sprite.SCALED_SIZE
+            == BombermanGame.getBombList().get(i).getX() / Sprite.SCALED_SIZE &&
+            (this.getY() + speed + 32) / Sprite.SCALED_SIZE
+                == BombermanGame.getBombList().get(i).getY() / Sprite.SCALED_SIZE) {
+          if (!BombermanGame.getBombList().get(i)._allowedToPassThru) {
+            return;
+          }
         }
       }
 

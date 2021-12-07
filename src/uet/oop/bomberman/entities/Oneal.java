@@ -11,7 +11,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Oneal extends Entity {
 
 
-  private int speed = 0;
+  private int speed = 2;
 
   private String preString = "";
   private int xTarget = 0;

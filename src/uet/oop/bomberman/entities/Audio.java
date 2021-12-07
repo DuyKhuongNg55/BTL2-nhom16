@@ -129,7 +129,7 @@ public class Audio {
     public AudioStream explosionSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("res/BTL/explosion.wav");
+            InputStream sound = new FileInputStream("res/amThanh/explosion.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());

@@ -12,7 +12,7 @@ public class Bomb extends Entity {
   protected Flame[] _flames;
   public  boolean _exploded = false;
   protected boolean _allowedToPassThru = true;
-  protected int BombRadius ;
+  protected int BombRadius;
   protected int _animate = 0;
   protected final int MAX_ANIMATE = 1000;
 
