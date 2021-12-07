@@ -260,7 +260,7 @@ public class Sprite {
     if (calc < diff * 2) {
       return x1;
     }
-    if (calc < diff * 3) {
+    if (calc < diff * 4) {
       return x2;
     }
     return x3;

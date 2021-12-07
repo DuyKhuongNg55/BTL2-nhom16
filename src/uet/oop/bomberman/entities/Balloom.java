@@ -18,7 +18,7 @@ public class Balloom extends Entity {
     protected final int MAX_ANIMATE = 7500;
     protected int _animate = 0;
     protected boolean _destroyed = false;
-    private int _timeToDisapear = 20;
+    private int _timeToDisapear = 30;
     private int TimeToRenderDeath = 10;
     private int speed = 2;
 
@@ -231,6 +231,21 @@ public class Balloom extends Entity {
             return false;
         }
         x += speed;
+        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+            if (BombermanGame.getBombList().get(i).is_exploded()) {
+                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                for (int j = 0; j < fl.length; j++) {
+                    FlameSegment[] fls = fl[j].get_flameSegments();
+                    for (int k = 0; k < fls.length; k++) {
+                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                        if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()+15*2) / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                (this.getY())/ Sprite.SCALED_SIZE) {
+                            this.kill();
+                        }
+                    }
+                }
+            }
+        }
         return true;
     }
 
@@ -251,6 +266,21 @@ public class Balloom extends Entity {
             return false;
         }
         x -= speed;
+        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+            if (BombermanGame.getBombList().get(i).is_exploded()) {
+                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                for (int j = 0; j < fl.length; j++) {
+                    FlameSegment[] fls = fl[j].get_flameSegments();
+                    for (int k = 0; k < fls.length; k++) {
+                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                        if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX() -15*2) / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                (this.getY()) / Sprite.SCALED_SIZE) {
+                            this.kill();
+                        }
+                    }
+                }
+            }
+        }
         return true;
     }
 
@@ -265,6 +295,21 @@ public class Balloom extends Entity {
             return false;
         }
         y -= speed;
+        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+            if (BombermanGame.getBombList().get(i).is_exploded()) {
+                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                for (int j = 0; j < fl.length; j++) {
+                    FlameSegment[] fls = fl[j].get_flameSegments();
+                    for (int k = 0; k < fls.length; k++) {
+                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                        if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                (this.getY()-14*2) / Sprite.SCALED_SIZE) {
+                            this.kill();
+                        }
+                    }
+                }
+            }
+        }
         return true;
     }
 
@@ -273,6 +318,21 @@ public class Balloom extends Entity {
             return false;
         }
         y += speed;
+        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+            if (BombermanGame.getBombList().get(i).is_exploded()) {
+                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                for (int j = 0; j < fl.length; j++) {
+                    FlameSegment[] fls = fl[j].get_flameSegments();
+                    for (int k = 0; k < fls.length; k++) {
+                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                        if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                (this.getY()+14*2) / Sprite.SCALED_SIZE) {
+                            this.kill();
+                        }
+                    }
+                }
+            }
+        }
         return true;
     }
 

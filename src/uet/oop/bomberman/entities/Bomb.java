@@ -112,14 +112,46 @@ public class Bomb extends Entity {
   @Override
   public void update() {
     Entity a = null;
-    for (int i = 0 ; i < BombermanGame.getEntities().size();i++){
+    Bomber bomberman = null;
+    for (int i = 0 ; i < BombermanGame.getEntities().size(); i++){
       if(BombermanGame.getEntities().get(i).getX()/ Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE &&
               BombermanGame.getEntities().get(i).getY()/ Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
         a = BombermanGame.getEntities().get(i);
-//        System.out.println("Chay den day");
       }
+      if(BombermanGame.getEntities().get(i) instanceof Bomber) bomberman = (Bomber) BombermanGame.getEntities().get(i);
     }
     if(a == null || !(a instanceof Bomber) || !(a instanceof EnemyWithBomb)) _allowedToPassThru = false;
+
+
+
+    if(bomberman!= null) {
+
+        if (((bomberman.getX()) / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE)
+                && (this.getY() - bomberman.getY()
+                < 32 && this.getY() - bomberman.getY()
+                > 0)) {
+          _allowedToPassThru = false;
+        }
+
+        else if ((bomberman.getX() - this.getX() < 32 && bomberman.getX() - this.getX() > 0)
+                && ((bomberman.getY())
+                / Sprite.SCALED_SIZE) == this.getY() / Sprite.SCALED_SIZE) {
+          _allowedToPassThru = false;
+        }
+
+        else if (((bomberman.getX()) / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE)
+                && (bomberman.getY()
+                - this.getY() < 32 && bomberman.getY()
+                - this.getY() > 0)) {
+          _allowedToPassThru = false;
+        }
+
+       else if ((this.getX() - bomberman.getX() < 20 && this.getX() - bomberman.getX() > 0)
+                && ((bomberman.getY())
+        ) == this.getY()) {
+          _allowedToPassThru = false;
+        }
+    }
 
 
     if(_timeToExplode > 0)
@@ -127,8 +159,6 @@ public class Bomb extends Entity {
     else {
       if(!_exploded)
         explode();
-//			else
-//				updateFlames();
 
       if(_timeAfter > 0)
         _timeAfter--;
