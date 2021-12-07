@@ -881,7 +881,6 @@ public class BombermanGame extends Application {
                   bl.setIsExposeToflame(true);
                   if (!bl.isTwolife()) {
                     bl.kill();
-
                   }
                 }
                 if (this.getEntities().get(l) instanceof Bomber) {
