@@ -20,6 +20,7 @@ public class Balloom extends Entity {
     protected boolean _destroyed = false;
     private int _timeToDisapear = 20;
     private int TimeToRenderDeath = 10;
+    private int speed = 2;
 
     public boolean is_destroyed() {
         return _destroyed;
@@ -30,9 +31,6 @@ public class Balloom extends Entity {
     public void set_destroyed(boolean _destroyed) {
         this._destroyed = _destroyed;
     }
-
-
-    private int speed = 2;
 
     public int get_timeToDisapear() {
         return _timeToDisapear;

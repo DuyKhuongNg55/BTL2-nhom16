@@ -382,7 +382,6 @@ public class BombermanGame extends Application {
                   && bomberman.getX() - portalObjects.get(i).getX() <= Sprite.SCALED_SIZE - 20
                   && portalObjects.get(i).getY() == bomberman.getY()) {
                 level++;
-                left++;
                 win = true;
                 stateTh = 66;
                 break;
@@ -390,12 +389,20 @@ public class BombermanGame extends Application {
             }
           }
         } else if (stateTh >= 2 && stateTh <= 22) {
+          // Chuẩn hóa x của bomberman khi bomberman chết ở sát bên trái tường để không bị đè ảnh của bomberman lên tường
           if (bomberman.getY() % Sprite.SCALED_SIZE == 0
               && bomberman.getX() - bomberman.getX() / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE
               <= Sprite.SCALED_SIZE - 10
               && bomberman.getX() - bomberman.getX() / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE
               >= 0) {
-            bomberman.setX(bomberman.getX() / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE);
+            int indexX = bomberman.getX() / Sprite.SCALED_SIZE;
+            int indexY = bomberman.getY() / Sprite.SCALED_SIZE;
+            for (int i = 0; i < BrickListExplode.size(); i++) {
+              if (BrickListExplode.get(i).getX() == (indexX + 1) * Sprite.SCALED_SIZE
+                  && BrickListExplode.get(i).getY() == indexY * Sprite.SCALED_SIZE) {
+                bomberman.setX(bomberman.getX() / Sprite.SCALED_SIZE * Sprite.SCALED_SIZE);
+              }
+            }
           }
           bomberman.setImg(Sprite.player_dead1.getFxImage());
           stateTh++;
@@ -403,6 +410,7 @@ public class BombermanGame extends Application {
           if (stateTh == 66) {
             printStage = true;
             if (win) {
+              left++;
               win = false;
             } else {
               left--;
@@ -805,11 +813,11 @@ public class BombermanGame extends Application {
         }
         EnemyWithTwoLife bl = null;
         //TODO: AM THANH BOMB
-//                Audio m = new Audio();
-//                AudioStream as = null;
-//                AudioPlayer ap = AudioPlayer.player;
-//                as = m.explosionSound();
-//                ap.start(as);
+        Audio m = new Audio();
+        AudioStream as = null;
+        AudioPlayer ap = AudioPlayer.player;
+        as = m.explosionSound();
+        ap.start(as);
         Flame[] fl = BombList.get(i).get_flames();
         for (int j = 0; j < fl.length; j++) {
           FlameSegment[] fls = fl[j].get_flameSegments();
