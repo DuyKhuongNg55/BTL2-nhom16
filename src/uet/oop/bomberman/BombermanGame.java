@@ -202,6 +202,7 @@ public class BombermanGame extends Application {
             if (stateTh == 0) {
               stateTh++;
             }
+            break;
           case UP:
             if (stateTh == 0) {
               return;
