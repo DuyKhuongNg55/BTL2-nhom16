@@ -164,4 +164,80 @@ public class Audio {
      as = m.enemiesDeadSound();
      ap.start(as);
      */
+    public AudioStream lifeLostSound() {
+        AudioStream BGM = null;
+        try {
+            InputStream sound = new FileInputStream("res/amThanh/lifelostsound.wav");
+            BGM = new AudioStream(sound);
+        } catch (FileNotFoundException e) {
+            System.out.print(e.toString());
+        } catch (IOException error) {
+            System.out.print(error.toString());
+        }
+        return BGM;
+    }
+    /**
+     Audio m = new Audio();
+     AudioStream as = null;
+     AudioPlayer ap = AudioPlayer.player;
+     as = m.lifeLostSound();
+     ap.start(as);
+     */
+    public AudioStream menuSound() {
+        AudioStream BGM = null;
+        try {
+            InputStream sound = new FileInputStream("res/amThanh/menusound.wav");
+            BGM = new AudioStream(sound);
+        } catch (FileNotFoundException e) {
+            System.out.print(e.toString());
+        } catch (IOException error) {
+            System.out.print(error.toString());
+        }
+        return BGM;
+    }
+    /**
+     Audio m = new Audio();
+     AudioStream as = null;
+     AudioPlayer ap = AudioPlayer.player;
+     as = m.menuSound();
+     ap.start(as);
+     */
+    public AudioStream stageStartSound() {
+        AudioStream BGM = null;
+        try {
+            InputStream sound = new FileInputStream("res/amThanh/stagestartsound.wav");
+            BGM = new AudioStream(sound);
+        } catch (FileNotFoundException e) {
+            System.out.print(e.toString());
+        } catch (IOException error) {
+            System.out.print(error.toString());
+        }
+        return BGM;
+    }
+    /**
+     Audio m = new Audio();
+     AudioStream as = null;
+     AudioPlayer ap = AudioPlayer.player;
+     as = m.stageStartSound();
+     ap.start(as);
+     */
+    public AudioStream deadSound() {
+        AudioStream BGM = null;
+        try {
+            InputStream sound = new FileInputStream("res/amThanh/deadsound.wav");
+            BGM = new AudioStream(sound);
+        } catch (FileNotFoundException e) {
+            System.out.print(e.toString());
+        } catch (IOException error) {
+            System.out.print(error.toString());
+        }
+        return BGM;
+    }
+    /**
+     Audio m = new Audio();
+     AudioStream as = null;
+     AudioPlayer ap = AudioPlayer.player;
+     as = m.deadSound();
+     ap.start(as);
+     */
 }

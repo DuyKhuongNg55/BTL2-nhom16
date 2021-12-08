@@ -131,6 +131,11 @@ public class Bomber extends Entity {
           new Bomb(xBombUnit, yBombUnit,
               Sprite.bomb.getFxImage(), BombermanGame.getBombRadius()));
       BombermanGame.BombCount--;
+      Audio m = new Audio();
+      AudioStream as = null;
+      AudioPlayer ap = AudioPlayer.player;
+      as = m.plantBombSound();
+      ap.start(as);
     }
   }
 
