@@ -848,9 +848,9 @@ public class BombermanGame extends Application {
           stillObjects.add(objectBrick);
         } else if (data.get(j).charAt(i) == '1') {
           object = new Balloom(i, j, Sprite.balloom_left1.getFxImage());
-//          if (i == 7 && j == 4) {
-//            object.setY(object.getY() + 4);
-//          }
+          if (i == 7 && j == 4) {
+            object.setY(object.getY() + 4);
+          }
           stillObjects.add(objectGrass);
           entities.add(object);
         } else if (data.get(j).charAt(i) == '2') {

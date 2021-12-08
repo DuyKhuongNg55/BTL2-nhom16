@@ -20,7 +20,7 @@ public class Balloom extends Entity {
     protected boolean _destroyed = false;
     private int _timeToDisapear = 30;
     private int TimeToRenderDeath = 10;
-    private int speed = 2;
+    private int speed = 0;
 
     public boolean is_destroyed() {
         return _destroyed;
