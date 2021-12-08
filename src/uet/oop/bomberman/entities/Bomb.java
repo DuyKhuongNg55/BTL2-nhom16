@@ -15,6 +15,7 @@ public class Bomb extends Entity {
   protected int BombRadius;
   protected int _animate = 0;
   protected final int MAX_ANIMATE = 1000;
+  private boolean startAudioFirst = true;
 
 
   protected void animate() {
@@ -56,6 +57,14 @@ public class Bomb extends Entity {
 
   public void set_exploded(boolean _exploded) {
     this._exploded = _exploded;
+  }
+
+  public boolean isStartAudioFirst() {
+    return startAudioFirst;
+  }
+
+  public void setStartAudioFirst(boolean startAudioFirst) {
+    this.startAudioFirst = startAudioFirst;
   }
 
   public boolean is_allowedToPassThru() {
@@ -124,6 +133,7 @@ public class Bomb extends Entity {
 
 
 
+
     if(bomberman!= null) {
 
         if (((bomberman.getX()) / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE)
@@ -152,6 +162,7 @@ public class Bomb extends Entity {
           _allowedToPassThru = true;
         }
     }
+
 
 
     if(_timeToExplode > 0)
