@@ -18,7 +18,7 @@ public class Balloom extends Entity {
     protected final int MAX_ANIMATE = 7500;
     protected int _animate = 0;
     protected boolean _destroyed = false;
-    private int _timeToDisapear = 30;
+    private int _timeToDisapear = 50;
     private int TimeToRenderDeath = 10;
 
     public boolean is_destroyed() {
@@ -32,7 +32,7 @@ public class Balloom extends Entity {
     }
 
 
-    private int speed = 1;
+    private int speed = 2;
 
     public int get_timeToDisapear() {
         return _timeToDisapear;
@@ -242,12 +242,33 @@ public class Balloom extends Entity {
                         for (int k = 0; k < fls.length; k++) {
                             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
                             if(fls[k].get_direction() == 1 ) {
-                            if ((this.getX() - fls[k].getX()) < 15 * 2 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if ((this.getX() - fls[k].getX()) <= 15 * 2 && (this.getX() - fls[k].getX()) > 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
                                 this.kill();
                                 this.ExposeToBom = true;
                             }
                         }
+                            if(fls[k].get_direction() == 0 ) {
+                                if ((this.getX() - fls[k].getX()) <= 15 * 2 && (this.getX() - fls[k].getX()) > 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                        (this.getY()) / Sprite.SCALED_SIZE) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if(fls[k].get_direction() == 2 ) {
+                                if ((this.getX() - fls[k].getX()) <= 15 * 2 && (this.getX() - fls[k].getX()) > 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                        (this.getY()) / Sprite.SCALED_SIZE) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if(fls[k].get_direction() == 3 ) {
+                                if ((this.getX() - fls[k].getX()) <= 15 * 2 && (this.getX() - fls[k].getX()) > 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                        (this.getY()) / Sprite.SCALED_SIZE) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
                     }
                 }
             }
@@ -280,7 +301,28 @@ public class Balloom extends Entity {
                         for (int k = 0; k < fls.length; k++) {
                             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
                             if (fls[k].get_direction() == 3) {
-                                if ((fls[k].getX() - this.getX()) < 15 * 2 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                if ((fls[k].getX() - this.getX()) <= 15 * 2 && (fls[k].getX() - this.getX()) >0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                        (this.getY()) / Sprite.SCALED_SIZE) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if (fls[k].get_direction() == 2) {
+                                if ((fls[k].getX() - this.getX()) <= 15 * 2 && (fls[k].getX() - this.getX()) >0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                        (this.getY()) / Sprite.SCALED_SIZE) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if (fls[k].get_direction() == 1) {
+                                if ((fls[k].getX() - this.getX()) <= 15 * 2 && (fls[k].getX() - this.getX()) >0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                                        (this.getY()) / Sprite.SCALED_SIZE) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if (fls[k].get_direction() == 0) {
+                                if ((fls[k].getX() - this.getX()) <= 15 * 2 && (fls[k].getX() - this.getX()) >0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                         (this.getY()) / Sprite.SCALED_SIZE) {
                                     this.kill();
                                     this.ExposeToBom = true;
@@ -313,11 +355,29 @@ public class Balloom extends Entity {
                         for (int k = 0; k < fls.length; k++) {
                             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
                             if(fls[k].get_direction() == 0) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) < 14 * 2) {
+                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2 && -(this.getY() - fls[k].getY())>= 0) {
                                 this.kill();
                                 this.ExposeToBom = true;
                             }
                         }
+                            if(fls[k].get_direction() == 1 ) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2 && -(this.getY() - fls[k].getY())>= 0) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if(fls[k].get_direction() == 2 ) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2 && -(this.getY() - fls[k].getY())>= 0) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if(fls[k].get_direction() == 3 ) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2 && -(this.getY() - fls[k].getY())>= 0) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
                     }
                 }
             }
@@ -340,11 +400,36 @@ public class Balloom extends Entity {
                             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
                             if(fls[k].get_direction() == 2) {
                             if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
-                                    < 14 * 2) {
+                                    <= 14 * 2 && (this.getY()) - fls[k].getY()
+                                    > 0) {
                                 this.kill();
                                 this.ExposeToBom = true;
                             }
                         }
+                            if(fls[k].get_direction() == 1) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+                                        <= 14 * 2 && (this.getY()) - fls[k].getY()
+                                        > 0) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if(fls[k].get_direction() == 0) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+                                        <= 14 * 2 && (this.getY()) - fls[k].getY()
+                                        > 0) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
+                            if(fls[k].get_direction() == 3) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+                                        <= 14 * 2 && (this.getY()) - fls[k].getY()
+                                        > 0) {
+                                    this.kill();
+                                    this.ExposeToBom = true;
+                                }
+                            }
                     }
                 }
             }
