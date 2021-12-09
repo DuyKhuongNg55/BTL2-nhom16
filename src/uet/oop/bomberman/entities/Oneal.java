@@ -62,7 +62,7 @@ public class Oneal extends Entity {
       if(TimeToRenderDeath > 0 ){
         TimeToRenderDeath--;
       }
-      System.out.println("chay den con onel");
+//      System.out.println("chay den con onel");
     }
     createVert();
     createEdge();

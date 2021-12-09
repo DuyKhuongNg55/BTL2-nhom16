@@ -107,10 +107,10 @@ public class Audio {
      as = m.plantBombSound();
      ap.start(as);
      */
-    public AudioStream footStepSound() {
+    public AudioStream footStepLRSound() {
         AudioStream BGM = null;
         try {
-            InputStream sound = new FileInputStream("res/amThanh/footstep.wav");
+            InputStream sound = new FileInputStream("res/amThanh/footstepLR.wav");
             BGM = new AudioStream(sound);
         } catch (FileNotFoundException e) {
             System.out.print(e.toString());
@@ -123,7 +123,26 @@ public class Audio {
      Audio m = new Audio();
      AudioStream as = null;
      AudioPlayer ap = AudioPlayer.player;
-     as = m.footStepSound();
+     as = m.footStepLRSound();
+     ap.start(as);
+     */
+    public AudioStream footStepUDSound() {
+        AudioStream BGM = null;
+        try {
+            InputStream sound = new FileInputStream("res/amThanh/footstepUD.wav");
+            BGM = new AudioStream(sound);
+        } catch (FileNotFoundException e) {
+            System.out.print(e.toString());
+        } catch (IOException error) {
+            System.out.print(error.toString());
+        }
+        return BGM;
+    }
+    /**
+     Audio m = new Audio();
+     AudioStream as = null;
+     AudioPlayer ap = AudioPlayer.player;
+     as = m.footStepUDSound();
      ap.start(as);
      */
     public AudioStream explosionSound() {
@@ -238,6 +257,25 @@ public class Audio {
      AudioStream as = null;
      AudioPlayer ap = AudioPlayer.player;
      as = m.deadSound();
+     ap.start(as);
+     */
+    public AudioStream endingSound() {
+        AudioStream BGM = null;
+        try {
+            InputStream sound = new FileInputStream("res/amThanh/endingsound.wav");
+            BGM = new AudioStream(sound);
+        } catch (FileNotFoundException e) {
+            System.out.print(e.toString());
+        } catch (IOException error) {
+            System.out.print(error.toString());
+        }
+        return BGM;
+    }
+    /**
+     Audio m = new Audio();
+     AudioStream as = null;
+     AudioPlayer ap = AudioPlayer.player;
+     as = m.endingSound();
      ap.start(as);
      */
 }

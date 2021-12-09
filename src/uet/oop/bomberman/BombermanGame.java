@@ -41,6 +41,7 @@ public class BombermanGame extends Application {
   private int CountForCreateEnemy = 0;
   private GraphicsContext gc;
   private Canvas canvas;
+  private AnimationTimer timer;
 
 
   private static List<Entity> entities = new ArrayList<>();
@@ -64,7 +65,7 @@ public class BombermanGame extends Application {
   private boolean printStage = false;
   private boolean win = false;
   private boolean startAudioFirst = true;
-  private int level = 1;
+  private int level = 4;
   private int FPS = 30;
   private double averageFPS;
   private long startTime;
@@ -90,6 +91,10 @@ public class BombermanGame extends Application {
   private AudioPlayer apSoundTrack;
   private AudioStream asMenuSound;
   private AudioPlayer apMenuSound;
+  private AudioStream asEndingSound;
+  private AudioPlayer apEndingSound;
+  private AudioStream asLoseSound;
+  private AudioPlayer apLoseSound;
 
   public static int getBombCountOfEnemy() {
     return BombCountOfEnemy;
@@ -198,7 +203,6 @@ public class BombermanGame extends Application {
         Audio m = new Audio();
         AudioStream as = null;
         AudioPlayer ap = AudioPlayer.player;
-        as = m.footStepSound();
         long miliTime = 0;
         switch (event.getCode()) {
           case ENTER:
@@ -206,6 +210,38 @@ public class BombermanGame extends Application {
               stateTh++;
               apMenuSound.stop(asMenuSound);
               startAudioFirst = true;
+            } else if (level == 5) {
+              stateTh = 124;
+              level = 1;
+              left = 2;
+              scores = 0;
+              apEndingSound.stop(asEndingSound);
+              for (Bomb b : BombList) {
+                if (!b.isStartAudioFirst()) {
+                  b.getAp().stop(b.getAs());
+                }
+              }
+              for (Bomb b : BombListOfEnemy) {
+                if (!b.isStartAudioFirst()) {
+                  b.getAp().stop(b.getAs());
+                }
+              }
+            } else if (left == -1) {
+              stateTh = 124;
+              level = 1;
+              left = 2;
+              scores = 0;
+              apLoseSound.stop(asLoseSound);
+              for (Bomb b : BombList) {
+                if (!b.isStartAudioFirst()) {
+                  b.getAp().stop(b.getAs());
+                }
+              }
+              for (Bomb b : BombListOfEnemy) {
+                if (!b.isStartAudioFirst()) {
+                  b.getAp().stop(b.getAs());
+                }
+              }
             }
             break;
           case UP:
@@ -217,6 +253,7 @@ public class BombermanGame extends Application {
             }
             if (preNanoTime == 0 || miliTime > 300) {
               preNanoTime = System.nanoTime();
+              as = m.footStepUDSound();
               ap.start(as);
             }
             if (stateTh == 1) {
@@ -240,6 +277,7 @@ public class BombermanGame extends Application {
             }
             if (preNanoTime == 0 || miliTime > 300) {
               preNanoTime = System.nanoTime();
+              as = m.footStepUDSound();
               ap.start(as);
             }
             if (stateTh == 1) {
@@ -263,6 +301,7 @@ public class BombermanGame extends Application {
             }
             if (preNanoTime == 0 || miliTime > 300) {
               preNanoTime = System.nanoTime();
+              as = m.footStepLRSound();
               ap.start(as);
             }
             if (stateTh == 1) {
@@ -286,6 +325,7 @@ public class BombermanGame extends Application {
             }
             if (preNanoTime == 0 || miliTime > 300) {
               preNanoTime = System.nanoTime();
+              as = m.footStepLRSound();
               ap.start(as);
             }
             if (stateTh == 1) {
@@ -296,7 +336,6 @@ public class BombermanGame extends Application {
               }
               preEvent = event;
               bomberman.moveRight();
-
 //                            ap.start(finalAs1);
             }
             break;
@@ -304,7 +343,9 @@ public class BombermanGame extends Application {
             if (stateTh == 0) {
               return;
             }
-            bomberman.PlaceBomb();
+            if (!stillObjects.isEmpty()) {
+              bomberman.PlaceBomb();
+            }
 //                        as[0] = m.plantBombSound();
 //                        ap.start(as[0]);
             break;
@@ -317,7 +358,7 @@ public class BombermanGame extends Application {
     stage.setScene(scene);
     stage.show();
 
-    AnimationTimer timer = new AnimationTimer() {
+    timer = new AnimationTimer() {
       @Override
       public void handle(long l) {
 
@@ -371,7 +412,7 @@ public class BombermanGame extends Application {
                 && entities.get(i).getY() > bomberman.getY() - Sprite.SCALED_SIZE
                 && entities.get(i).getY() < bomberman.getY() + Sprite.SCALED_SIZE) {
               bomberman.setImg(Sprite.player_dead1.getFxImage());
-              stateTh++;
+              stateTh = 2;
             }
           }
 
@@ -394,7 +435,7 @@ public class BombermanGame extends Application {
                             && fls[k].getY() / Sprite.SCALED_SIZE
                             == bomberman.getY() / Sprite.SCALED_SIZE)) {
                       bomberman.setImg(Sprite.player_dead1.getFxImage());
-                      stateTh++;
+                      stateTh = 2;
                     }
                   }
                 }
@@ -414,7 +455,7 @@ public class BombermanGame extends Application {
                       == bomberman.getY() / Sprite.SCALED_SIZE) {
 
                     bomberman.setImg(Sprite.player_dead1.getFxImage());
-                    stateTh++;
+                    stateTh = 2;
                   }
                   /**
                    *
@@ -432,14 +473,14 @@ public class BombermanGame extends Application {
                         - fls[k].getY() < Sprite.SCALED_SIZE && bomberman.getY()
                         - fls[k].getY() > 0)) {
                       bomberman.setImg(Sprite.player_dead1.getFxImage());
-                      stateTh++;
+                      stateTh = 2;
                     }
                   } else if (fls[k].get_direction() == 1) {
                     if ((bomberman.getX() - fls[k].getX() < Sprite.SCALED_SIZE
                         && bomberman.getX() - fls[k].getX() > 0) && ((bomberman.getY())
                         / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
                       bomberman.setImg(Sprite.player_dead1.getFxImage());
-                      stateTh++;
+                      stateTh = 2;
                     }
                   } else if (fls[k].get_direction() == 2) {
                     if (((bomberman.getX()) / Sprite.SCALED_SIZE
@@ -447,14 +488,14 @@ public class BombermanGame extends Application {
                         - fls[k].getY() < Sprite.SCALED_SIZE && bomberman.getY()
                         - fls[k].getY() > 0)) {
                       bomberman.setImg(Sprite.player_dead1.getFxImage());
-                      stateTh++;
+                      stateTh = 2;
                     }
                   } else if (fls[k].get_direction() == 3) {
                     if ((bomberman.getX() - fls[k].getX() < Sprite.SCALED_SIZE &&
                         bomberman.getX() - fls[k].getX() > 0) && ((bomberman.getY())
                         / Sprite.SCALED_SIZE) == fls[k].getY() / Sprite.SCALED_SIZE) {
                       bomberman.setImg(Sprite.player_dead1.getFxImage());
-                      stateTh++;
+                      stateTh = 2;
                     }
                   }
                 }
@@ -539,21 +580,32 @@ public class BombermanGame extends Application {
         } else {
           try {
             if (left >= 0) {
-              if (stateTh == 124) {
-                Audio m = new Audio();
-                AudioStream as = null;
-                AudioPlayer ap = AudioPlayer.player;
-                as = m.stageStartSound();
-                ap.start(as);
+              if (level == 5) {
+                if (stateTh == 124) {
+                  Audio m = new Audio();
+                  asEndingSound = null;
+                  apEndingSound = AudioPlayer.player;
+                  asEndingSound = m.endingSound();
+                  apEndingSound.start(asEndingSound);
+                }
+                printWin();
+              } else {
+                if (stateTh == 124) {
+                  Audio m = new Audio();
+                  AudioStream as = null;
+                  AudioPlayer ap = AudioPlayer.player;
+                  as = m.stageStartSound();
+                  ap.start(as);
+                }
+                playAgain();
               }
-              playAgain();
             } else {
               if (stateTh == 124) {
                 Audio m = new Audio();
-                AudioStream as = null;
-                AudioPlayer ap = AudioPlayer.player;
-                as = m.loseSound();
-                ap.start(as);
+                asLoseSound = null;
+                apLoseSound = AudioPlayer.player;
+                asLoseSound = m.loseSound();
+                apLoseSound.start(asLoseSound);
               }
               printLose();
             }
@@ -597,6 +649,21 @@ public class BombermanGame extends Application {
       }
     };
     timer.start();
+    stage.setOnCloseRequest(event -> {
+      timer.stop();
+      if (apSoundTrack != null) {
+        apSoundTrack.stop(asSoundTrack);
+      }
+      if (apEndingSound != null) {
+        apEndingSound.stop(asEndingSound);
+      }
+      if (apLoseSound != null) {
+        apLoseSound.stop(asLoseSound);
+      }
+      if (apMenuSound != null) {
+        apMenuSound.stop(asMenuSound);
+      }
+    });
   }
 
   public void update() {
@@ -843,6 +910,21 @@ public class BombermanGame extends Application {
     gc.fillText("Made by team16", canvas.getWidth() / 2 - 100, canvas.getHeight() - 50);
   }
 
+  public void cleanUp() {
+    entities.clear();
+    stillObjects.clear();
+    data.clear();
+    portalObjects.clear();
+    BombList.clear();
+    BombListOfEnemy.clear();
+    BrickListExplode.clear();
+    EntitiesRemove.clear();
+    FlamePowers.clear();
+    SpeedPower.clear();
+    BombPower.clear();
+    BombListOfEnemy.clear();
+  }
+
   public void playAgain() throws IOException {
     if (stateTh < 190) {
       gc.setFill(Color.BLACK);
@@ -859,18 +941,7 @@ public class BombermanGame extends Application {
       BombCount = BombSet;
       BombCountOfEnemy = BombSet;
       BombRadius = 1;
-      entities.clear();
-      stillObjects.clear();
-      data.clear();
-      portalObjects.clear();
-      BombList.clear();
-      BombListOfEnemy.clear();
-      BrickListExplode.clear();
-      EntitiesRemove.clear();
-      FlamePowers.clear();
-      SpeedPower.clear();
-      BombPower.clear();
-      BombListOfEnemy.clear();
+      cleanUp();
       preEvent = null;
       bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage(), this);
       entities.add(bomberman);
@@ -903,6 +974,26 @@ public class BombermanGame extends Application {
       gc.setFill(Color.WHITE);
       gc.fillText("GAME OVER ", canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 3,
           canvas.getHeight() / 2);
+      gc.fillText("Press Enter to play again", canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 5,
+          canvas.getHeight() / 2 + Sprite.SCALED_SIZE * 3);
+      gc.fillText("Your scores: " + scores, canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 3,
+          canvas.getHeight() / 2 - Sprite.SCALED_SIZE * 3);
+    }
+  }
+
+  public void printWin() throws IOException {
+    if (stateTh < 190) {
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      Font font = new Font("Arial", 30);
+      gc.setFont(font);
+      gc.setFill(Color.WHITE);
+      gc.fillText("WINER", canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 4,
+          canvas.getHeight() / 2);
+      gc.fillText("Press Enter to play again", canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 5,
+          canvas.getHeight() / 2 + Sprite.SCALED_SIZE * 3);
+      gc.fillText("Your scores: " + scores, canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 3,
+          canvas.getHeight() / 2 - Sprite.SCALED_SIZE * 3);
     }
   }
 
@@ -1026,15 +1117,6 @@ public class BombermanGame extends Application {
           bomberman.render(gc);
         }
         EnemyWithTwoLife bl = null;
-        //TODO: AM THANH BOMB
-        if (BombList.get(i).isStartAudioFirst()) {
-          Audio m = new Audio();
-          AudioStream as = null;
-          AudioPlayer ap = AudioPlayer.player;
-          as = m.explosionSound();
-          ap.start(as);
-          BombList.get(i).setStartAudioFirst(false);
-        }
 //        try {
 //          Thread.sleep(2000);
 //        } catch (InterruptedException e) {
@@ -1168,8 +1250,13 @@ public class BombermanGame extends Application {
         BombermanGame.getBombListOfEnemy().add(
             new Bomb(ENB.getX() / Sprite.SCALED_SIZE, ENB.getY() / Sprite.SCALED_SIZE,
                 Sprite.bomb.getFxImage(), BombermanGame.getBombRadius()));
+        BombCountOfEnemy--;
+        Audio m = new Audio();
+        AudioStream as = null;
+        AudioPlayer ap = AudioPlayer.player;
+        as = m.plantBombSound();
+        ap.start(as);
       }
-      BombCountOfEnemy--;
     }
 
     for (int i = 0; i < BombListOfEnemy.size(); i++) {
