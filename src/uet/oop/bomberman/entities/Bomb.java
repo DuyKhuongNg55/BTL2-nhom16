@@ -265,7 +265,7 @@ public class Bomb extends Entity {
     for (int i = 0; i < BombermanGame.getStillObjects().size(); i++) {
 
     }
-    if (a != null) {
+    if (a != null && !(a instanceof EnemyWithBomb)) {
       a.kill();
     }
 

@@ -59,7 +59,7 @@ public class BombermanGame extends Application {
   private boolean printStage = false;
   private boolean win = false;
   private boolean startAudioFirst = true;
-  private int level = 3;
+  private int level = 1;
   private int FPS = 30;
   private double averageFPS;
   private long startTime;
@@ -964,7 +964,7 @@ public class BombermanGame extends Application {
       Font font = new Font("Arial", 30);
       gc.setFont(font);
       gc.setFill(Color.WHITE);
-      gc.fillText("WINER", canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 4,
+      gc.fillText("WINER", canvas.getWidth() / 2 - Sprite.SCALED_SIZE,
           canvas.getHeight() / 2);
       gc.fillText("Press Enter to play again", canvas.getWidth() / 2 - Sprite.SCALED_SIZE * 5,
           canvas.getHeight() / 2 + Sprite.SCALED_SIZE * 3);
