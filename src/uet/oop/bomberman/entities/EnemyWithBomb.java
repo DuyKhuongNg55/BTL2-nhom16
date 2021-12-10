@@ -300,7 +300,7 @@ public class EnemyWithBomb extends Entity {
           for (int k = 0; k < fls.length; k++) {
             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
             if (fls[k].get_direction() == 1) {
-              if ((this.getX() - fls[k].getX()) <= 16 * 2 && (this.getX() - fls[k].getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -308,7 +308,7 @@ public class EnemyWithBomb extends Entity {
               }
             }
             if (fls[k].get_direction() == 2) {
-              if ((this.getX() - fls[k].getX()) <= 16 * 2 && (this.getX() - fls[k].getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -316,7 +316,7 @@ public class EnemyWithBomb extends Entity {
               }
             }
             if (fls[k].get_direction() == 3) {
-              if ((this.getX() - fls[k].getX()) <= 16 * 2 && (this.getX() - fls[k].getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -324,7 +324,7 @@ public class EnemyWithBomb extends Entity {
               }
             }
             if (fls[k].get_direction() == 0) {
-              if ((this.getX() - fls[k].getX()) <= 16 * 2 && (this.getX() - fls[k].getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -370,7 +370,7 @@ public class EnemyWithBomb extends Entity {
           for (int k = 0; k < fls.length; k++) {
             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
             if (fls[k].get_direction() == 3) {
-              if ((fls[k].getX() - this.getX()) <= 16 * 2 && (fls[k].getX() - this.getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -378,7 +378,7 @@ public class EnemyWithBomb extends Entity {
               }
             }
             if (fls[k].get_direction() == 2) {
-              if ((fls[k].getX() - this.getX()) <= 16 * 2 && (fls[k].getX() - this.getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -386,7 +386,7 @@ public class EnemyWithBomb extends Entity {
               }
             }
             if (fls[k].get_direction() == 1) {
-              if ((fls[k].getX() - this.getX()) <= 16 * 2 && (fls[k].getX() - this.getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -394,7 +394,7 @@ public class EnemyWithBomb extends Entity {
               }
             }
             if (fls[k].get_direction() == 0) {
-              if ((fls[k].getX() - this.getX()) <= 16 * 2 && (fls[k].getX() - this.getX()) >= 0
+              if (Math.abs(this.getX() - fls[k].getX()) <= 16 * 2 && Math.abs(this.getX() - fls[k].getX()) > 0
                   && fls[k].getY() / Sprite.SCALED_SIZE ==
                   (this.getY()) / Sprite.SCALED_SIZE) {
                 this.kill();
@@ -435,32 +435,28 @@ public class EnemyWithBomb extends Entity {
             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
             if (fls[k].get_direction() == 0) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && -(this.getY() - fls[k].getY()) <= 16 * 2
-                  && -(this.getY() - fls[k].getY()) >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }
             }
             if (fls[k].get_direction() == 1) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && -(this.getY() - fls[k].getY()) <= 16 * 2
-                  && -(this.getY() - fls[k].getY()) >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }
             }
             if (fls[k].get_direction() == 2) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && -(this.getY() - fls[k].getY()) <= 16 * 2
-                  && -(this.getY() - fls[k].getY()) >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }
             }
             if (fls[k].get_direction() == 3) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && -(this.getY() - fls[k].getY()) <= 16 * 2
-                  && -(this.getY() - fls[k].getY()) >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }
@@ -493,36 +489,28 @@ public class EnemyWithBomb extends Entity {
             //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
             if (fls[k].get_direction() == 2) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && (this.getY()) - fls[k].getY()
-                  <= 16 * 2 && (this.getY()) - fls[k].getY()
-                  >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }
             }
             if (fls[k].get_direction() == 3) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && (this.getY()) - fls[k].getY()
-                  <= 16 * 2 && (this.getY()) - fls[k].getY()
-                  >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }
             }
             if (fls[k].get_direction() == 1) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && (this.getY()) - fls[k].getY()
-                  <= 16 * 2 && (this.getY()) - fls[k].getY()
-                  >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }
             }
             if (fls[k].get_direction() == 0) {
               if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE
-                  && (this.getY()) - fls[k].getY()
-                  <= 16 * 2 && (this.getY()) - fls[k].getY()
-                  >= 0) {
+                  && Math.abs(this.getY() - fls[k].getY()) <= 16 * 2 && Math.abs(this.getY() - fls[k].getY()) > 0) {
                 this.kill();
                 this.ExposeToBom = true;
               }

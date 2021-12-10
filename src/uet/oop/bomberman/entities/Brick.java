@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Brick extends DestroyableEntity{
+public class Brick extends DestroyableEntity {
     protected boolean _destroyed = false;
     protected int _timeToDisapear = 15;
     protected Sprite _belowSprite = Sprite.grass;

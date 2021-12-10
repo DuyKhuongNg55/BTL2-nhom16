@@ -59,7 +59,7 @@ public class BombermanGame extends Application {
   private boolean printStage = false;
   private boolean win = false;
   private boolean startAudioFirst = true;
-  private int level = 1;
+  private int level = 4;
   private int FPS = 30;
   private double averageFPS;
   private long startTime;
