@@ -261,40 +261,46 @@ public class EnemyWithTwoLife extends Entity {
         }
 
         x += speed;
-        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
-            if (BombermanGame.getBombList().get(i).is_exploded()) {
-                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
-                for (int j = 0; j < fl.length; j++) {
-                    FlameSegment[] fls = fl[j].get_flameSegments();
+        if (!_alive) {
+            for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+                if (BombermanGame.getBombList().get(i).is_exploded()) {
+                    Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                    for (int j = 0; j < fl.length; j++) {
+                        FlameSegment[] fls = fl[j].get_flameSegments();
 
-                    for (int k = 0; k < fls.length; k++) {
-                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
-                        if(fls[k].get_direction() == 1 ) {
-                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                        for (int k = 0; k < fls.length; k++) {
+                            //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                            if (fls[k].get_direction() == 1) {
+                                if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 2 ) {
-                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if (fls[k].get_direction() == 2) {
+                                if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 3 ) {
-                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if (fls[k].get_direction() == 3) {
+                                if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 0 ) {
-                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if (fls[k].get_direction() == 0) {
+                                if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
                         }
                     }
@@ -316,44 +322,50 @@ public class EnemyWithTwoLife extends Entity {
         if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE - 1]) {
             return false;
         } else if (x % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
-                / Sprite.SCALED_SIZE]) {
+            / Sprite.SCALED_SIZE]) {
 
             return false;
         }
         x -= speed;
-        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
-            if (BombermanGame.getBombList().get(i).is_exploded()) {
-                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
-                for (int j = 0; j < fl.length; j++) {
-                    FlameSegment[] fls = fl[j].get_flameSegments();
-                    for (int k = 0; k < fls.length; k++) {
-                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
-                        if (fls[k].get_direction() == 3) {
-                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+        if (!_alive) {
+            for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+                if (BombermanGame.getBombList().get(i).is_exploded()) {
+                    Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                    for (int j = 0; j < fl.length; j++) {
+                        FlameSegment[] fls = fl[j].get_flameSegments();
+                        for (int k = 0; k < fls.length; k++) {
+                            //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                            if (fls[k].get_direction() == 3) {
+                                if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if (fls[k].get_direction() == 1) {
-                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if (fls[k].get_direction() == 1) {
+                                if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if (fls[k].get_direction() == 2) {
-                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if (fls[k].get_direction() == 2) {
+                                if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if (fls[k].get_direction() ==0) {
-                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+                            if (fls[k].get_direction() == 0) {
+                                if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
                                     (this.getY()) / Sprite.SCALED_SIZE) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
                         }
                     }
@@ -366,48 +378,54 @@ public class EnemyWithTwoLife extends Entity {
     public boolean moveUp() {
         if (y % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE - 1][x
 
-                / Sprite.SCALED_SIZE]) {
+            / Sprite.SCALED_SIZE]) {
             return false;
         } else if (y % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
-                / Sprite.SCALED_SIZE]) {
+            / Sprite.SCALED_SIZE]) {
 
             return false;
         }
         y -= speed;
-        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
-            if (BombermanGame.getBombList().get(i).is_exploded()) {
-                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
-                for (int j = 0; j < fl.length; j++) {
-                    FlameSegment[] fls = fl[j].get_flameSegments();
+        if (!_alive) {
+            for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+                if (BombermanGame.getBombList().get(i).is_exploded()) {
+                    Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                    for (int j = 0; j < fl.length; j++) {
+                        FlameSegment[] fls = fl[j].get_flameSegments();
 
-                    for (int k = 0; k < fls.length; k++) {
-                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
-                        if(fls[k].get_direction() == 0) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+                        for (int k = 0; k < fls.length; k++) {
+                            //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                            if (fls[k].get_direction() == 0) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
                                     && -(this.getY() - fls[k].getY()) >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 1) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+                            if (fls[k].get_direction() == 1) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
                                     && -(this.getY() - fls[k].getY()) >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 2) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+                            if (fls[k].get_direction() == 2) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
                                     && -(this.getY() - fls[k].getY()) >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 3) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+                            if (fls[k].get_direction() == 3) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
                                     && -(this.getY() - fls[k].getY()) >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    // this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
                         }
                     }
@@ -422,44 +440,50 @@ public class EnemyWithTwoLife extends Entity {
             return false;
         }
         y += speed;
-        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
-            if (BombermanGame.getBombList().get(i).is_exploded()) {
-                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
-                for (int j = 0; j < fl.length; j++) {
-                    FlameSegment[] fls = fl[j].get_flameSegments();
+        if (!_alive) {
+            for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+                if (BombermanGame.getBombList().get(i).is_exploded()) {
+                    Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+                    for (int j = 0; j < fl.length; j++) {
+                        FlameSegment[] fls = fl[j].get_flameSegments();
 
-                    for (int k = 0; k < fls.length; k++) {
-                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
-                        if(fls[k].get_direction() == 2) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+                        for (int k = 0; k < fls.length; k++) {
+                            //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+                            if (fls[k].get_direction() == 2) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
                                     <= 16 * 2 && (this.getY()) - fls[k].getY()
                                     >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 3) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+                            if (fls[k].get_direction() == 3) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
                                     <= 16 * 2 && (this.getY()) - fls[k].getY()
                                     >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 1) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+                            if (fls[k].get_direction() == 1) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
                                     <= 16 * 2 && (this.getY()) - fls[k].getY()
                                     >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
-                        }
-                        if(fls[k].get_direction() == 0) {
-                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+                            if (fls[k].get_direction() == 0) {
+                                if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
                                     <= 16 * 2 && (this.getY()) - fls[k].getY()
                                     >= 0) {
-                                this.kill();
-                                this.ExposeToBom = true;
+                                    //this.kill();
+                                    this.ExposeToBom = true;
+                                    setIsExposeToflame(true);
+                                }
                             }
                         }
                     }
@@ -468,6 +492,228 @@ public class EnemyWithTwoLife extends Entity {
         }
         return true;
     }
+
+//    public boolean moveRight() {
+//        times++;
+//        if (times % 12 >= 0 && times % 12 <= 3) {
+//            img = Sprite.doll_right1.getFxImage();
+//        } else if (times % 12 >= 4 && times % 12 <= 7) {
+//            img = Sprite.doll_right2.getFxImage();
+//        } else {
+//            img = Sprite.doll_right3.getFxImage();
+//        }
+//        if (!matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE + 1]) {
+//            return false;
+//        }
+//
+//        x += speed;
+//        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+//            if (BombermanGame.getBombList().get(i).is_exploded()) {
+//                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+//                for (int j = 0; j < fl.length; j++) {
+//                    FlameSegment[] fls = fl[j].get_flameSegments();
+//
+//                    for (int k = 0; k < fls.length; k++) {
+//                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+//                        if(fls[k].get_direction() == 1 ) {
+//                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 2 ) {
+//                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 3 ) {
+//                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 0 ) {
+//                            if ((this.getX() - fls[k].getX()) <= 14 * 2 && (this.getX() - fls[k].getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return true;
+//    }
+//
+//    public boolean moveLeft() {
+//        times++;
+//        if (times % 12 >= 0 && times % 12 <= 3) {
+//            img = Sprite.doll_left1.getFxImage();
+//        } else if (times % 12 >= 4 && times % 12 <= 7) {
+//            img = Sprite.doll_left2.getFxImage();
+//        } else {
+//            img = Sprite.doll_left3.getFxImage();
+//        }
+//        if (x % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE - 1]) {
+//            return false;
+//        } else if (x % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
+//                / Sprite.SCALED_SIZE]) {
+//
+//            return false;
+//        }
+//        x -= speed;
+//        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+//            if (BombermanGame.getBombList().get(i).is_exploded()) {
+//                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+//                for (int j = 0; j < fl.length; j++) {
+//                    FlameSegment[] fls = fl[j].get_flameSegments();
+//                    for (int k = 0; k < fls.length; k++) {
+//                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+//                        if (fls[k].get_direction() == 3) {
+//                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if (fls[k].get_direction() == 1) {
+//                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if (fls[k].get_direction() == 2) {
+//                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if (fls[k].get_direction() ==0) {
+//                            if ((fls[k].getX() - this.getX()) <= 14 * 2 && (fls[k].getX() - this.getX()) >= 0 && fls[k].getY() / Sprite.SCALED_SIZE ==
+//                                    (this.getY()) / Sprite.SCALED_SIZE) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return true;
+//    }
+//
+//    public boolean moveUp() {
+//        if (y % Sprite.SCALED_SIZE == 0 && !matrix[y / Sprite.SCALED_SIZE - 1][x
+//
+//                / Sprite.SCALED_SIZE]) {
+//            return false;
+//        } else if (y % Sprite.SCALED_SIZE != 0 && !matrix[y / Sprite.SCALED_SIZE][x
+//                / Sprite.SCALED_SIZE]) {
+//
+//            return false;
+//        }
+//        y -= speed;
+//        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+//            if (BombermanGame.getBombList().get(i).is_exploded()) {
+//                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+//                for (int j = 0; j < fl.length; j++) {
+//                    FlameSegment[] fls = fl[j].get_flameSegments();
+//
+//                    for (int k = 0; k < fls.length; k++) {
+//                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+//                        if(fls[k].get_direction() == 0) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+//                                    && -(this.getY() - fls[k].getY()) >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 1) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+//                                    && -(this.getY() - fls[k].getY()) >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 2) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+//                                    && -(this.getY() - fls[k].getY()) >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 3) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && -(this.getY() - fls[k].getY()) <= 16 * 2
+//                                    && -(this.getY() - fls[k].getY()) >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return true;
+//    }
+//
+//    public boolean moveDown() {
+//        if (!matrix[y / Sprite.SCALED_SIZE + 1][x / Sprite.SCALED_SIZE]) {
+//            return false;
+//        }
+//        y += speed;
+//        for (int i = 0; i < BombermanGame.getBombList().size(); i++) {
+//            if (BombermanGame.getBombList().get(i).is_exploded()) {
+//                Flame[] fl = BombermanGame.getBombList().get(i).get_flames();
+//                for (int j = 0; j < fl.length; j++) {
+//                    FlameSegment[] fls = fl[j].get_flameSegments();
+//
+//                    for (int k = 0; k < fls.length; k++) {
+//                        //fls[k].set_animate(BombermanGame.getBombList().get(i).get_animate());
+//                        if(fls[k].get_direction() == 2) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+//                                    <= 16 * 2 && (this.getY()) - fls[k].getY()
+//                                    >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 3) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+//                                    <= 16 * 2 && (this.getY()) - fls[k].getY()
+//                                    >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 1) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+//                                    <= 16 * 2 && (this.getY()) - fls[k].getY()
+//                                    >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                        if(fls[k].get_direction() == 0) {
+//                            if (fls[k].getX() / Sprite.SCALED_SIZE == (this.getX()) / Sprite.SCALED_SIZE && (this.getY()) - fls[k].getY()
+//                                    <= 16 * 2 && (this.getY()) - fls[k].getY()
+//                                    >= 0) {
+//                                this.kill();
+//                                this.ExposeToBom = true;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
     public void createMatrix() {
         for (int i = 0; i < BombermanGame.getStillObjects().size(); i++) {

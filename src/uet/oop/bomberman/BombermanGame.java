@@ -16,21 +16,17 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.Oneal;
 import uet.oop.bomberman.entities.Wall;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Audio;
 import uet.oop.bomberman.graphics.Sprite;
-
-import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +38,6 @@ public class BombermanGame extends Application {
   private GraphicsContext gc;
   private Canvas canvas;
   private AnimationTimer timer;
-
 
   private static List<Entity> entities = new ArrayList<>();
   private static List<Entity> stillObjects = new ArrayList<>();
@@ -58,14 +53,13 @@ public class BombermanGame extends Application {
 
   private static List<String> data = new ArrayList<>();
 
-
   private Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage(), this);
   private KeyEvent preEvent = null;
   private static int stateTh = 0;
   private boolean printStage = false;
   private boolean win = false;
   private boolean startAudioFirst = true;
-  private int level = 4;
+  private int level = 3;
   private int FPS = 30;
   private double averageFPS;
   private long startTime;
@@ -84,7 +78,7 @@ public class BombermanGame extends Application {
 
   private static final int BombSet = 1;
   public static int BombCount = BombSet;
-  public static int BombCountOfEnemy = BombSet;
+  //  public static int BombCountOfEnemy = BombSet;
   public static int BombRadius = 1;
 
   private AudioStream asSoundTrack;
@@ -95,14 +89,6 @@ public class BombermanGame extends Application {
   private AudioPlayer apEndingSound;
   private AudioStream asLoseSound;
   private AudioPlayer apLoseSound;
-
-  public static int getBombCountOfEnemy() {
-    return BombCountOfEnemy;
-  }
-
-  public static void setBombCountOfEnemy(int bombCountOfEnemy) {
-    BombCountOfEnemy = bombCountOfEnemy;
-  }
 
   public static List<Bomb> getBombListOfEnemy() {
     return BombListOfEnemy;
@@ -187,16 +173,6 @@ public class BombermanGame extends Application {
 
     //  TODO: Tao scene
     Scene scene = new Scene(root);
-
-//        Audio m = new Audio();
-//        final AudioStream[] as = {null};
-//        AudioPlayer ap = AudioPlayer.player;
-//        as[0] = m.footStepSound();
-//
-//
-//        Scene scene = new Scene(root);
-//        AudioStream finalAs = as[0];
-//        AudioStream finalAs1 = as[0];
     scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
@@ -939,7 +915,7 @@ public class BombermanGame extends Application {
       startAudioFirst = true;
       stateTh = 0;
       BombCount = BombSet;
-      BombCountOfEnemy = BombSet;
+//      BombCountOfEnemy = BombSet;
       BombRadius = 1;
       cleanUp();
       preEvent = null;
@@ -1193,10 +1169,12 @@ public class BombermanGame extends Application {
                 //TODO: Xét enemy 2 mạng, xong tạm thời nhớ để ý khi muốn giết con nào thì phải dùng hàm  kill
 
                 if (this.getEntities().get(l) instanceof EnemyWithTwoLife) {
+//                  System.out.println("chay toi day");
                   bl = (EnemyWithTwoLife) this.getEntities().get(l);
                   bl.setIsExposeToflame(true);
                   if (!bl.isTwolife()) {
-                    bl.kill();
+                    entities.get(l).kill();
+//                    System.out.println("cung chay toi day");
                   }
                 }
                 if (this.getEntities().get(l) instanceof Bomber) {
@@ -1245,19 +1223,19 @@ public class BombermanGame extends Application {
      *  //TODO: Xu ly bomb cua enemy day ne
      */
 
-    if (BombCountOfEnemy >= 1 && BombCountOfEnemy < 2) {
-      if (ENB != null) {
-        BombermanGame.getBombListOfEnemy().add(
-            new Bomb(ENB.getX() / Sprite.SCALED_SIZE, ENB.getY() / Sprite.SCALED_SIZE,
-                Sprite.bomb.getFxImage(), BombermanGame.getBombRadius()));
-        BombCountOfEnemy--;
-        Audio m = new Audio();
-        AudioStream as = null;
-        AudioPlayer ap = AudioPlayer.player;
-        as = m.plantBombSound();
-        ap.start(as);
-      }
-    }
+//    if (BombCountOfEnemy >= 1 && BombCountOfEnemy < 2) {
+//      if (ENB != null) {
+//        BombermanGame.getBombListOfEnemy().add(
+//            new Bomb(ENB.getX() / Sprite.SCALED_SIZE, ENB.getY() / Sprite.SCALED_SIZE,
+//                Sprite.bomb.getFxImage(), BombermanGame.getBombRadius()));
+//        BombCountOfEnemy--;
+//        Audio m = new Audio();
+//        AudioStream as = null;
+//        AudioPlayer ap = AudioPlayer.player;
+//        as = m.plantBombSound();
+//        ap.start(as);
+//      }
+//    }
 
     for (int i = 0; i < BombListOfEnemy.size(); i++) {
       if (BombListOfEnemy.get(i).is_exploded()) {
@@ -1337,9 +1315,9 @@ public class BombermanGame extends Application {
       }
     }
     BrickListExplode.forEach(g -> g.render(gc));
-    if (BombCountOfEnemy == 0 && BombListOfEnemy.size() == 0) {
-      BombCountOfEnemy = 1;
-    }
+//    if (BombCountOfEnemy == 0 && BombListOfEnemy.size() == 0) {
+//      BombCountOfEnemy = 1;
+//    }
   }
 
   public static List<String> getData() {

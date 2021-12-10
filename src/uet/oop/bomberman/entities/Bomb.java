@@ -197,6 +197,9 @@ public class Bomb extends Entity {
       } else {
         _timeToRenderFlameSegment--;
       }
+      if (_timeToRenderFlameSegment <= 0) {
+        _timeToRenderFlameSegment = 0;
+      }
       remove();
     }
     animate();
